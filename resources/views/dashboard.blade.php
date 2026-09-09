@@ -20,7 +20,15 @@
     </div>
 @stop
 
+
+
 @section('content')
+
+<div class="p-4">
+    <i class="fa-solid fa-users fa-2x"></i>
+    <i class="fa-solid fa-id-card fa-2x"></i>
+    <i class="fa-solid fa-qrcode fa-2x"></i>
+</div>
 
     {{-- Statistiques --}}
     <div class="row">

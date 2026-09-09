@@ -775,97 +775,81 @@ return [
     |
     */
 
-    'menu' => [
-     // Navbar items:
-        [
-            'type' => 'navbar-search',
-            'text' => 'search',
-            'topnav_right' => true,
-        ],
-        [
-            'type' => 'darkmode-widget',
-            'topnav_right' => true,
-        ],
-        [
-            'type' => 'fullscreen-widget',
-            'topnav_right' => true,
-        ],
 
-        // Sidebar items:
-        [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
-        ],
+  'menu' => [
+
+    // =========================
+    // BARRE SUPÉRIEURE
+    // =========================
+
+    [
+        'type' => 'navbar-search',
+        'text' => 'search',
+        'topnav_right' => true,
+    ],
+
+    [
+        'type' => 'darkmode-widget',
+        'topnav_right' => true,
+    ],
+
+    [
+        'type' => 'fullscreen-widget',
+        'topnav_right' => true,
+    ],
+
+    // =========================
+    // RECHERCHE SIDEBAR
+    // =========================
+
+    [
+        'type' => 'sidebar-menu-search',
+        'text' => 'search',
+    ],
+
+    // =========================
+    // MENU PRINCIPAL
+    // =========================
 
     [
         'text' => 'TABLEAU DE BORD',
         'url' => 'dashboard',
-        'icon' => 'fas fa-fw fa-home',
+        'icon' => 'bi bi-speedometer2',
     ],
 
     [
         'text' => 'MEMBRES',
-        'icon' => 'fas fa-fw fa-users',
-        'submenu' => [
-
-            [
-                'text' => 'Tous les membres',
-                'url' => 'members',
-                'icon' => 'fas fa-fw fa-users',
-            ],
-
-            [
-                'text' => 'Nouveau membre',
-                'url' => 'members/create',
-                'icon' => 'fas fa-fw fa-user-plus',
-            ],
-
-        ],
+        'url' => 'members',
+        'icon' => 'bi bi-people-fill',
     ],
 
     [
         'text' => 'CARTES',
-        'icon' => 'fas fa-fw fa-id-card',
-        'submenu' => [
-
-            [
-                'text' => 'Toutes les cartes',
-                'url' => 'cards',
-                'icon' => 'fas fa-fw fa-id-card',
-            ],
-
-            [
-                'text' => 'Cartes actives',
-                'url' => 'cards?status=active',
-                'icon' => 'fas fa-fw fa-check-circle',
-            ],
-
-            [
-                'text' => 'Cartes expirées',
-                'url' => 'cards?status=expired',
-                'icon' => 'fas fa-fw fa-calendar-times',
-            ],
-
-        ],
+        'url' => 'cards',
+        'icon' => 'bi bi-person-vcard-fill',
     ],
 
     [
         'text' => 'VÉRIFICATION QR',
         'url' => 'verification',
-        'icon' => 'fas fa-fw fa-qrcode',
+        'icon' => 'bi bi-qr-code',
     ],
 
     [
         'text' => 'CATÉGORIES',
         'url' => 'categories',
-        'icon' => 'fas fa-fw fa-layer-group',
+        'icon' => 'bi bi-tags-fill',
     ],
 
     [
         'text' => 'FÉDÉRATIONS',
         'url' => 'federations',
-        'icon' => 'fas fa-fw fa-sitemap',
+        'icon' => 'bi bi-diagram-3-fill',
     ],
+
+    // =========================
+    // ADMINISTRATION
+    // =========================
 
     [
         'header' => 'ADMINISTRATION',
@@ -874,13 +858,13 @@ return [
     [
         'text' => 'UTILISATEURS',
         'url' => 'users',
-        'icon' => 'fas fa-fw fa-user-cog',
+        'icon' => 'bi bi-person-gear',
     ],
 
     [
         'text' => 'RAPPORTS',
         'url' => 'reports',
-        'icon' => 'fas fa-fw fa-chart-bar',
+        'icon' => 'bi bi-bar-chart-fill',
     ],
 
 ],
