@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('federations', function (Blueprint $table) {
             $table->id();
+            $table->string('nom');
+            $table->string('sigle')->nullable();
+            $table->text('description')->nullable();
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
     }
