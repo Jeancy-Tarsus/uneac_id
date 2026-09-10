@@ -2,19 +2,23 @@
 
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FederationController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VerificationController;
 
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -38,3 +42,7 @@ Route::get('/verification/{qr_token}', [VerificationController::class, 'show'])
 
 Route::get('/cards/{card}/preview', [CardController::class, 'preview'])
     ->name('cards.preview');
+
+
+// email: admin@uneac.cd
+// password: Admin@2026

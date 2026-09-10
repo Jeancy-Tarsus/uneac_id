@@ -1,1164 +1,1315 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta charset="UTF-8">
+    <title>Connexion — UNEAC ID</title>
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1"
-    >
-
-    <title>
-        Connexion — UNEAC ID
-    </title>
-
-
-    {{-- Bootstrap --}}
-
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
-
+    {{-- Bootstrap 5 --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
 
     {{-- Bootstrap Icons --}}
-
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-    >
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet">
 
     <style>
+       :root {
+    --uneac-green: #087f3f;
+    --uneac-green-dark: #045c2d;
+    --uneac-green-light: #eaf6ef;
+    --uneac-gold: #c5a04a;
+    --uneac-gold-light: #e2cc8b;
+    --uneac-white: #ffffff;
+    --uneac-text: #26332c;
+}
+
+/* =========================================================
+   BASE
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: var(--uneac-text);
+
+    background:
+        radial-gradient(
+            circle at 10% 20%,
+            rgba(197, 160, 74, .08),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 90% 80%,
+            rgba(8, 127, 63, .10),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #f8fcfa 0%,
+            #edf7f1 100%
+        );
+
+    overflow-x: hidden;
+}
+
+
+/* =========================================================
+   FILIGRANES CULTURELS
+========================================================= */
+
+.cultural-watermarks {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.watermark {
+    position: absolute;
+    color: var(--uneac-green);
+    opacity: .045;
+    font-size: 110px;
+}
+
+.watermark.gold {
+    color: var(--uneac-gold);
+    opacity: .055;
+}
+
+
+/* Livre */
+
+.wm-book {
+    top: 7%;
+    left: 4%;
+    transform: rotate(-15deg);
+    font-size: 130px;
+}
+
+
+/* Plume */
+
+.wm-feather {
+    top: 8%;
+    right: 7%;
+    transform: rotate(20deg);
+    font-size: 125px;
+}
+
+
+/* Musique */
+
+.wm-music {
+    bottom: 9%;
+    left: 7%;
+    transform: rotate(-12deg);
+    font-size: 120px;
+}
+
+
+/* Théâtre */
 
-        :root {
+.wm-theater {
+    bottom: 10%;
+    right: 5%;
+    transform: rotate(12deg);
+    font-size: 130px;
+}
 
-            --uneac-green: #087f3f;
 
-            --uneac-green-dark: #045c2d;
+/* Arts plastiques */
 
-            --uneac-green-deep: #034b25;
+.wm-palette {
+    top: 45%;
+    left: -15px;
+    transform: rotate(-20deg);
+    font-size: 100px;
+}
 
-            --uneac-green-light: #e8f3ed;
 
-            --uneac-gold: #b8943d;
+/* Photographie */
 
-            --uneac-gold-light: #d8c27b;
+.wm-camera {
+    top: 47%;
+    right: 0;
+    transform: rotate(15deg);
+    font-size: 95px;
+}
 
-        }
 
+/* Écriture */
 
-        * {
-            box-sizing: border-box;
-        }
+.wm-pen {
+    top: 25%;
+    left: 42%;
+    transform: rotate(-25deg);
+    font-size: 75px;
+}
 
 
-        body {
+/* Danse / spectacle */
 
-            margin: 0;
+.wm-dance {
+    bottom: 25%;
+    right: 42%;
+    transform: rotate(15deg);
+    font-size: 70px;
+}
 
-            min-height: 100vh;
 
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
+/* =========================================================
+   CERCLES DÉCORATIFS
+========================================================= */
 
-            background:
-                linear-gradient(
-                    135deg,
-                    #f5f8f6 0%,
-                    #ffffff 50%,
-                    #edf5f0 100%
-                );
+.decor-circle {
+    position: absolute;
+    border: 1px solid var(--uneac-green);
+    border-radius: 50%;
+    opacity: .06;
+}
 
-            overflow-x: hidden;
+.circle-one {
+    width: 350px;
+    height: 350px;
+    top: -180px;
+    left: -100px;
+}
 
-        }
+.circle-two {
+    width: 450px;
+    height: 450px;
+    bottom: -250px;
+    right: -150px;
+}
 
+.circle-three {
+    width: 170px;
+    height: 170px;
+    top: 30%;
+    right: 15%;
+    border-color: var(--uneac-gold);
+}
 
-        /* =====================================================
-           PAGE
-        ===================================================== */
 
-        .login-page {
+/* =========================================================
+   STRUCTURE PRINCIPALE
+========================================================= */
 
-            min-height: 100vh;
+.login-wrapper {
+    position: relative;
+    z-index: 2;
 
-            display: flex;
+    min-height: 100vh;
 
-            align-items: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-            justify-content: center;
+    padding: 30px 20px;
+}
 
-            padding: 30px 20px;
+.login-container {
+    width: 100%;
+    max-width: 900px;
+}
 
-            position: relative;
 
-            overflow: hidden;
+/* =========================================================
+   CARTE PRINCIPALE
+========================================================= */
 
-        }
+.login-card {
+    position: relative;
+    overflow: hidden;
 
+    background: rgba(255, 255, 255, .98);
 
-        /* =====================================================
-           DÉCORATIONS
-        ===================================================== */
+    border-radius: 20px;
 
-        .decor {
+    box-shadow:
+        0 20px 55px rgba(4, 92, 45, .12),
+        0 6px 20px rgba(0, 0, 0, .04);
 
-            position: absolute;
+    border: 1px solid rgba(8, 127, 63, .08);
+}
 
-            pointer-events: none;
 
-        }
+/* Ligne supérieure verte + or */
 
+.login-card::before {
+    content: "";
 
-        .decor-circle-1 {
+    position: absolute;
 
-            width: 500px;
+    top: 0;
+    left: 0;
+    right: 0;
 
-            height: 500px;
+    height: 4px;
 
-            border: 1px solid rgba(8,127,63,.08);
+    background: linear-gradient(
+        90deg,
+        var(--uneac-green-dark),
+        var(--uneac-green),
+        var(--uneac-gold),
+        var(--uneac-green)
+    );
 
-            border-radius: 50%;
+    z-index: 10;
+}
 
-            right: -250px;
 
-            top: -180px;
+/* =========================================================
+   PANNEAU GAUCHE
+========================================================= */
 
-        }
+.brand-panel {
+    position: relative;
 
+    min-height: 520px;
 
-        .decor-circle-2 {
+    padding: 40px 38px;
 
-            width: 350px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(4, 92, 45, .98),
+            rgba(8, 127, 63, .96)
+        );
 
-            height: 350px;
+    color: white;
 
-            border: 1px solid rgba(184,148,61,.10);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
-            border-radius: 50%;
+    overflow: hidden;
+}
 
-            left: -180px;
 
-            bottom: -150px;
+/* Grand cercle décoratif */
 
-        }
+.brand-panel::before {
+    content: "";
 
+    position: absolute;
 
-        .decor-circle-3 {
+    width: 420px;
+    height: 420px;
 
-            width: 260px;
+    border: 1px solid rgba(255, 255, 255, .09);
 
-            height: 260px;
+    border-radius: 50%;
 
-            border: 1px solid rgba(8,127,63,.05);
+    top: -230px;
+    left: -160px;
+}
 
-            border-radius: 50%;
 
-            right: 8%;
+/* Cercle doré */
 
-            bottom: 5%;
+.brand-panel::after {
+    content: "";
 
-        }
+    position: absolute;
 
+    width: 500px;
+    height: 500px;
 
-        .decor-zigzag {
+    border: 1px solid rgba(197, 160, 74, .17);
 
-            position: absolute;
+    border-radius: 50%;
 
-            width: 280px;
+    bottom: -300px;
+    right: -180px;
+}
 
-            height: 100px;
 
-            opacity: .06;
+/* Contenu */
 
-            background:
-                linear-gradient(
-                    135deg,
-                    transparent 0 18px,
-                    var(--uneac-green) 18px 20px,
-                    transparent 20px 38px
-                );
+.brand-content {
+    position: relative;
+    z-index: 5;
+}
 
-            background-size: 40px 40px;
 
-            transform: rotate(-10deg);
+/* =========================================================
+   LOGO
+========================================================= */
 
-            right: -40px;
+.logo-container {
+    width: 105px;
+    height: 105px;
 
-            bottom: 80px;
+    background: white;
 
-        }
+    border: 3px solid var(--uneac-gold);
 
+    border-radius: 50%;
 
-        /* =====================================================
-           CONTENEUR
-        ===================================================== */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-        .login-wrapper {
+    margin-bottom: 22px;
 
-            width: 100%;
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, .14);
+}
 
-            max-width: 440px;
+.logo-container img {
+    width: 82px;
+    height: 82px;
 
-            position: relative;
+    max-width: 82px;
+    max-height: 82px;
 
-            z-index: 10;
+    object-fit: contain;
 
-        }
+    display: block;
+}
 
+.logo-placeholder {
+    color: var(--uneac-green);
 
-        /* =====================================================
-           LOGO
-        ===================================================== */
+    font-weight: 900;
 
-        .brand {
+    font-size: 22px;
+}
 
-            text-align: center;
 
-            margin-bottom: 24px;
+/* =========================================================
+   TITRE UNEAC ID
+========================================================= */
 
-        }
+.brand-title {
+    font-size: 36px;
 
+    font-weight: 800;
 
-        .logo-container {
+    letter-spacing: -.5px;
 
-            width: 100px;
+    margin-bottom: 7px;
+}
 
-            height: 100px;
+.brand-subtitle {
+    color: var(--uneac-gold-light);
 
-            margin: 0 auto 15px;
+    font-size: 12px;
 
-            background: #ffffff;
+    font-weight: 700;
 
-            border-radius: 50%;
+    letter-spacing: 1.8px;
 
-            display: flex;
+    text-transform: uppercase;
 
-            align-items: center;
+    margin-bottom: 20px;
+}
 
-            justify-content: center;
 
-            border: 4px solid #ffffff;
+/* Petite ligne dorée */
 
-            box-shadow:
-                0 0 0 2px var(--uneac-gold),
-                0 10px 30px rgba(0,0,0,.12);
+.brand-line {
+    width: 55px;
+    height: 3px;
 
-            overflow: hidden;
+    background: var(--uneac-gold);
 
-        }
+    margin-bottom: 20px;
 
+    border-radius: 10px;
+}
 
-        .logo-container img {
 
-            width: 82px;
+/* =========================================================
+   DESCRIPTION
+========================================================= */
 
-            height: 82px;
+.brand-description {
+    max-width: 390px;
 
-            object-fit: contain;
+    font-size: 14px;
 
-        }
+    line-height: 1.7;
 
+    color: rgba(255, 255, 255, .82);
 
-        .logo-placeholder {
+    margin-bottom: 25px;
+}
 
-            color: var(--uneac-green);
 
-            font-size: 22px;
+/* =========================================================
+   VALEURS
+========================================================= */
 
-            font-weight: 900;
+.brand-values {
+    display: flex;
 
-        }
+    gap: 8px;
 
+    flex-wrap: wrap;
+}
 
-        .brand-title {
+.brand-value {
+    border: 1px solid rgba(255, 255, 255, .17);
 
-            margin: 0;
+    background: rgba(255, 255, 255, .07);
 
-            font-size: 30px;
+    border-radius: 50px;
 
-            font-weight: 900;
+    padding: 7px 12px;
 
-            letter-spacing: 2px;
+    font-size: 11px;
 
-            color: var(--uneac-green-dark);
+    color: rgba(255, 255, 255, .9);
+}
 
-        }
+.brand-value i {
+    color: var(--uneac-gold-light);
 
+    margin-right: 4px;
+}
 
-        .brand-subtitle {
 
-            margin-top: 5px;
+/* =========================================================
+   FILIGRANES DU PANNEAU VERT
+========================================================= */
 
-            font-size: 11px;
+.panel-watermark {
+    position: absolute;
 
-            font-weight: 800;
+    color: white;
 
-            text-transform: uppercase;
+    opacity: .04;
 
-            letter-spacing: 1.5px;
+    z-index: 1;
 
-            color: #77817b;
+    pointer-events: none;
+}
 
-        }
+.panel-book {
+    right: 15px;
+    top: 60px;
 
+    font-size: 145px;
 
-        /* =====================================================
-           CARD LOGIN
-        ===================================================== */
+    transform: rotate(-12deg);
+}
 
-        .login-card {
+.panel-music {
+    left: 15px;
+    bottom: 15px;
 
-            background: rgba(255,255,255,.97);
+    font-size: 135px;
 
-            border-radius: 18px;
+    transform: rotate(10deg);
+}
 
-            border: 1px solid #dce5df;
+.panel-feather {
+    right: 45px;
+    bottom: 45px;
 
-            box-shadow:
-                0 20px 60px rgba(0,0,0,.10);
+    font-size: 100px;
 
-            overflow: hidden;
+    transform: rotate(20deg);
+}
 
-            position: relative;
 
-        }
+/* =========================================================
+   PANNEAU FORMULAIRE
+========================================================= */
 
+.form-panel {
+    min-height: 520px;
 
-        .login-card::before {
+    padding: 45px 50px;
 
-            content: "";
+    display: flex;
+    align-items: center;
 
-            position: absolute;
+    background: #fff;
+}
 
-            left: 0;
+.form-content {
+    width: 100%;
 
-            top: 0;
+    max-width: 390px;
 
-            right: 0;
+    margin: auto;
+}
 
-            height: 5px;
 
-            background:
-                linear-gradient(
-                    90deg,
-                    var(--uneac-green-deep),
-                    var(--uneac-green),
-                    var(--uneac-gold)
-                );
+/* =========================================================
+   ICÔNE BIENVENUE
+========================================================= */
 
-        }
+.welcome-icon {
+    width: 52px;
+    height: 52px;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-        .login-card::after {
+    border-radius: 14px;
 
-            content: "";
+    background: var(--uneac-green-light);
 
-            position: absolute;
+    color: var(--uneac-green);
 
-            inset: 10px;
+    font-size: 22px;
 
-            border: 1px solid rgba(184,148,61,.10);
+    margin-bottom: 18px;
+}
 
-            border-radius: 12px;
 
-            pointer-events: none;
+/* =========================================================
+   TITRE FORMULAIRE
+========================================================= */
 
-        }
+.form-title {
+    font-size: 29px;
 
+    font-weight: 800;
 
-        .login-body {
+    color: #1d2922;
 
-            padding: 38px 38px 32px;
+    margin-bottom: 6px;
+}
 
-            position: relative;
+.form-subtitle {
+    font-size: 13px;
 
-            z-index: 2;
+    color: #7b847f;
 
-        }
+    margin-bottom: 27px;
+}
 
 
-        /* =====================================================
-           TITRE
-        ===================================================== */
+/* =========================================================
+   LABELS
+========================================================= */
 
-        .login-heading {
+.form-label {
+    font-size: 12px;
 
-            text-align: center;
+    font-weight: 700;
 
-            margin-bottom: 28px;
+    color: #38443d;
 
-        }
+    margin-bottom: 8px;
+}
 
 
-        .login-heading h1 {
+/* =========================================================
+   INPUTS
+========================================================= */
 
-            margin: 0;
+.input-group-custom {
+    position: relative;
 
-            font-size: 21px;
+    margin-bottom: 18px;
+}
 
-            font-weight: 900;
+.input-icon {
+    position: absolute;
 
-            color: #202522;
+    left: 16px;
+    top: 50%;
 
-        }
+    transform: translateY(-50%);
 
+    color: #8b958f;
 
-        .login-heading p {
+    font-size: 16px;
 
-            margin: 7px 0 0;
+    z-index: 5;
+}
 
-            font-size: 13px;
+.form-control-custom {
+    height: 51px;
 
-            color: #77817b;
+    width: 100%;
 
-        }
+    border: 1px solid #dce4df;
 
+    border-radius: 11px;
 
-        /* =====================================================
-           LABELS
-        ===================================================== */
+    padding: 0 46px;
 
-        .form-label {
+    font-size: 13px;
 
-            font-size: 12px;
+    color: #26332c;
 
-            font-weight: 800;
+    background: #fbfdfc;
 
-            color: #414944;
+    outline: none;
 
-            margin-bottom: 7px;
+    transition: all .2s ease;
+}
 
-        }
+.form-control-custom:focus {
+    border-color: var(--uneac-green);
 
+    background: white;
 
-        /* =====================================================
-           INPUTS
-        ===================================================== */
+    box-shadow:
+        0 0 0 4px rgba(8, 127, 63, .07);
+}
 
-        .input-group-custom {
+.form-control-custom::placeholder {
+    color: #a5ada8;
+}
 
-            position: relative;
 
-        }
+/* =========================================================
+   BOUTON AFFICHER MOT DE PASSE
+========================================================= */
 
+.password-toggle {
+    position: absolute;
 
-        .input-icon {
+    right: 14px;
+    top: 50%;
 
-            position: absolute;
+    transform: translateY(-50%);
 
-            left: 15px;
+    border: 0;
 
-            top: 50%;
+    background: transparent;
 
-            transform: translateY(-50%);
+    color: #8b958f;
 
-            color: var(--uneac-green);
+    cursor: pointer;
 
-            z-index: 5;
+    font-size: 16px;
 
-            font-size: 17px;
+    z-index: 6;
 
-        }
+    padding: 3px;
+}
 
+.password-toggle:hover {
+    color: var(--uneac-green);
+}
 
-        .form-control {
 
-            height: 50px;
+/* =========================================================
+   OPTIONS
+========================================================= */
 
-            border-radius: 9px;
+.form-options {
+    display: flex;
 
-            border: 1px solid #d6dfda;
+    align-items: center;
 
-            padding-left: 45px;
+    justify-content: space-between;
 
-            padding-right: 45px;
+    gap: 15px;
 
-            font-size: 14px;
+    margin: 3px 0 23px;
+}
 
-            background: #fbfcfb;
+.remember-label {
+    font-size: 12px;
 
-            transition: all .2s ease;
+    color: #66716b;
 
-        }
+    cursor: pointer;
+}
 
+.form-check-input {
+    border-color: #cbd6cf;
 
-        .form-control:focus {
+    cursor: pointer;
+}
 
-            border-color: var(--uneac-green);
+.form-check-input:checked {
+    background-color: var(--uneac-green);
 
-            box-shadow:
-                0 0 0 3px rgba(8,127,63,.10);
+    border-color: var(--uneac-green);
+}
 
-            background: #ffffff;
+.forgot-link {
+    font-size: 12px;
 
-        }
+    color: var(--uneac-green);
 
+    text-decoration: none;
 
-        .password-toggle {
+    font-weight: 600;
+}
 
-            position: absolute;
+.forgot-link:hover {
+    color: var(--uneac-green-dark);
 
-            right: 13px;
+    text-decoration: underline;
+}
 
-            top: 50%;
 
-            transform: translateY(-50%);
+/* =========================================================
+   BOUTON CONNEXION
+========================================================= */
 
-            border: 0;
+.btn-login {
+    width: 100%;
 
-            background: transparent;
+    height: 52px;
 
-            color: #7b847e;
+    border: none;
 
-            z-index: 5;
+    border-radius: 11px;
 
-            cursor: pointer;
+    background:
+        linear-gradient(
+            135deg,
+            var(--uneac-green),
+            var(--uneac-green-dark)
+        );
 
-            font-size: 17px;
+    color: white;
 
-        }
+    font-size: 13px;
 
+    font-weight: 800;
 
-        .password-toggle:hover {
+    letter-spacing: .4px;
 
-            color: var(--uneac-green);
+    box-shadow:
+        0 9px 20px rgba(8, 127, 63, .19);
 
-        }
+    transition: all .25s ease;
+}
 
+.btn-login:hover {
+    transform: translateY(-2px);
 
-        /* =====================================================
-           REMEMBER
-        ===================================================== */
+    box-shadow:
+        0 13px 25px rgba(8, 127, 63, .25);
 
-        .login-options {
+    color: white;
+}
 
-            display: flex;
+.btn-login i {
+    margin-right: 6px;
+}
 
-            align-items: center;
 
-            justify-content: space-between;
+/* =========================================================
+   NOTE DE SÉCURITÉ
+========================================================= */
 
-            gap: 15px;
+.security-note {
+    margin-top: 24px;
 
-            margin-top: 15px;
+    padding-top: 16px;
 
-            margin-bottom: 25px;
+    border-top: 1px solid #edf1ee;
 
-        }
+    display: flex;
 
+    align-items: center;
 
-        .form-check {
+    justify-content: center;
 
-            margin: 0;
+    gap: 7px;
 
-        }
+    color: #929b96;
 
+    font-size: 10px;
+}
 
-        .form-check-input {
+.security-note i {
+    color: var(--uneac-green);
 
-            border-color: #bdc9c1;
+    font-size: 13px;
+}
 
-        }
 
+/* =========================================================
+   RESPONSIVE TABLETTE
+========================================================= */
 
-        .form-check-input:checked {
+@media (max-width: 991.98px) {
 
-            background-color: var(--uneac-green);
+    .brand-panel {
+        min-height: auto;
 
-            border-color: var(--uneac-green);
+        padding: 40px 35px;
+    }
 
-        }
+    .form-panel {
+        min-height: auto;
 
+        padding: 40px 35px;
+    }
 
-        .form-check-label {
+    .brand-title {
+        font-size: 33px;
+    }
 
-            font-size: 12px;
+    .logo-container {
+        width: 95px;
+        height: 95px;
+    }
 
-            color: #68716c;
-
-        }
-
-
-        .forgot-link {
-
-            font-size: 12px;
-
-            font-weight: 700;
-
-            color: var(--uneac-green);
-
-            text-decoration: none;
-
-        }
-
-
-        .forgot-link:hover {
-
-            color: var(--uneac-green-dark);
-
-            text-decoration: underline;
-
-        }
-
-
-        /* =====================================================
-           BOUTON
-        ===================================================== */
-
-        .btn-login {
-
-            width: 100%;
-
-            height: 51px;
-
-            border: 0;
-
-            border-radius: 9px;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    var(--uneac-green-dark),
-                    var(--uneac-green)
-                );
-
-            color: #ffffff;
-
-            font-size: 13px;
-
-            font-weight: 900;
-
-            letter-spacing: 1px;
-
-            text-transform: uppercase;
-
-            box-shadow:
-                0 7px 18px rgba(8,127,63,.20);
-
-            transition: all .2s ease;
-
-        }
-
-
-        .btn-login:hover {
-
-            background:
-                linear-gradient(
-                    90deg,
-                    var(--uneac-green-deep),
-                    var(--uneac-green-dark)
-                );
-
-            color: #ffffff;
-
-            transform: translateY(-1px);
-
-            box-shadow:
-                0 10px 22px rgba(8,127,63,.25);
-
-        }
-
-
-        .btn-login i {
-
-            margin-right: 7px;
-
-        }
-
-
-        /* =====================================================
-           FOOTER CARD
-        ===================================================== */
-
-        .login-footer {
-
-            border-top: 1px solid #e7ece9;
-
-            padding: 17px 25px;
-
-            text-align: center;
-
-            background: #fafcfb;
-
-            font-size: 9px;
-
-            font-weight: 800;
-
-            letter-spacing: 1.4px;
-
-            text-transform: uppercase;
-
-            color: #8a938e;
-
-        }
-
-
-        .login-footer span {
-
-            color: var(--uneac-green);
-
-        }
-
-
-        /* =====================================================
-           ERREURS
-        ===================================================== */
-
-        .alert-login {
-
-            border: 0;
-
-            border-left: 4px solid #dc3545;
-
-            border-radius: 6px;
-
-            background: #fff5f5;
-
-            color: #842029;
-
-            font-size: 12px;
-
-        }
-
-
-        /* =====================================================
-           MOBILE
-        ===================================================== */
-
-        @media (max-width: 500px) {
-
-            .login-page {
-
-                padding: 20px 15px;
-
-            }
-
-
-            .login-body {
-
-                padding: 32px 23px 27px;
-
-            }
-
-
-            .logo-container {
-
-                width: 85px;
-
-                height: 85px;
-
-            }
-
-
-            .logo-container img {
-
-                width: 70px;
-
-                height: 70px;
-
-            }
-
-
-            .brand-title {
-
-                font-size: 25px;
-
-            }
-
-
-            .login-options {
-
-                align-items: flex-start;
-
-                flex-direction: column;
-
-                gap: 10px;
-
-            }
-
-
-            .login-card {
-
-                border-radius: 15px;
-
-            }
-
-        }
-
-    </style>
-
-</head>
-
-
-<body>
-
-
-<div class="login-page">
-
-
-    {{-- =====================================================
-         DÉCORATIONS
-    ====================================================== --}}
-
-    <div class="decor decor-circle-1"></div>
-
-    <div class="decor decor-circle-2"></div>
-
-    <div class="decor decor-circle-3"></div>
-
-    <div class="decor decor-zigzag"></div>
-
-
-
-    <div class="login-wrapper">
-
-
-        {{-- =================================================
-             BRAND
-        ================================================== --}}
-
-        <div class="brand">
-
-
-            <div class="logo-container">
-
-
-                @if(file_exists(public_path('images/uneac-logo.png')))
-
-                    <img
-                        src="{{ asset('images/uneac-logo.png') }}"
-                        alt="Logo UNEAC"
-                    >
-
-                @else
-
-                    <div class="logo-placeholder">
-
-                        UNEAC
-
-                    </div>
-
-                @endif
-
-
-            </div>
-
-
-            <h2 class="brand-title">
-
-                UNEAC ID
-
-            </h2>
-
-
-            <div class="brand-subtitle">
-
-                Plateforme de gestion des membres
-
-            </div>
-
-
-        </div>
-
-
-
-        {{-- =================================================
-             LOGIN CARD
-        ================================================== --}}
-
-        <div class="login-card">
-
-
-            <div class="login-body">
-
-
-                {{-- TITRE --}}
-
-                <div class="login-heading">
-
-                    <h1>
-
-                        Bienvenue
-
-                    </h1>
-
-
-                    <p>
-
-                        Connectez-vous à votre espace d'administration
-
-                    </p>
-
-                </div>
-
-
-
-                {{-- =================================================
-                     ERREURS
-                ================================================== --}}
-
-                @if($errors->any())
-
-                    <div class="alert alert-login mb-4">
-
-                        <i class="bi bi-exclamation-circle me-1"></i>
-
-                        {{ $errors->first() }}
-
-                    </div>
-
-                @endif
-
-
-
-                {{-- =================================================
-                     FORMULAIRE
-                ================================================== --}}
-
-                <form
-                    method="POST"
-                    action="{{ route('login') }}"
-                >
-
-                    @csrf
-
-
-
-                    {{-- EMAIL --}}
-
-                    <div class="mb-3">
-
-
-                        <label
-                            for="email"
-                            class="form-label"
-                        >
-
-                            Adresse e-mail
-
-                        </label>
-
-
-                        <div class="input-group-custom">
-
-
-                            <i class="bi bi-envelope input-icon"></i>
-
-
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                class="form-control"
-                                value="{{ old('email') }}"
-                                placeholder="Votre adresse e-mail"
-                                required
-                                autofocus
-                                autocomplete="username"
-                            >
-
-
-                        </div>
-
-                    </div>
-
-
-
-                    {{-- MOT DE PASSE --}}
-
-                    <div class="mb-3">
-
-
-                        <label
-                            for="password"
-                            class="form-label"
-                        >
-
-                            Mot de passe
-
-                        </label>
-
-
-                        <div class="input-group-custom">
-
-
-                            <i class="bi bi-lock input-icon"></i>
-
-
-                            <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                class="form-control"
-                                placeholder="Votre mot de passe"
-                                required
-                                autocomplete="current-password"
-                            >
-
-
-                            <button
-                                type="button"
-                                class="password-toggle"
-                                onclick="togglePassword()"
-                                aria-label="Afficher le mot de passe"
-                            >
-
-                                <i
-                                    class="bi bi-eye"
-                                    id="passwordIcon"
-                                ></i>
-
-                            </button>
-
-
-                        </div>
-
-                    </div>
-
-
-
-                    {{-- OPTIONS --}}
-
-                    <div class="login-options">
-
-
-                        <div class="form-check">
-
-
-                            <input
-                                class="form-check-input"
-                                type="checkbox"
-                                name="remember"
-                                id="remember"
-                            >
-
-
-                            <label
-                                class="form-check-label"
-                                for="remember"
-                            >
-
-                                Se souvenir de moi
-
-                            </label>
-
-
-                        </div>
-
-
-
-                        @if(Route::has('password.request'))
-
-                            <a
-                                href="{{ route('password.request') }}"
-                                class="forgot-link"
-                            >
-
-                                Mot de passe oublié ?
-
-                            </a>
-
-                        @endif
-
-
-                    </div>
-
-
-
-                    {{-- BOUTON --}}
-
-                    <button
-                        type="submit"
-                        class="btn btn-login"
-                    >
-
-                        <i class="bi bi-box-arrow-in-right"></i>
-
-                        Se connecter
-
-                    </button>
-
-
-                </form>
-
-
-            </div>
-
-
-
-            {{-- =================================================
-                 FOOTER
-            ================================================== --}}
-
-            <div class="login-footer">
-
-                <span>UNEAC</span>
-
-                &nbsp; • &nbsp;
-
-                IDENTITÉ
-
-                &nbsp; • &nbsp;
-
-                CULTURE
-
-                &nbsp; • &nbsp;
-
-                ART
-
-            </div>
-
-
-        </div>
-
-
-    </div>
-
-
-</div>
-
-
-
-<script>
-
-function togglePassword() {
-
-    const password =
-        document.getElementById('password');
-
-    const icon =
-        document.getElementById('passwordIcon');
-
-
-    if (password.type === 'password') {
-
-        password.type = 'text';
-
-        icon.classList.remove('bi-eye');
-
-        icon.classList.add('bi-eye-slash');
-
-    } else {
-
-        password.type = 'password';
-
-        icon.classList.remove('bi-eye-slash');
-
-        icon.classList.add('bi-eye');
-
+    .logo-container img {
+        width: 75px;
+        height: 75px;
     }
 
 }
 
-</script>
 
+/* =========================================================
+   RESPONSIVE MOBILE
+========================================================= */
+
+@media (max-width: 575.98px) {
+
+    .login-wrapper {
+        padding: 15px 10px;
+    }
+
+    .login-card {
+        border-radius: 16px;
+    }
+
+    .brand-panel {
+        padding: 32px 25px;
+    }
+
+    .form-panel {
+        padding: 35px 25px;
+    }
+
+    .brand-title {
+        font-size: 29px;
+    }
+
+    .brand-subtitle {
+        font-size: 10px;
+
+        letter-spacing: 1.3px;
+    }
+
+    .brand-description {
+        font-size: 13px;
+
+        line-height: 1.65;
+    }
+
+    .form-title {
+        font-size: 26px;
+    }
+
+    .form-subtitle {
+        font-size: 12px;
+    }
+
+    .form-options {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .watermark {
+        font-size: 70px;
+    }
+
+    .panel-book {
+        font-size: 110px;
+    }
+
+    .panel-music {
+        font-size: 105px;
+    }
+
+    .panel-feather {
+        font-size: 80px;
+    }
+}
+    </style>
+</head>
+
+<body>
+
+    {{-- =========================================================
+         FILIGRANES CULTURELS
+    ========================================================== --}}
+    <div class="cultural-watermarks">
+
+        {{-- Livre --}}
+        <i class="bi bi-book watermark wm-book"></i>
+
+        {{-- Plume / écriture --}}
+        <i class="bi bi-feather watermark gold wm-feather"></i>
+
+        {{-- Musique --}}
+        <i class="bi bi-music-note-beamed watermark wm-music"></i>
+
+        {{-- Théâtre --}}
+        <i class="bi bi-mask watermark gold wm-theater"></i>
+
+        {{-- Arts plastiques --}}
+        <i class="bi bi-palette watermark wm-palette"></i>
+
+        {{-- Photographie / cinéma --}}
+        <i class="bi bi-camera watermark gold wm-camera"></i>
+
+        {{-- Écriture --}}
+        <i class="bi bi-pen watermark wm-pen"></i>
+
+        {{-- Danse / spectacle --}}
+        <i class="bi bi-person-arms-up watermark gold wm-dance"></i>
+
+        {{-- Cercles --}}
+        <div class="decor-circle circle-one"></div>
+        <div class="decor-circle circle-two"></div>
+        <div class="decor-circle circle-three"></div>
+
+    </div>
+
+
+    {{-- =========================================================
+         LOGIN
+    ========================================================== --}}
+    <div class="login-wrapper">
+
+        <div class="login-container">
+
+            <div class="login-card">
+
+                <div class="row g-0">
+
+                    {{-- =================================================
+                         PARTIE GAUCHE
+                    ================================================== --}}
+                    <div class="col-lg-6">
+
+                        <div class="brand-panel">
+
+                            {{-- Filigranes internes --}}
+                            <i class="bi bi-book panel-watermark panel-book"></i>
+                            <i class="bi bi-music-note-beamed panel-watermark panel-music"></i>
+                            <i class="bi bi-feather panel-watermark panel-feather"></i>
+
+                            <div class="brand-content">
+
+                                {{-- Logo --}}
+                                <div class="logo-container">
+
+                                    @if(file_exists(public_path('images/uneac-logo.png')))
+
+                                        <img src="{{ asset('images/uneac-logo.png') }}"
+                                             alt="Logo UNEAC">
+
+                                    @else
+
+                                        <div class="logo-placeholder">
+                                            UNEAC
+                                        </div>
+
+                                    @endif
+
+                                </div>
+
+                                {{-- Titre --}}
+                                <div class="brand-title">
+                                    UNEAC ID
+                                </div>
+
+                                <div class="brand-subtitle">
+                                    Identité • Culture • Art
+                                </div>
+
+                                <div class="brand-line"></div>
+
+                                <p class="brand-description">
+
+                                    Plateforme professionnelle de gestion,
+                                    d'identification et de suivi des membres
+                                    de l'Union Nationale des Écrivains et
+                                    Artistes Congolais.
+
+                                </p>
+
+                                {{-- Valeurs --}}
+                                <div class="brand-values">
+
+                                    <span class="brand-value">
+                                        <i class="bi bi-book"></i>
+                                        Littérature
+                                    </span>
+
+                                    <span class="brand-value">
+                                        <i class="bi bi-music-note-beamed"></i>
+                                        Musique
+                                    </span>
+
+                                    <span class="brand-value">
+                                        <i class="bi bi-palette"></i>
+                                        Arts
+                                    </span>
+
+                                    <span class="brand-value">
+                                        <i class="bi bi-mask"></i>
+                                        Théâtre
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    {{-- =================================================
+                         PARTIE DROITE — FORMULAIRE
+                    ================================================== --}}
+                    <div class="col-lg-6">
+
+                        <div class="form-panel">
+
+                            <div class="form-content">
+
+                                {{-- Icône --}}
+                                <div class="welcome-icon">
+                                    <i class="bi bi-person-lock"></i>
+                                </div>
+
+                                <h1 class="form-title">
+                                    Bienvenue
+                                </h1>
+
+                                <p class="form-subtitle">
+                                    Connectez-vous à votre espace d'administration
+                                </p>
+
+
+                                {{-- Messages --}}
+                                @if (session('status'))
+                                    <div class="alert alert-success">
+                                        {{ session('status') }}
+                                    </div>
+                                @endif
+
+
+                                {{-- Erreurs --}}
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <div class="fw-bold mb-1">
+                                            <i class="bi bi-exclamation-circle me-1"></i>
+                                            Vérifiez les informations saisies.
+                                        </div>
+
+                                        <ul class="mb-0 ps-3 small">
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+
+
+                                {{-- FORMULAIRE --}}
+                                <form method="POST" action="{{ route('login') }}">
+
+                                    @csrf
+
+                                    {{-- Email --}}
+                                    <div class="input-group-custom">
+
+                                        <label for="email" class="form-label">
+                                            Adresse e-mail
+                                        </label>
+
+                                        <div class="position-relative">
+
+                                            <i class="bi bi-envelope input-icon"></i>
+
+                                            <input
+                                                id="email"
+                                                type="email"
+                                                name="email"
+                                                value="{{ old('email') }}"
+                                                required
+                                                autofocus
+                                                autocomplete="username"
+                                                class="form-control-custom"
+                                                placeholder="votre@email.com"
+                                            >
+
+                                        </div>
+
+                                    </div>
+
+
+                                    {{-- Mot de passe --}}
+                                    <div class="input-group-custom">
+
+                                        <label for="password" class="form-label">
+                                            Mot de passe
+                                        </label>
+
+                                        <div class="position-relative">
+
+                                            <i class="bi bi-lock input-icon"></i>
+
+                                            <input
+                                                id="password"
+                                                type="password"
+                                                name="password"
+                                                required
+                                                autocomplete="current-password"
+                                                class="form-control-custom"
+                                                placeholder="Votre mot de passe"
+                                            >
+
+                                            <button
+                                                type="button"
+                                                class="password-toggle"
+                                                id="togglePassword"
+                                                aria-label="Afficher le mot de passe"
+                                            >
+                                                <i class="bi bi-eye" id="eyeIcon"></i>
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    {{-- Options --}}
+                                    <div class="form-options">
+
+                                        <div class="form-check">
+
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                name="remember"
+                                                id="remember"
+                                            >
+
+                                            <label
+                                                class="form-check-label remember-label"
+                                                for="remember"
+                                            >
+                                                Se souvenir de moi
+                                            </label>
+
+                                        </div>
+
+
+                                        @if (Route::has('password.request'))
+
+                                            <a
+                                                href="{{ route('password.request') }}"
+                                                class="forgot-link"
+                                            >
+                                                Mot de passe oublié ?
+                                            </a>
+
+                                        @endif
+
+                                    </div>
+
+
+                                    {{-- Bouton --}}
+                                    <button type="submit" class="btn-login">
+
+                                        <i class="bi bi-box-arrow-in-right"></i>
+
+                                        SE CONNECTER
+
+                                    </button>
+
+                                </form>
+
+
+                                {{-- Sécurité --}}
+                                <div class="security-note">
+
+                                    <i class="bi bi-shield-check"></i>
+
+                                    <span>
+                                        Accès sécurisé — UNEAC ID
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {{-- =========================================================
+         JAVASCRIPT
+    ========================================================== --}}
+    <script>
+
+        const togglePassword = document.getElementById('togglePassword');
+        const password = document.getElementById('password');
+        const eyeIcon = document.getElementById('eyeIcon');
+
+        if (togglePassword) {
+
+            togglePassword.addEventListener('click', function () {
+
+                const type = password.getAttribute('type') === 'password'
+                    ? 'text'
+                    : 'password';
+
+                password.setAttribute('type', type);
+
+                if (type === 'text') {
+
+                    eyeIcon.classList.remove('bi-eye');
+                    eyeIcon.classList.add('bi-eye-slash');
+
+                    togglePassword.setAttribute(
+                        'aria-label',
+                        'Masquer le mot de passe'
+                    );
+
+                } else {
+
+                    eyeIcon.classList.remove('bi-eye-slash');
+                    eyeIcon.classList.add('bi-eye');
+
+                    togglePassword.setAttribute(
+                        'aria-label',
+                        'Afficher le mot de passe'
+                    );
+                }
+
+            });
+
+        }
+
+    </script>
 
 </body>
-
 </html>

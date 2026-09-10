@@ -77,8 +77,9 @@ return [
     |
     */
 
+
     'logo' => '<b>UNEAC</b> ID',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    'logo_img' => 'images/uneac-logo.png',
     'logo_img_alt' => 'UNEAC ID',
 
 
@@ -103,7 +104,7 @@ return [
     'auth_logo' => [
         'enabled' => false,
         'img' => [
-            'path' => 'vendor/adminlte/dist/assets/img/AdminLTELogo.png',
+            'path' => 'images/uneac-logo.png',
             'alt' => 'Auth Logo',
             'class' => '',
             'width' => 50,
@@ -136,15 +137,25 @@ return [
     */
 
     'preloader' => [
+
         'enabled' => true,
+
         'mode' => 'fullscreen',
+
         'img' => [
-            'path' => 'vendor/adminlte/dist/assets/img/AdminLTELogo.png',
-            'alt' => 'AdminLTE Preloader Image',
+
+            'path' => 'images/uneac-logo.png',
+
+            'alt' => 'Logo UNEAC',
+
             'effect' => 'animation__shake',
-            'width' => 60,
-            'height' => 60,
+
+            'width' => 80,
+
+            'height' => 80,
+
         ],
+
     ],
 
     /*
@@ -776,98 +787,98 @@ return [
     */
 
 
-  'menu' => [
+    'menu' => [
 
-    // =========================
-    // BARRE SUPÉRIEURE
-    // =========================
+        // =========================
+        // BARRE SUPÉRIEURE
+        // =========================
 
-    [
-        'type' => 'navbar-search',
-        'text' => 'search',
-        'topnav_right' => true,
+        [
+            'type' => 'navbar-search',
+            'text' => 'search',
+            'topnav_right' => true,
+        ],
+
+        [
+            'type' => 'darkmode-widget',
+            'topnav_right' => true,
+        ],
+
+        [
+            'type' => 'fullscreen-widget',
+            'topnav_right' => true,
+        ],
+
+        // =========================
+        // RECHERCHE SIDEBAR
+        // =========================
+
+        [
+            'type' => 'sidebar-menu-search',
+            'text' => 'search',
+        ],
+
+        // =========================
+        // MENU PRINCIPAL
+        // =========================
+
+        [
+            'text' => 'TABLEAU DE BORD',
+            'url' => 'dashboard',
+            'icon' => 'bi bi-speedometer2',
+        ],
+
+        [
+            'text' => 'MEMBRES',
+            'url' => 'members',
+            'icon' => 'bi bi-people-fill',
+        ],
+
+        [
+            'text' => 'CARTES',
+            'url' => 'cards',
+            'icon' => 'bi bi-person-vcard-fill',
+        ],
+
+        [
+            'text' => 'VÉRIFICATION QR',
+            'url' => '#',
+            'icon' => 'bi bi-qr-code',
+        ],
+
+        [
+            'text' => 'CATÉGORIES',
+            'url' => 'categories',
+            'icon' => 'bi bi-tags-fill',
+        ],
+
+        [
+            'text' => 'FÉDÉRATIONS',
+            'url' => 'federations',
+            'icon' => 'bi bi-diagram-3-fill',
+        ],
+
+        // =========================
+        // ADMINISTRATION
+        // =========================
+
+        [
+            'header' => 'ADMINISTRATION',
+        ],
+
+        [
+            'text' => 'UTILISATEURS',
+            'url' => '#',
+            'icon' => 'bi bi-person-gear',
+        ],
+
+        [
+            'text' => 'RAPPORTS',
+            'url' => '#',
+            'icon' => 'bi bi-bar-chart-fill',
+        ],
+
     ],
-
-    [
-        'type' => 'darkmode-widget',
-        'topnav_right' => true,
-    ],
-
-    [
-        'type' => 'fullscreen-widget',
-        'topnav_right' => true,
-    ],
-
-    // =========================
-    // RECHERCHE SIDEBAR
-    // =========================
-
-    [
-        'type' => 'sidebar-menu-search',
-        'text' => 'search',
-    ],
-
-    // =========================
-    // MENU PRINCIPAL
-    // =========================
-
-    [
-        'text' => 'TABLEAU DE BORD',
-        'url' => 'dashboard',
-        'icon' => 'bi bi-speedometer2',
-    ],
-
-    [
-        'text' => 'MEMBRES',
-        'url' => 'members',
-        'icon' => 'bi bi-people-fill',
-    ],
-
-    [
-        'text' => 'CARTES',
-        'url' => 'cards',
-        'icon' => 'bi bi-person-vcard-fill',
-    ],
-
-    [
-        'text' => 'VÉRIFICATION QR',
-        'url' => 'verification',
-        'icon' => 'bi bi-qr-code',
-    ],
-
-    [
-        'text' => 'CATÉGORIES',
-        'url' => 'categories',
-        'icon' => 'bi bi-tags-fill',
-    ],
-
-    [
-        'text' => 'FÉDÉRATIONS',
-        'url' => 'federations',
-        'icon' => 'bi bi-diagram-3-fill',
-    ],
-
-    // =========================
-    // ADMINISTRATION
-    // =========================
-
-    [
-        'header' => 'ADMINISTRATION',
-    ],
-
-    [
-        'text' => 'UTILISATEURS',
-        'url' => 'users',
-        'icon' => 'bi bi-person-gear',
-    ],
-
-    [
-        'text' => 'RAPPORTS',
-        'url' => 'reports',
-        'icon' => 'bi bi-bar-chart-fill',
-    ],
-
-],
 
     /*
     |--------------------------------------------------------------------------
