@@ -19,72 +19,308 @@
 
     <style>
 
-        body {
-            background: #f1f3f5;
-            font-family: Arial, Helvetica, sans-serif;
+        /* =====================================================
+           VARIABLES
+        ===================================================== */
+
+        :root {
+
+            --uneac-green: #087f3f;
+            --uneac-green-dark: #045c2d;
+
+            --uneac-gold: #b8943d;
+
+            --text-dark: #202124;
+            --text-muted: #687078;
+
+            --border: #dfe5e1;
+
         }
+
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            background: #f4f5f4;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            color: var(--text-dark);
+
+        }
+
+
+        /* =====================================================
+           PAGE
+        ===================================================== */
 
         .page-container {
+
             min-height: 100vh;
+
             padding: 40px 20px;
+
         }
+
+
+        /* =====================================================
+           ACTIONS
+        ===================================================== */
+
+        .actions {
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 10px;
+
+            margin-bottom: 35px;
+
+        }
+
+
+        /* =====================================================
+           CONTAINER CARTES
+        ===================================================== */
 
         .cards-container {
+
             display: flex;
+
             flex-wrap: wrap;
+
             justify-content: center;
-            gap: 30px;
+
+            gap: 35px;
+
         }
 
 
-        /* ==========================================
+        /* =====================================================
            CARTE
-        ========================================== */
+        ===================================================== */
 
         .uneac-card {
 
             width: 850px;
+
             max-width: 100%;
 
             aspect-ratio: 1.586 / 1;
 
-            background: white;
-
-            border-radius: 18px;
+            position: relative;
 
             overflow: hidden;
 
-            position: relative;
+            background: #ffffff;
 
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border-radius: 16px;
 
-            border: 1px solid #dee2e6;
+            border: 1px solid #d5ddd8;
+
+            box-shadow:
+                0 15px 40px rgba(0, 0, 0, .12);
+
         }
 
 
-        /* ==========================================
+        /*
+        Contour intérieur élégant
+        */
+
+        .uneac-card::before {
+
+            content: "";
+
+            position: absolute;
+
+            inset: 8px;
+
+            border: 1px solid rgba(8, 127, 63, .25);
+
+            border-radius: 10px;
+
+            pointer-events: none;
+
+            z-index: 20;
+
+        }
+
+
+        /*
+        Petit liseré doré
+        */
+
+        .uneac-card::after {
+
+            content: "";
+
+            position: absolute;
+
+            inset: 12px;
+
+            border: 1px solid rgba(184, 148, 61, .16);
+
+            border-radius: 8px;
+
+            pointer-events: none;
+
+            z-index: 20;
+
+        }
+
+
+        /* =====================================================
+           MOTIFS GÉOMÉTRIQUES
+        ===================================================== */
+
+        .shape {
+
+            position: absolute;
+
+            pointer-events: none;
+
+            z-index: 0;
+
+        }
+
+
+        .shape-green-1 {
+
+            width: 300px;
+
+            height: 300px;
+
+            right: -170px;
+
+            top: -180px;
+
+            border: 45px solid rgba(8, 127, 63, .035);
+
+            transform: rotate(45deg);
+
+        }
+
+
+        .shape-green-2 {
+
+            width: 240px;
+
+            height: 240px;
+
+            right: -130px;
+
+            bottom: -150px;
+
+            border: 35px solid rgba(8, 127, 63, .045);
+
+            transform: rotate(45deg);
+
+        }
+
+
+        .shape-gold {
+
+            width: 180px;
+
+            height: 180px;
+
+            left: -120px;
+
+            bottom: -100px;
+
+            border: 18px solid rgba(184, 148, 61, .055);
+
+            transform: rotate(45deg);
+
+        }
+
+
+        /*
+        Zigzag très discret
+        */
+
+        .zigzag {
+
+            position: absolute;
+
+            width: 240px;
+
+            height: 60px;
+
+            opacity: .07;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    transparent 0 18px,
+                    var(--uneac-green) 18px 20px,
+                    transparent 20px 38px
+                );
+
+            background-size: 40px 40px;
+
+            transform: rotate(-8deg);
+
+            pointer-events: none;
+
+            z-index: 0;
+
+        }
+
+
+        .zigzag-top {
+
+            right: -20px;
+
+            top: 25px;
+
+        }
+
+
+        .zigzag-bottom {
+
+            left: -20px;
+
+            bottom: 20px;
+
+            transform: rotate(172deg);
+
+        }
+
+
+        /* =====================================================
            RECTO
-        ========================================== */
+        ===================================================== */
 
         .card-front {
 
-            background: linear-gradient(
-                135deg,
-                #ffffff 0%,
-                #f8fdf9 65%,
-                #e8f5ec 100%
-            );
+            background: #ffffff;
 
         }
 
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
 
         .card-top {
 
             height: 115px;
 
-            background: #087f3f;
+            position: relative;
 
-            color: white;
+            z-index: 2;
 
             padding: 18px 30px;
 
@@ -93,120 +329,217 @@
             align-items: center;
 
             gap: 20px;
+
+            background: #ffffff;
+
+            border-bottom: 3px solid var(--uneac-green);
+
         }
 
+
+        /*
+        Petite bande verte supérieure
+        */
+
+        .card-top::before {
+
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+
+            top: 0;
+
+            width: 100%;
+
+            height: 5px;
+
+            background: var(--uneac-green);
+
+        }
+
+
+        /*
+        Accent doré
+        */
+
+        .card-top::after {
+
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+
+            bottom: -3px;
+
+            width: 32%;
+
+            height: 3px;
+
+            background: var(--uneac-gold);
+
+        }
+
+
+        /* =====================================================
+           LOGO
+        ===================================================== */
 
         .logo-box {
 
             width: 75px;
+
             height: 75px;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            overflow: hidden;
 
             background: white;
 
             border-radius: 50%;
 
-            display: flex;
+            border: 2px solid var(--uneac-green);
 
-            align-items: center;
-            justify-content: center;
+            box-shadow:
+                0 3px 10px rgba(0,0,0,.08);
 
-            overflow: hidden;
-
-            flex-shrink: 0;
         }
 
 
         .logo-box img {
 
-            width: 65px;
-            height: 65px;
+            width: 64px;
+
+            height: 64px;
 
             object-fit: contain;
+
         }
 
 
         .logo-placeholder {
 
-            color: #087f3f;
+            color: var(--uneac-green);
 
             font-weight: 800;
 
             font-size: 18px;
+
         }
 
+
+        /* =====================================================
+           TEXTE HEADER
+        ===================================================== */
 
         .header-text {
 
             line-height: 1.25;
+
         }
 
 
         .header-country {
 
-            font-size: 15px;
+            font-size: 13px;
 
-            font-weight: 600;
+            font-weight: 700;
 
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+
+            color: var(--uneac-green);
+
+            margin-bottom: 3px;
+
         }
 
 
         .header-title {
 
-            font-size: 20px;
+            max-width: 650px;
+
+            font-size: 19px;
+
+            line-height: 1.2;
 
             font-weight: 800;
 
             text-transform: uppercase;
+
+            color: #222;
+
         }
 
 
         .header-subtitle {
 
-            font-size: 13px;
+            margin-top: 3px;
 
-            opacity: .9;
+            font-size: 12px;
+
+            font-weight: 600;
+
+            color: var(--text-muted);
+
+            letter-spacing: 2px;
+
         }
 
 
+        /* =====================================================
+           CORPS RECTO
+        ===================================================== */
+
         .front-body {
+
+            position: relative;
+
+            z-index: 2;
 
             padding: 28px 32px;
 
             display: flex;
 
             gap: 30px;
+
         }
 
 
-        .member-photo {
+        /* =====================================================
+           PHOTO
+        ===================================================== */
+
+        .member-photo,
+        .photo-placeholder {
 
             width: 190px;
 
             height: 225px;
 
-            border-radius: 10px;
+            flex-shrink: 0;
 
             object-fit: cover;
 
-            border: 5px solid white;
+            border-radius: 8px;
 
-            box-shadow: 0 3px 12px rgba(0,0,0,.15);
+            border: 1px solid #d9dfdc;
 
-            background: #e9ecef;
+            box-shadow:
+                0 4px 12px rgba(0,0,0,.08);
 
-            flex-shrink: 0;
         }
 
 
         .photo-placeholder {
-
-            width: 190px;
-            height: 225px;
-
-            border-radius: 10px;
-
-            background: #e9ecef;
 
             display: flex;
 
@@ -214,55 +547,59 @@
 
             justify-content: center;
 
-            border: 5px solid white;
+            background: #f5f7f6;
 
-            box-shadow: 0 3px 12px rgba(0,0,0,.15);
+            color: #aab2ad;
 
-            flex-shrink: 0;
+            font-size: 55px;
+
         }
 
 
-        .photo-placeholder i {
-
-            font-size: 80px;
-
-            color: #adb5bd;
-        }
-
+        /* =====================================================
+           INFORMATIONS
+        ===================================================== */
 
         .member-info {
 
             flex: 1;
+
+            padding-top: 4px;
+
         }
 
 
         .card-label {
 
-            font-size: 11px;
-
-            color: #6c757d;
-
-            text-transform: uppercase;
+            font-size: 10px;
 
             font-weight: 700;
 
-            letter-spacing: .5px;
+            text-transform: uppercase;
 
-            margin-bottom: 3px;
+            letter-spacing: 1px;
+
+            color: var(--uneac-green);
+
+            margin-bottom: 4px;
+
         }
 
 
         .member-name {
 
-            font-size: 28px;
+            font-size: 26px;
+
+            line-height: 1.1;
 
             font-weight: 800;
 
-            color: #212529;
-
             text-transform: uppercase;
 
-            margin-bottom: 20px;
+            color: #1d1f20;
+
+            margin-bottom: 22px;
+
         }
 
 
@@ -272,86 +609,127 @@
 
             grid-template-columns: 1fr 1fr;
 
-            gap: 14px 25px;
+            gap: 18px 25px;
+
         }
 
 
         .info-value {
 
-            font-size: 15px;
+            font-size: 14px;
 
-            font-weight: 700;
+            font-weight: 600;
 
-            color: #212529;
+            color: #34383b;
+
         }
 
 
+        /* =====================================================
+           NUMÉRO CARTE
+        ===================================================== */
+
         .member-number {
 
-            margin-top: 22px;
+            display: inline-flex;
 
-            display: inline-block;
+            align-items: center;
 
-            background: #087f3f;
+            margin-top: 25px;
+
+            padding: 8px 16px;
+
+            border-radius: 5px;
+
+            background: var(--uneac-green);
 
             color: white;
 
-            padding: 9px 18px;
-
-            border-radius: 6px;
-
-            font-size: 16px;
+            font-size: 14px;
 
             font-weight: 800;
 
             letter-spacing: 1px;
+
+            box-shadow:
+                0 3px 8px rgba(8,127,63,.18);
+
         }
 
+
+        /* =====================================================
+           FOOTER RECTO
+        ===================================================== */
 
         .card-footer-line {
 
             position: absolute;
 
-            bottom: 0;
-
             left: 0;
 
             right: 0;
 
-            height: 12px;
+            bottom: 0;
 
-            background: #087f3f;
+            height: 7px;
+
+            background: var(--uneac-green);
+
+            z-index: 3;
+
         }
 
 
-        /* ==========================================
+        .card-footer-line::after {
+
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+
+            top: 0;
+
+            width: 28%;
+
+            height: 2px;
+
+            background: var(--uneac-gold);
+
+        }
+
+
+        /* =====================================================
            VERSO
-        ========================================== */
+        ===================================================== */
 
         .card-back {
 
-            background:
-                linear-gradient(
-                    135deg,
-                    #ffffff 0%,
-                    #f3faf5 100%
-                );
+            background: #ffffff;
 
-            display: flex;
-
-            flex-direction: column;
         }
 
 
         .back-header {
 
-            background: #087f3f;
+            position: relative;
 
-            color: white;
+            z-index: 2;
 
-            padding: 20px 30px;
+            height: 88px;
 
-            text-align: center;
+            padding: 18px 30px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            background: #ffffff;
+
+            border-bottom: 2px solid var(--uneac-green);
+
         }
 
 
@@ -359,25 +737,45 @@
 
             margin: 0;
 
+            color: var(--uneac-green);
+
             font-size: 24px;
 
-            font-weight: 800;
+            font-weight: 900;
 
             letter-spacing: 1px;
+
         }
 
 
         .back-header p {
 
-            margin: 4px 0 0;
+            margin: 3px 0 0;
 
-            font-size: 12px;
+            font-size: 11px;
+
+            color: var(--text-muted);
+
+            font-weight: 700;
+
+            letter-spacing: 1.5px;
+
         }
 
 
+        /* =====================================================
+           CONTENU VERSO
+        ===================================================== */
+
         .back-content {
 
-            flex: 1;
+            position: relative;
+
+            z-index: 2;
+
+            height: calc(100% - 95px);
+
+            padding: 25px 32px;
 
             display: flex;
 
@@ -385,202 +783,297 @@
 
             justify-content: space-between;
 
-            padding: 25px 40px;
+            gap: 35px;
 
-            gap: 30px;
         }
 
 
         .security-text {
 
             flex: 1;
+
+            max-width: 570px;
+
         }
 
 
         .security-title {
 
-            font-size: 17px;
+            display: flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            margin-bottom: 15px;
+
+            font-size: 15px;
 
             font-weight: 800;
 
-            color: #087f3f;
+            color: var(--uneac-green);
 
-            margin-bottom: 12px;
+        }
+
+
+        .security-title i {
+
+            font-size: 19px;
+
         }
 
 
         .security-text p {
 
-            font-size: 13px;
+            margin-bottom: 11px;
 
-            line-height: 1.6;
+            font-size: 11px;
 
-            color: #495057;
+            line-height: 1.55;
 
-            margin-bottom: 12px;
+            color: #59615c;
+
         }
 
 
+        /* =====================================================
+           DATES
+        ===================================================== */
+
         .dates {
 
-            margin-top: 20px;
-
-            display: grid;
-
-            grid-template-columns: 1fr 1fr;
+            display: flex;
 
             gap: 15px;
+
+            margin-top: 18px;
+
         }
 
 
         .date-box {
 
-            border: 1px solid #ced4da;
+            min-width: 130px;
 
-            border-radius: 8px;
+            padding: 9px 12px;
 
-            padding: 10px;
+            border-left: 3px solid var(--uneac-green);
 
-            background: white;
+            background: #f7f9f7;
+
         }
 
 
         .date-label {
 
-            font-size: 10px;
-
-            color: #6c757d;
+            font-size: 9px;
 
             text-transform: uppercase;
 
-            font-weight: 700;
+            letter-spacing: .8px;
+
+            color: #78817b;
+
         }
 
 
         .date-value {
 
-            font-size: 14px;
+            margin-top: 3px;
+
+            font-size: 13px;
 
             font-weight: 800;
 
-            margin-top: 3px;
+            color: #252927;
+
         }
 
 
+        /* =====================================================
+           QR
+        ===================================================== */
+
         .qr-section {
 
-            width: 220px;
-
-            text-align: center;
+            width: 180px;
 
             flex-shrink: 0;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
         }
 
 
         .qr-box {
 
+            width: 145px;
+
+            height: 145px;
+
+            padding: 9px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
             background: white;
 
-            padding: 12px;
+            border: 1px solid #d7ddd9;
 
-            border: 1px solid #dee2e6;
+            border-radius: 8px;
 
-            border-radius: 10px;
+            box-shadow:
+                0 5px 15px rgba(0,0,0,.07);
 
-            display: inline-block;
         }
 
 
+        .qr-box img,
         .qr-box svg {
 
-            display: block;
+            width: 100%;
+
+            height: 100%;
+
         }
 
 
-        .qr-text {
+        .qr-label {
 
-            font-size: 11px;
+            margin-top: 8px;
 
-            color: #6c757d;
+            text-align: center;
 
-            margin-top: 10px;
+            font-size: 9px;
 
-            line-height: 1.4;
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+            color: var(--uneac-green);
+
         }
 
+
+        /* =====================================================
+           FOOTER VERSO
+        ===================================================== */
 
         .back-footer {
 
-            padding: 10px 30px;
+            position: absolute;
 
-            background: #087f3f;
+            left: 0;
 
-            color: white;
+            right: 0;
 
-            text-align: center;
+            bottom: 0;
 
-            font-size: 11px;
+            z-index: 3;
+
+            height: 7px;
+
+            background: var(--uneac-green);
+
         }
 
 
-        /* ==========================================
-           BOUTONS
-        ========================================== */
+        .back-footer::after {
 
-        .actions {
+            content: "";
 
-            text-align: center;
+            position: absolute;
 
-            margin-bottom: 35px;
+            right: 0;
+
+            top: 0;
+
+            width: 28%;
+
+            height: 2px;
+
+            background: var(--uneac-gold);
+
         }
 
 
-        /* ==========================================
+        /* =====================================================
            RESPONSIVE
-        ========================================== */
+        ===================================================== */
 
         @media (max-width: 700px) {
 
+            .page-container {
+
+                padding: 20px 10px;
+
+            }
+
+            .actions {
+
+                margin-bottom: 20px;
+
+            }
+
             .uneac-card {
 
-                aspect-ratio: auto;
-
-                min-height: 390px;
+                border-radius: 10px;
 
             }
 
             .card-top {
 
-                height: 85px;
+                height: 90px;
 
                 padding: 12px 18px;
+
+                gap: 12px;
+
             }
 
             .logo-box {
 
-                width: 55px;
-                height: 55px;
+                width: 60px;
+
+                height: 60px;
+
             }
 
             .logo-box img {
 
-                width: 48px;
-                height: 48px;
-            }
+                width: 52px;
 
-            .header-title {
+                height: 52px;
 
-                font-size: 14px;
             }
 
             .header-country {
 
-                font-size: 10px;
+                font-size: 9px;
+
+            }
+
+            .header-title {
+
+                font-size: 12px;
+
             }
 
             .header-subtitle {
 
-                font-size: 9px;
+                font-size: 8px;
+
             }
 
             .front-body {
@@ -588,18 +1081,16 @@
                 padding: 18px;
 
                 gap: 15px;
+
             }
 
             .member-photo,
             .photo-placeholder {
 
-                width: 110px;
-                height: 135px;
-            }
+                width: 120px;
 
-            .photo-placeholder i {
+                height: 150px;
 
-                font-size: 50px;
             }
 
             .member-name {
@@ -607,6 +1098,7 @@
                 font-size: 18px;
 
                 margin-bottom: 12px;
+
             }
 
             .info-grid {
@@ -614,47 +1106,76 @@
                 grid-template-columns: 1fr;
 
                 gap: 8px;
+
             }
 
             .info-value {
 
-                font-size: 12px;
+                font-size: 10px;
+
             }
 
             .member-number {
 
-                font-size: 12px;
+                font-size: 10px;
 
-                padding: 7px 10px;
+                padding: 6px 9px;
+
+                margin-top: 12px;
+
             }
 
             .back-content {
 
-                padding: 20px;
+                padding: 18px;
 
-                flex-direction: column;
+                gap: 15px;
 
-                text-align: center;
             }
 
-            .dates {
+            .security-text p {
 
-                text-align: left;
+                font-size: 9px;
+
             }
 
             .qr-section {
 
-                width: auto;
+                width: 125px;
+
+            }
+
+            .qr-box {
+
+                width: 105px;
+
+                height: 105px;
+
+            }
+
+            .date-box {
+
+                min-width: 100px;
+
             }
 
         }
 
 
-        /* ==========================================
+        /* =====================================================
            IMPRESSION
-        ========================================== */
+        ===================================================== */
 
         @media print {
+
+            @page {
+
+                size: 85.60mm 53.98mm;
+
+                margin: 0;
+
+            }
+
 
             body {
 
@@ -662,11 +1183,13 @@
 
             }
 
+
             .no-print {
 
                 display: none !important;
 
             }
+
 
             .page-container {
 
@@ -674,11 +1197,13 @@
 
             }
 
+
             .cards-container {
 
                 display: block;
 
             }
+
 
             .uneac-card {
 
@@ -690,15 +1215,16 @@
 
                 aspect-ratio: auto;
 
+                margin: 0;
+
                 border-radius: 0;
 
                 box-shadow: none;
 
-                margin: 0 auto 10mm;
-
                 page-break-inside: avoid;
 
             }
+
 
             .card-front,
             .card-back {
@@ -720,9 +1246,9 @@
 <div class="page-container">
 
 
-    {{-- ================================================= --}}
-    {{-- BOUTONS --}}
-    {{-- ================================================= --}}
+    {{-- =====================================================
+         BOUTONS
+    ====================================================== --}}
 
     <div class="actions no-print">
 
@@ -735,9 +1261,10 @@
 
         </a>
 
+
         <button type="button"
                 onclick="window.print()"
-                class="btn btn-primary">
+                class="btn btn-success">
 
             <i class="bi bi-printer me-1"></i>
 
@@ -752,27 +1279,32 @@
     <div class="cards-container">
 
 
-        {{-- ================================================= --}}
-        {{-- RECTO --}}
-        {{-- ================================================= --}}
+        {{-- =================================================
+             RECTO
+        ================================================== --}}
 
         <div class="uneac-card card-front">
 
 
-            {{-- EN-TÊTE --}}
+            {{-- DÉCORATIONS --}}
+
+            <div class="shape shape-green-1"></div>
+
+            <div class="shape shape-green-2"></div>
+
+            <div class="shape shape-gold"></div>
+
+            <div class="zigzag zigzag-top"></div>
+
+            <div class="zigzag zigzag-bottom"></div>
+
+
+            {{-- HEADER --}}
 
             <div class="card-top">
 
 
                 <div class="logo-box">
-
-                    {{--
-
-                    Place ton logo ici :
-
-                    public/images/uneac-logo.png
-
-                    --}}
 
                     @if(file_exists(public_path('images/uneac-logo.png')))
 
@@ -793,15 +1325,24 @@
                 <div class="header-text">
 
                     <div class="header-country">
+
                         RÉPUBLIQUE DU CONGO
+
                     </div>
+
 
                     <div class="header-title">
-                        UNION NATIONALE DES ÉCRIVAINS ET ARTISTES CONGOLAIS
+
+                        UNION NATIONALE DES ÉCRIVAINS
+                        ET ARTISTES CONGOLAIS
+
                     </div>
 
+
                     <div class="header-subtitle">
+
                         UNEAC
+
                     </div>
 
                 </div>
@@ -839,7 +1380,9 @@
 
 
                     <div class="card-label">
-                        Carte de membre
+
+                        CARTE DE MEMBRE
+
                     </div>
 
 
@@ -860,12 +1403,12 @@
                         <div>
 
                             <div class="card-label">
-                                Profession artistique
+                                Profession
                             </div>
 
                             <div class="info-value">
 
-                                {{ $card->member->profession_artistique ?? '—' }}
+                                {{ $card->member->profession_artistique ?: 'Non renseignée' }}
 
                             </div>
 
@@ -880,7 +1423,7 @@
 
                             <div class="info-value">
 
-                                {{ $card->member->category->nom ?? '—' }}
+                                {{ $card->member->category?->nom ?: 'Non renseignée' }}
 
                             </div>
 
@@ -895,9 +1438,9 @@
 
                             <div class="info-value">
 
-                                {{ $card->member->federation->sigle
-                                    ?? $card->member->federation->nom
-                                    ?? '—' }}
+                                {{ $card->member->federation?->sigle
+                                    ?: $card->member->federation?->nom
+                                    ?: 'Non renseignée' }}
 
                             </div>
 
@@ -907,7 +1450,7 @@
                         <div>
 
                             <div class="card-label">
-                                N° membre
+                                Numéro membre
                             </div>
 
                             <div class="info-value">
@@ -939,23 +1482,41 @@
 
 
 
-        {{-- ================================================= --}}
-        {{-- VERSO --}}
-        {{-- ================================================= --}}
+        {{-- =================================================
+             VERSO
+        ================================================== --}}
 
         <div class="uneac-card card-back">
 
 
-            {{-- EN-TÊTE --}}
+            {{-- DÉCORATIONS --}}
+
+            <div class="shape shape-green-1"></div>
+
+            <div class="shape shape-green-2"></div>
+
+            <div class="shape shape-gold"></div>
+
+            <div class="zigzag zigzag-top"></div>
+
+            <div class="zigzag zigzag-bottom"></div>
+
+
+            {{-- HEADER --}}
 
             <div class="back-header">
 
                 <h2>
+
                     UNEAC ID
+
                 </h2>
 
+
                 <p>
+
                     CARTE PROFESSIONNELLE DE MEMBRE
+
                 </p>
 
             </div>
@@ -973,7 +1534,7 @@
 
                     <div class="security-title">
 
-                        <i class="bi bi-shield-check me-1"></i>
+                        <i class="bi bi-shield-check"></i>
 
                         Carte officielle de membre
 
@@ -1004,7 +1565,9 @@
                         <div class="date-box">
 
                             <div class="date-label">
+
                                 Délivrée le
+
                             </div>
 
                             <div class="date-value">
@@ -1019,7 +1582,9 @@
                         <div class="date-box">
 
                             <div class="date-label">
+
                                 Expire le
+
                             </div>
 
                             <div class="date-value">
@@ -1043,8 +1608,7 @@
 
                     <div class="qr-box">
 
-                        {!! QrCode::size(180)
-                            ->margin(1)
+                        {!! QrCode::size(130)
                             ->generate(
                                 route(
                                     'verification.show',
@@ -1056,38 +1620,24 @@
                     </div>
 
 
-                    <div class="qr-text">
+                    <div class="qr-label">
 
-                        <strong>
-                            Scanner pour vérifier
-                        </strong>
-
-                        <br>
-
-                        l'authenticité de la carte
+                        Scanner pour vérifier
 
                     </div>
 
                 </div>
 
-
             </div>
 
 
-            {{-- PIED --}}
-
-            <div class="back-footer">
-
-                UNION NATIONALE DES ÉCRIVAINS ET ARTISTES CONGOLAIS
-
-            </div>
+            <div class="back-footer"></div>
 
         </div>
 
     </div>
 
 </div>
-
 
 </body>
 
