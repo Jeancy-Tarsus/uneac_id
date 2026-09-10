@@ -66,199 +66,197 @@
 
    <div class="card shadow-sm border-0 mb-4">
 
-    <div class="card-body">
+        <div class="card-body">
 
-        {{-- ================================================= --}}
-        {{-- EN-TÊTE --}}
-        {{-- ================================================= --}}
+            {{-- ================================================= --}}
+            {{-- EN-TÊTE --}}
+            {{-- ================================================= --}}
 
-        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-3">
 
-            <h5 class="mb-0 fw-bold text-nowrap">
+                <h5 class="mb-0 fw-bold text-nowrap">
 
-                <i class="bi bi-people me-2 text-primary"></i>
+                    <i class="bi bi-people me-2 text-primary"></i>
 
-                Liste des membres
+                    Liste des membres
 
-            </h5>
-
-
-            {{-- NOUVEAU MEMBRE --}}
-
-            <button type="button"
-                    class="btn btn-primary text-nowrap"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modalAjouterMembre">
-
-                <i class="bi bi-plus-lg me-1"></i>
-
-                Nouveau membre
-
-            </button>
-
-        </div>
+                </h5>
 
 
-        {{-- ================================================= --}}
-        {{-- FILTRES --}}
-        {{-- ================================================= --}}
+                {{-- NOUVEAU MEMBRE --}}
 
-        <form method="GET"
-              action="{{ route('members.index') }}">
+                <button type="button"
+                        class="btn btn-primary text-nowrap"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalAjouterMembre">
 
-            <div class="row g-2">
+                    <i class="bi bi-plus-lg me-1"></i>
 
+                    Nouveau membre
 
-                {{-- RECHERCHE --}}
+                </button>
 
-                <div class="col-lg-3">
-
-                    <input type="text"
-                           name="search"
-                           class="form-control"
-                           value="{{ request('search') }}"
-                           placeholder="N° membre, nom...">
-
-                </div>
+            </div>
 
 
-                {{-- CATÉGORIE --}}
+            {{-- ================================================= --}}
+            {{-- FILTRES --}}
+            {{-- ================================================= --}}
 
-                <div class="col-lg-3">
+            <form method="GET"
+                action="{{ route('members.index') }}">
 
-                    <select name="category_id"
-                            class="form-select">
+                <div class="row g-2">
 
-                        <option value="">
-                            Toutes les catégories
-                        </option>
 
-                        @foreach($categories as $category)
+                    {{-- RECHERCHE --}}
 
-                            <option value="{{ $category->id }}"
-                                {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                    <div class="col-lg-3">
 
-                                {{ $category->nom }}
+                        <input type="text"
+                            name="search"
+                            class="form-control"
+                            value="{{ request('search') }}"
+                            placeholder="N° membre, nom...">
+
+                    </div>
+
+
+                    {{-- CATÉGORIE --}}
+
+                    <div class="col-lg-3">
+
+                        <select name="category_id"
+                                class="form-select">
+
+                            <option value="">
+                                Toutes les catégories
+                            </option>
+
+                            @foreach($categories as $category)
+
+                                <option value="{{ $category->id }}"
+                                    {{ request('category_id') == $category->id ? 'selected' : '' }}>
+
+                                    {{ $category->nom }}
+
+                                </option>
+
+                            @endforeach
+
+                        </select>
+
+                    </div>
+
+
+                    {{-- FÉDÉRATION --}}
+
+                    <div class="col-lg-2">
+
+                        <select name="federation_id"
+                                class="form-select">
+
+                            <option value="">
+                                Toutes les fédérations
+                            </option>
+
+                            @foreach($federations as $federation)
+
+                                <option value="{{ $federation->id }}"
+                                    {{ request('federation_id') == $federation->id ? 'selected' : '' }}>
+
+                                    {{ $federation->sigle ?? $federation->nom }}
+
+                                </option>
+
+                            @endforeach
+
+                        </select>
+
+                    </div>
+
+
+                    {{-- STATUT --}}
+
+                    <div class="col-lg-2">
+
+                        <select name="statut"
+                                class="form-select">
+
+                            <option value="">
+                                Tous les statuts
+                            </option>
+
+                            <option value="actif"
+                                {{ request('statut') === 'actif' ? 'selected' : '' }}>
+
+                                Actif
 
                             </option>
 
-                        @endforeach
+                            <option value="suspendu"
+                                {{ request('statut') === 'suspendu' ? 'selected' : '' }}>
 
-                    </select>
-
-                </div>
-
-
-                {{-- FÉDÉRATION --}}
-
-                <div class="col-lg-2">
-
-                    <select name="federation_id"
-                            class="form-select">
-
-                        <option value="">
-                            Toutes les fédérations
-                        </option>
-
-                        @foreach($federations as $federation)
-
-                            <option value="{{ $federation->id }}"
-                                {{ request('federation_id') == $federation->id ? 'selected' : '' }}>
-
-                                {{ $federation->sigle ?? $federation->nom }}
+                                Suspendu
 
                             </option>
 
-                        @endforeach
+                            <option value="inactif"
+                                {{ request('statut') === 'inactif' ? 'selected' : '' }}>
 
-                    </select>
+                                Inactif
 
-                </div>
+                            </option>
 
+                        </select>
 
-                {{-- STATUT --}}
-
-                <div class="col-lg-2">
-
-                    <select name="statut"
-                            class="form-select">
-
-                        <option value="">
-                            Tous les statuts
-                        </option>
-
-                        <option value="actif"
-                            {{ request('statut') === 'actif' ? 'selected' : '' }}>
-
-                            Actif
-
-                        </option>
-
-                        <option value="suspendu"
-                            {{ request('statut') === 'suspendu' ? 'selected' : '' }}>
-
-                            Suspendu
-
-                        </option>
-
-                        <option value="inactif"
-                            {{ request('statut') === 'inactif' ? 'selected' : '' }}>
-
-                            Inactif
-
-                        </option>
-
-                    </select>
-
-                </div>
+                    </div>
 
 
-                {{-- ACTIONS --}}
+                    {{-- ACTIONS --}}
 
-                <div class="col-lg-2">
+                    <div class="col-lg-2">
 
-                    <div class="d-flex gap-2">
+                        <div class="d-flex gap-2">
 
-                        <button type="submit"
-                                class="btn btn-primary flex-grow-1 text-nowrap">
+                            <button type="submit"
+                                    class="btn btn-primary flex-grow-1 text-nowrap">
 
-                            <i class="bi bi-search me-1"></i>
+                                <i class="bi bi-search me-1"></i>
 
-                            Rechercher
+                                Rechercher
 
-                        </button>
+                            </button>
 
 
-                        @if(
-                            request('search') ||
-                            request('category_id') ||
-                            request('federation_id') ||
-                            request('statut')
-                        )
+                            @if(
+                                request('search') ||
+                                request('category_id') ||
+                                request('federation_id') ||
+                                request('statut')
+                            )
 
-                            <a href="{{ route('members.index') }}"
-                               class="btn btn-outline-secondary flex-shrink-0"
-                               title="Effacer les filtres">
+                                <a href="{{ route('members.index') }}"
+                                class="btn btn-outline-secondary flex-shrink-0"
+                                title="Effacer les filtres">
 
-                                <i class="bi bi-x-lg"></i>
+                                    <i class="bi bi-x-lg"></i>
 
-                            </a>
+                                </a>
 
-                        @endif
+                            @endif
+
+                        </div>
 
                     </div>
 
                 </div>
 
-            </div>
+            </form>
 
-        </form>
+        </div>
 
     </div>
-
-</div>
-
-
 
     {{-- ========================================================= --}}
     {{-- TABLEAU --}}
