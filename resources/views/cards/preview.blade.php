@@ -8,13 +8,25 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1">
 
-    <title>Carte UNEAC - {{ $card->numero_carte }}</title>
+    <title>
+        Carte UNEAC - {{ $card->numero_carte }}
+    </title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet">
 
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    {{-- Bootstrap --}}
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    {{-- Bootstrap Icons --}}
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
 
 
     <style>
@@ -26,28 +38,45 @@
         :root {
 
             --uneac-green: #087f3f;
+
             --uneac-green-dark: #045c2d;
+
+            --uneac-green-deep: #034b25;
+
+            --uneac-green-light: #e8f3ed;
 
             --uneac-gold: #b8943d;
 
-            --text-dark: #202124;
-            --text-muted: #687078;
+            --uneac-gold-light: #d8c27b;
 
-            --border: #dfe5e1;
+            --text-dark: #202522;
+
+            --text-muted: #687078;
 
         }
 
+
+        /* =====================================================
+           RESET
+        ===================================================== */
 
         * {
             box-sizing: border-box;
         }
 
 
+        html,
         body {
 
             margin: 0;
+            padding: 0;
 
-            background: #f4f5f4;
+        }
+
+
+        body {
+
+            background: #eef1ef;
 
             font-family:
                 Arial,
@@ -82,6 +111,8 @@
 
             justify-content: center;
 
+            align-items: center;
+
             gap: 10px;
 
             margin-bottom: 35px;
@@ -90,7 +121,7 @@
 
 
         /* =====================================================
-           CONTAINER CARTES
+           CARTES
         ===================================================== */
 
         .cards-container {
@@ -101,14 +132,12 @@
 
             justify-content: center;
 
+            align-items: flex-start;
+
             gap: 35px;
 
         }
 
-
-        /* =====================================================
-           CARTE
-        ===================================================== */
 
         .uneac-card {
 
@@ -126,17 +155,17 @@
 
             border-radius: 16px;
 
-            border: 1px solid #d5ddd8;
+            border: 1px solid #cfd9d3;
 
             box-shadow:
-                0 15px 40px rgba(0, 0, 0, .12);
+                0 18px 45px rgba(0, 0, 0, .14);
 
         }
 
 
-        /*
-        Contour intérieur élégant
-        */
+        /* =====================================================
+           CONTOURS
+        ===================================================== */
 
         .uneac-card::before {
 
@@ -146,20 +175,16 @@
 
             inset: 8px;
 
-            border: 1px solid rgba(8, 127, 63, .25);
+            border: 1px solid rgba(8, 127, 63, .35);
 
             border-radius: 10px;
 
             pointer-events: none;
 
-            z-index: 20;
+            z-index: 50;
 
         }
 
-
-        /*
-        Petit liseré doré
-        */
 
         .uneac-card::after {
 
@@ -169,19 +194,221 @@
 
             inset: 12px;
 
-            border: 1px solid rgba(184, 148, 61, .16);
+            border: 1px solid rgba(184, 148, 61, .25);
 
             border-radius: 8px;
 
             pointer-events: none;
 
-            z-index: 20;
+            z-index: 50;
 
         }
 
 
         /* =====================================================
-           MOTIFS GÉOMÉTRIQUES
+           FILIGRANE CULTUREL
+        ===================================================== */
+
+        .cultural-watermark {
+
+            position: absolute;
+
+            inset: 0;
+
+            overflow: hidden;
+
+            pointer-events: none;
+
+            z-index: 1;
+
+            color: var(--uneac-green);
+
+        }
+
+
+        .watermark-icon {
+
+            position: absolute;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: var(--uneac-green);
+
+            opacity: .055;
+
+            filter: blur(.25px);
+
+        }
+
+
+        .watermark-icon i {
+
+            line-height: 1;
+
+        }
+
+
+        .wm-book {
+
+            right: 65px;
+
+            top: 145px;
+
+            font-size: 145px;
+
+            transform: rotate(-8deg);
+
+        }
+
+
+        .wm-feather {
+
+            right: 205px;
+
+            bottom: 45px;
+
+            font-size: 125px;
+
+            transform: rotate(-25deg);
+
+        }
+
+
+        .wm-music {
+
+            left: 250px;
+
+            bottom: 20px;
+
+            font-size: 115px;
+
+            transform: rotate(8deg);
+
+        }
+
+
+        .wm-theatre {
+
+            right: 350px;
+
+            bottom: 25px;
+
+            font-size: 105px;
+
+            transform: rotate(-5deg);
+
+        }
+
+
+        .wm-palette {
+
+            left: 250px;
+
+            top: 135px;
+
+            font-size: 115px;
+
+            transform: rotate(12deg);
+
+        }
+
+
+        .wm-camera {
+
+            right: 35px;
+
+            bottom: 40px;
+
+            font-size: 105px;
+
+            transform: rotate(5deg);
+
+        }
+
+
+        .watermark-circle {
+
+            position: absolute;
+
+            width: 370px;
+
+            height: 370px;
+
+            right: -180px;
+
+            top: 100px;
+
+            border: 2px solid rgba(8,127,63,.055);
+
+            border-radius: 50%;
+
+        }
+
+
+        .watermark-circle::before {
+
+            content: "";
+
+            position: absolute;
+
+            inset: 25px;
+
+            border: 1px solid rgba(184,148,61,.055);
+
+            border-radius: 50%;
+
+        }
+
+
+        .watermark-circle::after {
+
+            content: "";
+
+            position: absolute;
+
+            inset: 55px;
+
+            border: 1px solid rgba(8,127,63,.045);
+
+            border-radius: 50%;
+
+        }
+
+
+        .watermark-lines {
+
+            position: absolute;
+
+            width: 330px;
+
+            height: 120px;
+
+            left: 190px;
+
+            bottom: 0;
+
+            opacity: .045;
+
+            transform: rotate(-8deg);
+
+            background:
+                repeating-linear-gradient(
+                    -45deg,
+                    var(--uneac-green) 0,
+                    var(--uneac-green) 2px,
+                    transparent 2px,
+                    transparent 18px
+                );
+
+        }
+
+
+        /* =====================================================
+           DÉCORATIONS
         ===================================================== */
 
         .shape {
@@ -195,70 +422,57 @@
         }
 
 
-        .shape-green-1 {
+        .shape-green-corner {
 
-            width: 300px;
+            width: 260px;
 
-            height: 300px;
+            height: 150px;
 
-            right: -170px;
+            right: -145px;
 
-            top: -180px;
+            bottom: -95px;
 
-            border: 45px solid rgba(8, 127, 63, .035);
+            background: var(--uneac-green-light);
+
+            transform: rotate(-18deg);
+
+            border-radius: 30px;
+
+            opacity: .85;
+
+        }
+
+
+        .shape-gold-corner {
+
+            width: 150px;
+
+            height: 150px;
+
+            left: -100px;
+
+            bottom: -95px;
+
+            border: 16px solid rgba(184,148,61,.08);
 
             transform: rotate(45deg);
 
         }
 
 
-        .shape-green-2 {
-
-            width: 240px;
-
-            height: 240px;
-
-            right: -130px;
-
-            bottom: -150px;
-
-            border: 35px solid rgba(8, 127, 63, .045);
-
-            transform: rotate(45deg);
-
-        }
-
-
-        .shape-gold {
-
-            width: 180px;
-
-            height: 180px;
-
-            left: -120px;
-
-            bottom: -100px;
-
-            border: 18px solid rgba(184, 148, 61, .055);
-
-            transform: rotate(45deg);
-
-        }
-
-
-        /*
-        Zigzag très discret
-        */
+        /* =====================================================
+           ZIGZAG
+        ===================================================== */
 
         .zigzag {
 
             position: absolute;
 
-            width: 240px;
+            width: 230px;
 
-            height: 60px;
+            height: 65px;
 
-            opacity: .07;
+            opacity: .09;
 
             background:
                 linear-gradient(
@@ -270,27 +484,27 @@
 
             background-size: 40px 40px;
 
-            transform: rotate(-8deg);
-
             pointer-events: none;
 
-            z-index: 0;
+            z-index: 2;
 
         }
 
 
         .zigzag-top {
 
-            right: -20px;
+            right: -5px;
 
-            top: 25px;
+            top: 18px;
+
+            transform: rotate(-8deg);
 
         }
 
 
         .zigzag-bottom {
 
-            left: -20px;
+            left: -5px;
 
             bottom: 20px;
 
@@ -311,7 +525,7 @@
 
 
         /* =====================================================
-           HEADER
+           HEADER RECTO
         ===================================================== */
 
         .card-top {
@@ -320,9 +534,9 @@
 
             position: relative;
 
-            z-index: 2;
+            z-index: 10;
 
-            padding: 18px 30px;
+            padding: 13px 30px;
 
             display: flex;
 
@@ -330,61 +544,53 @@
 
             gap: 20px;
 
-            background: #ffffff;
+            background:
+                linear-gradient(
+                    110deg,
+                    var(--uneac-green-deep) 0%,
+                    var(--uneac-green-dark) 50%,
+                    var(--uneac-green) 100%
+                );
 
-            border-bottom: 3px solid var(--uneac-green);
+            border-bottom: 4px solid var(--uneac-gold);
 
-        }
-
-
-        /*
-        Petite bande verte supérieure
-        */
-
-        .card-top::before {
-
-            content: "";
-
-            position: absolute;
-
-            left: 0;
-
-            top: 0;
-
-            width: 100%;
-
-            height: 5px;
-
-            background: var(--uneac-green);
-
-        }
-
-
-        /*
-        Accent doré
-        */
-
-        .card-top::after {
-
-            content: "";
-
-            position: absolute;
-
-            left: 0;
-
-            bottom: -3px;
-
-            width: 32%;
-
-            height: 3px;
-
-            background: var(--uneac-gold);
+            color: white;
 
         }
 
 
         /* =====================================================
-           LOGO
+           MOTIF HEADER
+        ===================================================== */
+
+        .card-top .header-pattern {
+
+            position: absolute;
+
+            right: 0;
+
+            top: 0;
+
+            width: 310px;
+
+            height: 115px;
+
+            background:
+                repeating-linear-gradient(
+                    135deg,
+                    rgba(255,255,255,.035) 0,
+                    rgba(255,255,255,.035) 2px,
+                    transparent 2px,
+                    transparent 18px
+                );
+
+            pointer-events: none;
+
+        }
+
+
+        /* =====================================================
+           LOGO RECTO
         ===================================================== */
 
         .logo-box {
@@ -403,23 +609,28 @@
 
             overflow: hidden;
 
-            background: white;
+            background: #ffffff;
 
             border-radius: 50%;
 
-            border: 2px solid var(--uneac-green);
+            border: 3px solid #ffffff;
 
             box-shadow:
-                0 3px 10px rgba(0,0,0,.08);
+                0 0 0 2px var(--uneac-gold),
+                0 4px 12px rgba(0,0,0,.18);
+
+            position: relative;
+
+            z-index: 15;
 
         }
 
 
         .logo-box img {
 
-            width: 64px;
+            width: 62px;
 
-            height: 64px;
+            height: 62px;
 
             object-fit: contain;
 
@@ -430,7 +641,7 @@
 
             color: var(--uneac-green);
 
-            font-weight: 800;
+            font-weight: 900;
 
             font-size: 18px;
 
@@ -438,59 +649,142 @@
 
 
         /* =====================================================
-           TEXTE HEADER
+           BLOC TEXTE RECTO
         ===================================================== */
 
         .header-text {
 
-            line-height: 1.25;
+            flex: 1;
+
+            position: relative;
+
+            z-index: 15;
+
+            text-align: center;
+
+            padding-left: 15px;
+
+            padding-right: 85px;
 
         }
 
 
         .header-country {
 
-            font-size: 13px;
+            font-size: 15px;
 
-            font-weight: 700;
+            font-weight: 900;
 
-            letter-spacing: 1.5px;
+            letter-spacing: 1.8px;
 
-            color: var(--uneac-green);
+            color: #ffffff;
 
-            margin-bottom: 3px;
+            margin-bottom: 5px;
 
         }
 
 
         .header-title {
 
-            max-width: 650px;
+            max-width: 610px;
 
-            font-size: 19px;
+            margin: 0 auto;
 
-            line-height: 1.2;
+            font-size: 20px;
 
-            font-weight: 800;
+            line-height: 1.15;
+
+            font-weight: 900;
 
             text-transform: uppercase;
 
-            color: #222;
+            color: #ffffff;
 
         }
 
 
         .header-subtitle {
 
-            margin-top: 3px;
+            margin-top: 5px;
 
-            font-size: 12px;
+            font-size: 13px;
 
-            font-weight: 600;
+            font-weight: 900;
 
-            color: var(--text-muted);
+            color: var(--uneac-gold-light);
 
-            letter-spacing: 2px;
+            letter-spacing: 2.5px;
+
+        }
+
+
+        /* =====================================================
+           CARTE DU CONGO
+        ===================================================== */
+
+        .congo-map {
+
+            position: absolute;
+
+            right: 24px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            width: 66px;
+
+            height: 82px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            z-index: 12;
+
+            opacity: .92;
+
+        }
+
+
+        .congo-map img {
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: contain;
+
+            filter:
+                brightness(0)
+                invert(1);
+
+            opacity: .22;
+
+        }
+
+
+        .congo-map-label {
+
+            position: absolute;
+
+            bottom: -2px;
+
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            font-size: 7px;
+
+            font-weight: 800;
+
+            letter-spacing: 1px;
+
+            color: rgba(255,255,255,.60);
+
+            white-space: nowrap;
 
         }
 
@@ -503,9 +797,9 @@
 
             position: relative;
 
-            z-index: 2;
+            z-index: 10;
 
-            padding: 28px 32px;
+            padding: 28px 32px 18px;
 
             display: flex;
 
@@ -531,10 +825,12 @@
 
             border-radius: 8px;
 
-            border: 1px solid #d9dfdc;
+            border: 3px solid #ffffff;
+
+            outline: 2px solid var(--uneac-green);
 
             box-shadow:
-                0 4px 12px rgba(0,0,0,.08);
+                0 5px 15px rgba(0,0,0,.12);
 
         }
 
@@ -547,9 +843,9 @@
 
             justify-content: center;
 
-            background: #f5f7f6;
+            background: var(--uneac-green-light);
 
-            color: #aab2ad;
+            color: var(--uneac-green);
 
             font-size: 55px;
 
@@ -571,34 +867,34 @@
 
         .card-label {
 
-            font-size: 10px;
+            font-size: 11px;
 
-            font-weight: 700;
+            font-weight: 900;
 
             text-transform: uppercase;
 
-            letter-spacing: 1px;
+            letter-spacing: 1.1px;
 
             color: var(--uneac-green);
 
-            margin-bottom: 4px;
+            margin-bottom: 5px;
 
         }
 
 
         .member-name {
 
-            font-size: 26px;
+            font-size: 27px;
 
-            line-height: 1.1;
+            line-height: 1.08;
 
-            font-weight: 800;
+            font-weight: 900;
 
             text-transform: uppercase;
 
-            color: #1d1f20;
+            color: #1d211f;
 
-            margin-bottom: 22px;
+            margin-bottom: 23px;
 
         }
 
@@ -616,11 +912,11 @@
 
         .info-value {
 
-            font-size: 14px;
+            font-size: 15px;
 
             font-weight: 600;
 
-            color: #34383b;
+            color: #343936;
 
         }
 
@@ -637,22 +933,92 @@
 
             margin-top: 25px;
 
-            padding: 8px 16px;
+            padding: 10px 19px;
 
             border-radius: 5px;
 
-            background: var(--uneac-green);
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--uneac-green-dark),
+                    var(--uneac-green)
+                );
 
             color: white;
 
-            font-size: 14px;
+            font-size: 15px;
 
-            font-weight: 800;
+            font-weight: 900;
 
-            letter-spacing: 1px;
+            letter-spacing: 1.2px;
 
             box-shadow:
-                0 3px 8px rgba(8,127,63,.18);
+                0 4px 10px rgba(8,127,63,.22);
+
+            border-left: 4px solid var(--uneac-gold);
+
+        }
+
+
+        /* =====================================================
+           BAS RECTO
+        ===================================================== */
+
+        .front-bottom {
+
+            position: absolute;
+
+            left: 32px;
+
+            right: 32px;
+
+            bottom: 18px;
+
+            height: 34px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-top: 1px solid rgba(8,127,63,.18);
+
+            border-bottom: 1px solid rgba(184,148,61,.20);
+
+            z-index: 15;
+
+            background: rgba(255,255,255,.35);
+
+        }
+
+
+        .front-bottom-text {
+
+            font-size: 9px;
+
+            font-weight: 900;
+
+            letter-spacing: 1.6px;
+
+            color: var(--uneac-green);
+
+            text-transform: uppercase;
+
+        }
+
+
+        .front-bottom-dot {
+
+            width: 5px;
+
+            height: 5px;
+
+            margin: 0 10px;
+
+            border-radius: 50%;
+
+            background: var(--uneac-gold);
 
         }
 
@@ -671,30 +1037,18 @@
 
             bottom: 0;
 
-            height: 7px;
+            height: 9px;
 
-            background: var(--uneac-green);
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--uneac-green-deep) 0%,
+                    var(--uneac-green) 72%,
+                    var(--uneac-gold) 72%,
+                    var(--uneac-gold) 100%
+                );
 
-            z-index: 3;
-
-        }
-
-
-        .card-footer-line::after {
-
-            content: "";
-
-            position: absolute;
-
-            left: 0;
-
-            top: 0;
-
-            width: 28%;
-
-            height: 2px;
-
-            background: var(--uneac-gold);
+            z-index: 20;
 
         }
 
@@ -710,55 +1064,199 @@
         }
 
 
+        /* =====================================================
+           HEADER VERSO
+        ===================================================== */
+
         .back-header {
 
             position: relative;
 
-            z-index: 2;
+            z-index: 10;
 
-            height: 88px;
+            height: 108px;
 
-            padding: 18px 30px;
+            padding: 10px 30px;
 
             display: flex;
 
             flex-direction: column;
 
+            align-items: center;
+
+            justify-content: center;
+
+            text-align: center;
+
+            background:
+                linear-gradient(
+                    110deg,
+                    var(--uneac-green-deep) 0%,
+                    var(--uneac-green-dark) 50%,
+                    var(--uneac-green) 100%
+                );
+
+            border-bottom: 4px solid var(--uneac-gold);
+
+            color: white;
+
+        }
+
+
+        .back-header::before {
+
+            content: "";
+
+            position: absolute;
+
+            right: -80px;
+
+            top: -90px;
+
+            width: 260px;
+
+            height: 180px;
+
+            background: rgba(255,255,255,.055);
+
+            transform: rotate(-20deg);
+
+            pointer-events: none;
+
+        }
+
+
+        /* =====================================================
+           LOGO VERSO
+        ===================================================== */
+
+        .back-logo {
+
+            position: absolute;
+
+            left: 28px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            width: 58px;
+
+            height: 58px;
+
+            display: flex;
+
+            align-items: center;
+
             justify-content: center;
 
             background: #ffffff;
 
-            border-bottom: 2px solid var(--uneac-green);
+            border-radius: 50%;
+
+            border: 3px solid #ffffff;
+
+            box-shadow:
+                0 0 0 2px var(--uneac-gold),
+                0 4px 12px rgba(0,0,0,.20);
+
+            overflow: hidden;
+
+            z-index: 15;
 
         }
 
+
+        .back-logo img {
+
+            width: 49px;
+
+            height: 49px;
+
+            object-fit: contain;
+
+        }
+
+
+        .back-logo span {
+
+            font-size: 9px;
+
+            font-weight: 900;
+
+            color: var(--uneac-green);
+
+        }
+
+
+        /* =====================================================
+           TITRE VERSO
+        ===================================================== */
 
         .back-header h2 {
 
             margin: 0;
 
-            color: var(--uneac-green);
+            color: #ffffff;
 
-            font-size: 24px;
+            font-size: 28px;
 
             font-weight: 900;
 
-            letter-spacing: 1px;
+            letter-spacing: 2.5px;
+
+            line-height: 1;
+
+            position: relative;
+
+            z-index: 15;
 
         }
 
 
         .back-header p {
 
-            margin: 3px 0 0;
+            margin: 7px 0 0;
 
             font-size: 11px;
 
-            color: var(--text-muted);
+            color: var(--uneac-gold-light);
 
-            font-weight: 700;
+            font-weight: 900;
 
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
+
+            position: relative;
+
+            z-index: 15;
+
+        }
+
+
+        .back-header-decoration {
+
+            position: absolute;
+
+            right: 0;
+
+            top: 0;
+
+            width: 150px;
+
+            height: 100%;
+
+            opacity: .08;
+
+            background:
+                repeating-linear-gradient(
+                    135deg,
+                    #ffffff 0,
+                    #ffffff 2px,
+                    transparent 2px,
+                    transparent 16px
+                );
+
+            pointer-events: none;
 
         }
 
@@ -771,11 +1269,11 @@
 
             position: relative;
 
-            z-index: 2;
+            z-index: 10;
 
-            height: calc(100% - 95px);
+            height: calc(100% - 117px);
 
-            padding: 25px 32px;
+            padding: 24px 32px 45px;
 
             display: flex;
 
@@ -803,13 +1301,13 @@
 
             align-items: center;
 
-            gap: 5px;
+            gap: 7px;
 
             margin-bottom: 15px;
 
-            font-size: 15px;
+            font-size: 17px;
 
-            font-weight: 800;
+            font-weight: 900;
 
             color: var(--uneac-green);
 
@@ -818,7 +1316,7 @@
 
         .security-title i {
 
-            font-size: 19px;
+            font-size: 21px;
 
         }
 
@@ -857,9 +1355,11 @@
 
             padding: 9px 12px;
 
-            border-left: 3px solid var(--uneac-green);
+            border-left: 4px solid var(--uneac-green);
 
-            background: #f7f9f7;
+            background: #f4f8f5;
+
+            border-radius: 0 5px 5px 0;
 
         }
 
@@ -883,7 +1383,7 @@
 
             font-size: 13px;
 
-            font-weight: 800;
+            font-weight: 900;
 
             color: #252927;
 
@@ -925,14 +1425,14 @@
 
             justify-content: center;
 
-            background: white;
+            background: #ffffff;
 
-            border: 1px solid #d7ddd9;
+            border: 3px solid var(--uneac-green);
 
-            border-radius: 8px;
+            border-radius: 9px;
 
             box-shadow:
-                0 5px 15px rgba(0,0,0,.07);
+                0 5px 15px rgba(0,0,0,.10);
 
         }
 
@@ -955,11 +1455,49 @@
 
             font-size: 9px;
 
-            font-weight: 700;
+            font-weight: 900;
 
             text-transform: uppercase;
 
             letter-spacing: 1px;
+
+            color: var(--uneac-green);
+
+        }
+
+
+        /* =====================================================
+           TEXTE BAS VERSO
+        ===================================================== */
+
+        .back-bottom-text {
+
+            position: absolute;
+
+            left: 32px;
+
+            right: 32px;
+
+            bottom: 17px;
+
+            z-index: 15;
+
+            text-align: center;
+
+            font-size: 8px;
+
+            font-weight: 800;
+
+            letter-spacing: 1.3px;
+
+            text-transform: uppercase;
+
+            color: #7b847e;
+
+        }
+
+
+        .back-bottom-text span {
 
             color: var(--uneac-green);
 
@@ -980,30 +1518,18 @@
 
             bottom: 0;
 
-            z-index: 3;
+            z-index: 20;
 
-            height: 7px;
+            height: 9px;
 
-            background: var(--uneac-green);
-
-        }
-
-
-        .back-footer::after {
-
-            content: "";
-
-            position: absolute;
-
-            right: 0;
-
-            top: 0;
-
-            width: 28%;
-
-            height: 2px;
-
-            background: var(--uneac-gold);
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--uneac-gold) 0%,
+                    var(--uneac-gold) 25%,
+                    var(--uneac-green) 25%,
+                    var(--uneac-green-dark) 100%
+                );
 
         }
 
@@ -1015,22 +1541,14 @@
         @media (max-width: 700px) {
 
             .page-container {
-
                 padding: 20px 10px;
-
             }
+
 
             .actions {
-
                 margin-bottom: 20px;
-
             }
 
-            .uneac-card {
-
-                border-radius: 10px;
-
-            }
 
             .card-top {
 
@@ -1042,6 +1560,7 @@
 
             }
 
+
             .logo-box {
 
                 width: 60px;
@@ -1050,19 +1569,33 @@
 
             }
 
+
             .logo-box img {
 
-                width: 52px;
+                width: 50px;
 
-                height: 52px;
+                height: 50px;
 
             }
+
+
+            .header-text {
+
+                padding-left: 0;
+
+                padding-right: 50px;
+
+            }
+
 
             .header-country {
 
                 font-size: 9px;
 
+                letter-spacing: 1px;
+
             }
+
 
             .header-title {
 
@@ -1070,11 +1603,31 @@
 
             }
 
+
             .header-subtitle {
 
                 font-size: 8px;
 
             }
+
+
+            .congo-map {
+
+                right: 10px;
+
+                width: 42px;
+
+                height: 55px;
+
+            }
+
+
+            .congo-map-label {
+
+                display: none;
+
+            }
+
 
             .front-body {
 
@@ -1083,6 +1636,7 @@
                 gap: 15px;
 
             }
+
 
             .member-photo,
             .photo-placeholder {
@@ -1093,6 +1647,7 @@
 
             }
 
+
             .member-name {
 
                 font-size: 18px;
@@ -1100,6 +1655,14 @@
                 margin-bottom: 12px;
 
             }
+
+
+            .card-label {
+
+                font-size: 8px;
+
+            }
+
 
             .info-grid {
 
@@ -1109,11 +1672,13 @@
 
             }
 
+
             .info-value {
 
                 font-size: 10px;
 
             }
+
 
             .member-number {
 
@@ -1125,13 +1690,74 @@
 
             }
 
+
+            .front-bottom {
+
+                left: 18px;
+
+                right: 18px;
+
+            }
+
+
+            .front-bottom-text {
+
+                font-size: 6px;
+
+                letter-spacing: 1px;
+
+            }
+
+
+            .back-header {
+
+                height: 90px;
+
+            }
+
+
+            .back-logo {
+
+                width: 42px;
+
+                height: 42px;
+
+                left: 18px;
+
+            }
+
+
+            .back-logo img {
+
+                width: 35px;
+
+                height: 35px;
+
+            }
+
+
+            .back-header h2 {
+
+                font-size: 19px;
+
+            }
+
+
+            .back-header p {
+
+                font-size: 7px;
+
+            }
+
+
             .back-content {
 
-                padding: 18px;
+                padding: 18px 18px 40px;
 
                 gap: 15px;
 
             }
+
 
             .security-text p {
 
@@ -1139,11 +1765,20 @@
 
             }
 
+
+            .security-title {
+
+                font-size: 13px;
+
+            }
+
+
             .qr-section {
 
                 width: 125px;
 
             }
+
 
             .qr-box {
 
@@ -1153,9 +1788,28 @@
 
             }
 
+
             .date-box {
 
                 min-width: 100px;
+
+            }
+
+
+            .back-bottom-text {
+
+                left: 18px;
+
+                right: 18px;
+
+                font-size: 6px;
+
+            }
+
+
+            .watermark-icon {
+
+                opacity: .04;
 
             }
 
@@ -1247,10 +1901,11 @@
 
 
     {{-- =====================================================
-         BOUTONS
-    ====================================================== --}}
+         ACTIONS
+    ===================================================== --}}
 
     <div class="actions no-print">
+
 
         <a href="{{ route('cards.index') }}"
            class="btn btn-secondary">
@@ -1262,15 +1917,18 @@
         </a>
 
 
-        <button type="button"
-                onclick="window.print()"
-                class="btn btn-success">
+        <button
+            type="button"
+            onclick="window.print()"
+            class="btn btn-success"
+        >
 
             <i class="bi bi-printer me-1"></i>
 
             Imprimer la carte
 
         </button>
+
 
     </div>
 
@@ -1286,43 +1944,117 @@
         <div class="uneac-card card-front">
 
 
+            {{-- FILIGRANE CULTUREL --}}
+
+            <div class="cultural-watermark">
+
+
+                <div class="watermark-icon wm-book">
+
+                    <i class="bi bi-book-half"></i>
+
+                </div>
+
+
+                <div class="watermark-icon wm-feather">
+
+                    <i class="bi bi-feather"></i>
+
+                </div>
+
+
+                <div class="watermark-icon wm-music">
+
+                    <i class="bi bi-music-note-beamed"></i>
+
+                </div>
+
+
+                <div class="watermark-icon wm-theatre">
+
+                    <i class="bi bi-mask"></i>
+
+                </div>
+
+
+                <div class="watermark-icon wm-palette">
+
+                    <i class="bi bi-palette"></i>
+
+                </div>
+
+
+                <div class="watermark-icon wm-camera">
+
+                    <i class="bi bi-camera"></i>
+
+                </div>
+
+
+                <div class="watermark-circle"></div>
+
+
+                <div class="watermark-lines"></div>
+
+
+            </div>
+
+
+
             {{-- DÉCORATIONS --}}
 
-            <div class="shape shape-green-1"></div>
+            <div class="shape shape-green-corner"></div>
 
-            <div class="shape shape-green-2"></div>
-
-            <div class="shape shape-gold"></div>
+            <div class="shape shape-gold-corner"></div>
 
             <div class="zigzag zigzag-top"></div>
 
             <div class="zigzag zigzag-bottom"></div>
 
 
-            {{-- HEADER --}}
+
+            {{-- =================================================
+                 HEADER RECTO
+            ================================================== --}}
 
             <div class="card-top">
 
 
+                <div class="header-pattern"></div>
+
+
+
+                {{-- LOGO --}}
+
                 <div class="logo-box">
+
 
                     @if(file_exists(public_path('images/uneac-logo.png')))
 
-                        <img src="{{ asset('images/uneac-logo.png') }}"
-                             alt="Logo UNEAC">
+                        <img
+                            src="{{ asset('images/uneac-logo.png') }}"
+                            alt="Logo UNEAC"
+                        >
 
                     @else
 
                         <div class="logo-placeholder">
+
                             UNEAC
+
                         </div>
 
                     @endif
 
+
                 </div>
 
 
+
+                {{-- TEXTE CENTRÉ --}}
+
                 <div class="header-text">
+
 
                     <div class="header-country">
 
@@ -1345,12 +2077,45 @@
 
                     </div>
 
+
                 </div>
+
+
+
+                {{-- =================================================
+                     CARTE DU CONGO
+                ================================================== --}}
+
+                @if(file_exists(public_path('images/carte-congo.png')))
+
+                    <div class="congo-map">
+
+
+                        <img
+                            src="{{ asset('images/carte-congo.png') }}"
+                            alt="République du Congo"
+                        >
+
+
+                        <div class="congo-map-label">
+
+                            CONGO
+
+                        </div>
+
+
+                    </div>
+
+                @endif
+
 
             </div>
 
 
-            {{-- CORPS --}}
+
+            {{-- =================================================
+                 CORPS RECTO
+            ================================================== --}}
 
             <div class="front-body">
 
@@ -1359,9 +2124,11 @@
 
                 @if($card->member->photo)
 
-                    <img src="{{ asset('storage/' . $card->member->photo) }}"
-                         alt="Photo du membre"
-                         class="member-photo">
+                    <img
+                        src="{{ asset('storage/' . $card->member->photo) }}"
+                        alt="Photo du membre"
+                        class="member-photo"
+                    >
 
                 @else
 
@@ -1372,6 +2139,7 @@
                     </div>
 
                 @endif
+
 
 
                 {{-- INFORMATIONS --}}
@@ -1397,14 +2165,20 @@
                     </div>
 
 
+
                     <div class="info-grid">
 
+
+                        {{-- PROFESSION --}}
 
                         <div>
 
                             <div class="card-label">
+
                                 Profession
+
                             </div>
+
 
                             <div class="info-value">
 
@@ -1415,11 +2189,17 @@
                         </div>
 
 
+
+                        {{-- CATÉGORIE --}}
+
                         <div>
 
                             <div class="card-label">
+
                                 Catégorie
+
                             </div>
+
 
                             <div class="info-value">
 
@@ -1430,11 +2210,17 @@
                         </div>
 
 
+
+                        {{-- FÉDÉRATION --}}
+
                         <div>
 
                             <div class="card-label">
+
                                 Fédération
+
                             </div>
+
 
                             <div class="info-value">
 
@@ -1447,11 +2233,17 @@
                         </div>
 
 
+
+                        {{-- NUMÉRO MEMBRE --}}
+
                         <div>
 
                             <div class="card-label">
+
                                 Numéro membre
+
                             </div>
+
 
                             <div class="info-value">
 
@@ -1465,18 +2257,65 @@
                     </div>
 
 
+
+                    {{-- NUMÉRO CARTE --}}
+
                     <div class="member-number">
 
                         {{ $card->numero_carte }}
 
                     </div>
 
+
                 </div>
+
 
             </div>
 
 
+
+            {{-- =================================================
+                 BAS RECTO
+            ================================================== --}}
+
+            <div class="front-bottom">
+
+
+                <div class="front-bottom-text">
+
+                    IDENTITÉ
+
+                </div>
+
+
+                <div class="front-bottom-dot"></div>
+
+
+                <div class="front-bottom-text">
+
+                    CULTURE
+
+                </div>
+
+
+                <div class="front-bottom-dot"></div>
+
+
+                <div class="front-bottom-text">
+
+                    ART
+
+                </div>
+
+
+            </div>
+
+
+
+            {{-- FOOTER --}}
+
             <div class="card-footer-line"></div>
+
 
         </div>
 
@@ -1489,22 +2328,131 @@
         <div class="uneac-card card-back">
 
 
+            {{-- FILIGRANE --}}
+
+            <div class="cultural-watermark">
+
+
+                <div class="watermark-icon wm-book">
+
+                    <i class="bi bi-book-half"></i>
+
+                </div>
+
+
+                <div class="watermark-icon wm-feather">
+
+                    <i class="bi bi-feather"></i>
+
+                </div>
+
+
+                <div class="watermark-icon wm-music">
+
+                    <i class="bi bi-music-note-beamed"></i>
+
+                </div>
+
+
+                <div class="watermark-icon wm-theatre">
+
+                    <i class="bi bi-mask"></i>
+
+                </div>
+
+
+                <div class="watermark-icon wm-palette">
+
+                    <i class="bi bi-palette"></i>
+
+                </div>
+
+
+                <div class="watermark-circle"></div>
+
+
+                <div class="watermark-lines"></div>
+
+
+            </div>
+
+
+
             {{-- DÉCORATIONS --}}
 
-            <div class="shape shape-green-1"></div>
+            <div class="shape shape-green-corner"></div>
 
-            <div class="shape shape-green-2"></div>
-
-            <div class="shape shape-gold"></div>
+            <div class="shape shape-gold-corner"></div>
 
             <div class="zigzag zigzag-top"></div>
 
             <div class="zigzag zigzag-bottom"></div>
 
 
-            {{-- HEADER --}}
+
+            {{-- =================================================
+                 HEADER VERSO
+            ================================================== --}}
 
             <div class="back-header">
+
+
+                <div class="back-header-decoration"></div>
+
+
+                {{-- LOGO À GAUCHE --}}
+
+                <div class="back-logo">
+
+
+                    @if(file_exists(public_path('images/uneac-logo.png')))
+
+                        <img
+                            src="{{ asset('images/uneac-logo.png') }}"
+                            alt="Logo UNEAC"
+                        >
+
+                    @else
+
+                        <span>
+
+                            UNEAC
+
+                        </span>
+
+                    @endif
+
+
+                </div>
+
+                {{-- =================================================
+                     CARTE DU CONGO
+                ================================================== --}}
+
+                @if(file_exists(public_path('images/carte-congo.png')))
+
+                    <div class="congo-map">
+
+
+                        <img
+                            src="{{ asset('images/carte-congo.png') }}"
+                            alt="République du Congo"
+                        >
+
+
+                        <div class="congo-map-label">
+
+                            CONGO
+
+                        </div>
+
+
+                    </div>
+
+                @endif
+
+
+                {{-- TITRE CENTRÉ --}}
 
                 <h2>
 
@@ -1519,15 +2467,17 @@
 
                 </p>
 
+
             </div>
 
 
-            {{-- CONTENU --}}
+
+            {{-- =================================================
+                 CONTENU VERSO
+            ================================================== --}}
 
             <div class="back-content">
 
-
-                {{-- TEXTE --}}
 
                 <div class="security-text">
 
@@ -1559,10 +2509,14 @@
                     </p>
 
 
+
+                    {{-- DATES --}}
+
                     <div class="dates">
 
 
                         <div class="date-box">
+
 
                             <div class="date-label">
 
@@ -1570,16 +2524,20 @@
 
                             </div>
 
+
                             <div class="date-value">
 
                                 {{ $card->date_delivrance?->format('d/m/Y') }}
 
                             </div>
 
+
                         </div>
 
 
+
                         <div class="date-box">
+
 
                             <div class="date-label">
 
@@ -1587,21 +2545,27 @@
 
                             </div>
 
+
                             <div class="date-value">
 
                                 {{ $card->date_expiration?->format('d/m/Y') }}
 
                             </div>
 
+
                         </div>
 
 
                     </div>
 
+
                 </div>
 
 
-                {{-- QR CODE --}}
+
+                {{-- =================================================
+                     QR CODE
+                ================================================== --}}
 
                 <div class="qr-section">
 
@@ -1626,18 +2590,47 @@
 
                     </div>
 
+
                 </div>
+
 
             </div>
 
 
+
+            {{-- =================================================
+                 TEXTE BAS VERSO
+            ================================================== --}}
+
+            <div class="back-bottom-text">
+
+                <span>
+
+                    UNION NATIONALE DES ÉCRIVAINS ET ARTISTES CONGOLAIS
+
+                </span>
+
+                &nbsp; • &nbsp;
+
+                CARTE OFFICIELLE
+
+            </div>
+
+
+
+            {{-- FOOTER --}}
+
             <div class="back-footer"></div>
+
 
         </div>
 
+
     </div>
 
+
 </div>
+
 
 </body>
 
