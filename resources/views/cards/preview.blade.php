@@ -13,7 +13,9 @@
     </title>
 
 
-    {{-- Bootstrap --}}
+    {{-- =====================================================
+         BOOTSTRAP
+    ====================================================== --}}
 
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -21,7 +23,9 @@
     >
 
 
-    {{-- Bootstrap Icons --}}
+    {{-- =====================================================
+         BOOTSTRAP ICONS
+    ====================================================== --}}
 
     <link
         rel="stylesheet"
@@ -69,6 +73,7 @@
         body {
 
             margin: 0;
+
             padding: 0;
 
         }
@@ -117,6 +122,8 @@
 
             margin-bottom: 35px;
 
+            flex-wrap: wrap;
+
         }
 
 
@@ -143,9 +150,9 @@
 
             width: 850px;
 
-            max-width: 100%;
+            height: 536px;
 
-            aspect-ratio: 1.586 / 1;
+            max-width: 100%;
 
             position: relative;
 
@@ -559,10 +566,6 @@
         }
 
 
-        /* =====================================================
-           MOTIF HEADER
-        ===================================================== */
-
         .card-top .header-pattern {
 
             position: absolute;
@@ -634,6 +637,8 @@
 
             object-fit: contain;
 
+            display: block;
+
         }
 
 
@@ -649,7 +654,7 @@
 
 
         /* =====================================================
-           BLOC TEXTE RECTO
+           TEXTE HEADER
         ===================================================== */
 
         .header-text {
@@ -719,7 +724,7 @@
 
 
         /* =====================================================
-           CARTE DU CONGO
+           CARTE DU CONGO RECTO
         ===================================================== */
 
         .congo-map {
@@ -762,6 +767,8 @@
                 invert(1);
 
             opacity: .22;
+
+            display: block;
 
         }
 
@@ -1175,6 +1182,8 @@
 
             object-fit: contain;
 
+            display: block;
+
         }
 
 
@@ -1257,6 +1266,77 @@
                 );
 
             pointer-events: none;
+
+        }
+
+
+        /* =====================================================
+           CARTE DU CONGO VERSO
+        ===================================================== */
+
+        .back-congo-map {
+
+            position: absolute;
+
+            right: 25px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            width: 66px;
+
+            height: 82px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            z-index: 12;
+
+        }
+
+
+        .back-congo-map img {
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: contain;
+
+            filter:
+                brightness(0)
+                invert(1);
+
+            opacity: .20;
+
+            display: block;
+
+        }
+
+
+        .back-congo-map-label {
+
+            position: absolute;
+
+            bottom: -2px;
+
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            font-size: 7px;
+
+            font-weight: 800;
+
+            letter-spacing: 1px;
+
+            color: rgba(255,255,255,.60);
+
+            white-space: nowrap;
 
         }
 
@@ -1434,6 +1514,8 @@
             box-shadow:
                 0 5px 15px rgba(0,0,0,.10);
 
+            overflow: hidden;
+
         }
 
 
@@ -1443,6 +1525,8 @@
             width: 100%;
 
             height: 100%;
+
+            display: block;
 
         }
 
@@ -1541,12 +1625,16 @@
         @media (max-width: 700px) {
 
             .page-container {
+
                 padding: 20px 10px;
+
             }
 
 
             .actions {
+
                 margin-bottom: 20px;
+
             }
 
 
@@ -1611,7 +1699,8 @@
             }
 
 
-            .congo-map {
+            .congo-map,
+            .back-congo-map {
 
                 right: 10px;
 
@@ -1622,7 +1711,8 @@
             }
 
 
-            .congo-map-label {
+            .congo-map-label,
+            .back-congo-map-label {
 
                 display: none;
 
@@ -1818,6 +1908,10 @@
 
         /* =====================================================
            IMPRESSION
+
+           IMPORTANT :
+           On ne redimensionne PAS les éléments internes.
+           On redimensionne toute la carte ensemble.
         ===================================================== */
 
         @media print {
@@ -1831,9 +1925,25 @@
             }
 
 
+            html,
             body {
 
-                background: white;
+                width: 85.60mm;
+
+                margin: 0 !important;
+
+                padding: 0 !important;
+
+                background: #ffffff !important;
+
+            }
+
+
+            body {
+
+                -webkit-print-color-adjust: exact !important;
+
+                print-color-adjust: exact !important;
 
             }
 
@@ -1847,7 +1957,13 @@
 
             .page-container {
 
-                padding: 0;
+                width: 85.60mm;
+
+                min-height: 0;
+
+                padding: 0 !important;
+
+                margin: 0 !important;
 
             }
 
@@ -1856,34 +1972,231 @@
 
                 display: block;
 
+                width: 85.60mm;
+
+                margin: 0;
+
+                padding: 0;
+
             }
 
 
-            .uneac-card {
+            /*
+             * Chaque wrapper correspond exactement
+             * à une page de carte.
+             */
+
+            .print-card-wrapper {
 
                 width: 85.60mm;
 
                 height: 53.98mm;
 
-                max-width: none;
+                position: relative;
 
-                aspect-ratio: auto;
+                overflow: hidden;
 
                 margin: 0;
 
-                border-radius: 0;
-
-                box-shadow: none;
+                padding: 0;
 
                 page-break-inside: avoid;
+
+                break-inside: avoid;
 
             }
 
 
-            .card-front,
-            .card-back {
+            /*
+             * La carte reste à sa taille originale
+             * de 850 × 536 px.
+             *
+             * Elle est ensuite réduite ENTIÈREMENT.
+             *
+             * 85.60mm / 850px ≈ 0.3802
+             */
+
+            .print-card-wrapper .uneac-card {
+
+                width: 850px !important;
+
+                height: 536px !important;
+
+                max-width: none !important;
+
+                aspect-ratio: auto !important;
+
+                position: absolute !important;
+
+                left: 0 !important;
+
+                top: 0 !important;
+
+                margin: 0 !important;
+
+                border-radius: 0 !important;
+
+                box-shadow: none !important;
+
+                transform:
+                    scale(0.3802352941) !important;
+
+                transform-origin:
+                    top left !important;
+
+            }
+
+
+            /*
+             * Recto = première page
+             */
+
+            .print-card-wrapper.recto-wrapper {
 
                 page-break-after: always;
+
+                break-after: page;
+
+            }
+
+
+            /*
+             * Verso = deuxième page
+             */
+
+            .print-card-wrapper.verso-wrapper {
+
+                page-break-after: auto;
+
+                break-after: auto;
+
+            }
+
+
+            /*
+             * Logos
+             */
+
+            .logo-box {
+
+                width: 75px !important;
+
+                height: 75px !important;
+
+                overflow: hidden !important;
+
+                flex-shrink: 0 !important;
+
+            }
+
+
+            .logo-box img {
+
+                width: 62px !important;
+
+                height: 62px !important;
+
+                max-width: 62px !important;
+
+                max-height: 62px !important;
+
+                object-fit: contain !important;
+
+                display: block !important;
+
+            }
+
+
+            .back-logo {
+
+                width: 58px !important;
+
+                height: 58px !important;
+
+                left: 28px !important;
+
+                top: 50% !important;
+
+                transform: translateY(-50%) !important;
+
+                overflow: hidden !important;
+
+            }
+
+
+            .back-logo img {
+
+                width: 49px !important;
+
+                height: 49px !important;
+
+                max-width: 49px !important;
+
+                max-height: 49px !important;
+
+                object-fit: contain !important;
+
+                display: block !important;
+
+            }
+
+
+            /*
+             * Congo recto
+             */
+
+            .congo-map {
+
+                right: 24px !important;
+
+                top: 50% !important;
+
+                width: 66px !important;
+
+                height: 82px !important;
+
+                transform: translateY(-50%) !important;
+
+            }
+
+
+            /*
+             * Congo verso
+             */
+
+            .back-congo-map {
+
+                right: 25px !important;
+
+                top: 50% !important;
+
+                width: 66px !important;
+
+                height: 82px !important;
+
+                transform: translateY(-50%) !important;
+
+            }
+
+
+            /*
+             * QR
+             */
+
+            .qr-box {
+
+                overflow: hidden !important;
+
+            }
+
+
+            .qr-box svg {
+
+                display: block !important;
+
+                width: 100% !important;
+
+                height: 100% !important;
 
             }
 
@@ -1901,14 +2214,18 @@
 
 
     {{-- =====================================================
-         ACTIONS
-    ===================================================== --}}
+         BOUTONS
+    ====================================================== --}}
 
     <div class="actions no-print">
 
 
-        <a href="{{ route('cards.index') }}"
-           class="btn btn-secondary">
+        {{-- RETOUR --}}
+
+        <a
+            href="{{ route('cards.index') }}"
+            class="btn btn-secondary"
+        >
 
             <i class="bi bi-arrow-left me-1"></i>
 
@@ -1917,10 +2234,30 @@
         </a>
 
 
+
+        {{-- ENREGISTRER EN IMAGE --}}
+
         <button
             type="button"
-            onclick="window.print()"
+            id="btnEnregistrerImage"
+            class="btn btn-primary"
+            onclick="enregistrerCarteImage()"
+        >
+
+            <i class="bi bi-image me-1"></i>
+
+            Enregistrer en image
+
+        </button>
+
+
+
+        {{-- IMPRIMER --}}
+
+        <button
+            type="button"
             class="btn btn-success"
+            onclick="window.print()"
         >
 
             <i class="bi bi-printer me-1"></i>
@@ -1941,106 +2278,171 @@
              RECTO
         ================================================== --}}
 
-        <div class="uneac-card card-front">
+        <div class="print-card-wrapper recto-wrapper">
 
 
-            {{-- FILIGRANE CULTUREL --}}
+            <div
+                class="uneac-card card-front"
+                id="carte-recto"
+            >
 
-            <div class="cultural-watermark">
+
+                {{-- FILIGRANE --}}
+
+                <div class="cultural-watermark">
 
 
-                <div class="watermark-icon wm-book">
+                    <div class="watermark-icon wm-book">
 
-                    <i class="bi bi-book-half"></i>
+                        <i class="bi bi-book-half"></i>
+
+                    </div>
+
+
+                    <div class="watermark-icon wm-feather">
+
+                        <i class="bi bi-feather"></i>
+
+                    </div>
+
+
+                    <div class="watermark-icon wm-music">
+
+                        <i class="bi bi-music-note-beamed"></i>
+
+                    </div>
+
+
+                    <div class="watermark-icon wm-theatre">
+
+                        <i class="bi bi-mask"></i>
+
+                    </div>
+
+
+                    <div class="watermark-icon wm-palette">
+
+                        <i class="bi bi-palette"></i>
+
+                    </div>
+
+
+                    <div class="watermark-icon wm-camera">
+
+                        <i class="bi bi-camera"></i>
+
+                    </div>
+
+
+                    <div class="watermark-circle"></div>
+
+
+                    <div class="watermark-lines"></div>
+
 
                 </div>
 
 
-                <div class="watermark-icon wm-feather">
 
-                    <i class="bi bi-feather"></i>
+                {{-- DÉCORATIONS --}}
 
-                </div>
+                <div class="shape shape-green-corner"></div>
 
+                <div class="shape shape-gold-corner"></div>
 
-                <div class="watermark-icon wm-music">
+                <div class="zigzag zigzag-top"></div>
 
-                    <i class="bi bi-music-note-beamed"></i>
-
-                </div>
-
-
-                <div class="watermark-icon wm-theatre">
-
-                    <i class="bi bi-mask"></i>
-
-                </div>
-
-
-                <div class="watermark-icon wm-palette">
-
-                    <i class="bi bi-palette"></i>
-
-                </div>
-
-
-                <div class="watermark-icon wm-camera">
-
-                    <i class="bi bi-camera"></i>
-
-                </div>
-
-
-                <div class="watermark-circle"></div>
-
-
-                <div class="watermark-lines"></div>
-
-
-            </div>
+                <div class="zigzag zigzag-bottom"></div>
 
 
 
-            {{-- DÉCORATIONS --}}
+                {{-- =================================================
+                     HEADER RECTO
+                ================================================== --}}
 
-            <div class="shape shape-green-corner"></div>
-
-            <div class="shape shape-gold-corner"></div>
-
-            <div class="zigzag zigzag-top"></div>
-
-            <div class="zigzag zigzag-bottom"></div>
+                <div class="card-top">
 
 
-
-            {{-- =================================================
-                 HEADER RECTO
-            ================================================== --}}
-
-            <div class="card-top">
+                    <div class="header-pattern"></div>
 
 
-                <div class="header-pattern"></div>
+                    {{-- LOGO --}}
+
+                    <div class="logo-box">
+
+
+                        @if(file_exists(public_path('images/uneac-logo.png')))
+
+                            <img
+                                src="{{ asset('images/uneac-logo.png') }}"
+                                alt="Logo UNEAC"
+                            >
+
+                        @else
+
+                            <div class="logo-placeholder">
+
+                                UNEAC
+
+                            </div>
+
+                        @endif
+
+
+                    </div>
 
 
 
-                {{-- LOGO --}}
+                    {{-- TEXTE --}}
 
-                <div class="logo-box">
+                    <div class="header-text">
 
 
-                    @if(file_exists(public_path('images/uneac-logo.png')))
+                        <div class="header-country">
 
-                        <img
-                            src="{{ asset('images/uneac-logo.png') }}"
-                            alt="Logo UNEAC"
-                        >
+                            RÉPUBLIQUE DU CONGO
 
-                    @else
+                        </div>
 
-                        <div class="logo-placeholder">
+
+                        <div class="header-title">
+
+                            UNION NATIONALE DES ÉCRIVAINS
+                            ET ARTISTES CONGOLAIS
+
+                        </div>
+
+
+                        <div class="header-subtitle">
 
                             UNEAC
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    {{-- CARTE DU CONGO --}}
+
+                    @if(file_exists(public_path('images/carte-congo.png')))
+
+                        <div class="congo-map">
+
+
+                            <img
+                                src="{{ asset('images/carte-congo.png') }}"
+                                alt="République du Congo"
+                            >
+
+
+                            <div class="congo-map-label">
+
+                                CONGO
+
+                            </div>
+
 
                         </div>
 
@@ -2051,29 +2453,159 @@
 
 
 
-                {{-- TEXTE CENTRÉ --}}
+                {{-- =================================================
+                     CORPS RECTO
+                ================================================== --}}
 
-                <div class="header-text">
-
-
-                    <div class="header-country">
-
-                        RÉPUBLIQUE DU CONGO
-
-                    </div>
+                <div class="front-body">
 
 
-                    <div class="header-title">
+                    {{-- PHOTO --}}
 
-                        UNION NATIONALE DES ÉCRIVAINS
-                        ET ARTISTES CONGOLAIS
+                    @if($card->member->photo)
 
-                    </div>
+                        <img
+                            src="{{ asset('storage/' . $card->member->photo) }}"
+                            alt="Photo du membre"
+                            class="member-photo"
+                        >
+
+                    @else
+
+                        <div class="photo-placeholder">
+
+                            <i class="bi bi-person-fill"></i>
+
+                        </div>
+
+                    @endif
 
 
-                    <div class="header-subtitle">
 
-                        UNEAC
+                    {{-- INFORMATIONS --}}
+
+                    <div class="member-info">
+
+
+                        <div class="card-label">
+
+                            CARTE DE MEMBRE
+
+                        </div>
+
+
+                        <div class="member-name">
+
+                            {{ $card->member->nom }}
+
+                            {{ $card->member->postnom }}
+
+                            {{ $card->member->prenom }}
+
+                        </div>
+
+
+
+                        <div class="info-grid">
+
+
+                            {{-- PROFESSION --}}
+
+                            <div>
+
+                                <div class="card-label">
+
+                                    Profession
+
+                                </div>
+
+
+                                <div class="info-value">
+
+                                    {{ $card->member->profession_artistique ?: 'Non renseignée' }}
+
+                                </div>
+
+                            </div>
+
+
+
+                            {{-- CATÉGORIE --}}
+
+                            <div>
+
+                                <div class="card-label">
+
+                                    Catégorie
+
+                                </div>
+
+
+                                <div class="info-value">
+
+                                    {{ $card->member->category?->nom ?: 'Non renseignée' }}
+
+                                </div>
+
+                            </div>
+
+
+
+                            {{-- FÉDÉRATION --}}
+
+                            <div>
+
+                                <div class="card-label">
+
+                                    Fédération
+
+                                </div>
+
+
+                                <div class="info-value">
+
+                                    {{ $card->member->federation?->sigle
+                                        ?: $card->member->federation?->nom
+                                        ?: 'Non renseignée' }}
+
+                                </div>
+
+                            </div>
+
+
+
+                            {{-- NUMÉRO MEMBRE --}}
+
+                            <div>
+
+                                <div class="card-label">
+
+                                    Numéro membre
+
+                                </div>
+
+
+                                <div class="info-value">
+
+                                    {{ $card->member->numero_membre }}
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        {{-- NUMÉRO CARTE --}}
+
+                        <div class="member-number">
+
+                            {{ $card->numero_carte }}
+
+                        </div>
+
 
                     </div>
 
@@ -2083,239 +2615,47 @@
 
 
                 {{-- =================================================
-                     CARTE DU CONGO
+                     BAS RECTO
                 ================================================== --}}
 
-                @if(file_exists(public_path('images/carte-congo.png')))
-
-                    <div class="congo-map">
+                <div class="front-bottom">
 
 
-                        <img
-                            src="{{ asset('images/carte-congo.png') }}"
-                            alt="République du Congo"
-                        >
+                    <div class="front-bottom-text">
 
-
-                        <div class="congo-map-label">
-
-                            CONGO
-
-                        </div>
-
+                        IDENTITÉ
 
                     </div>
 
-                @endif
+
+                    <div class="front-bottom-dot"></div>
+
+
+                    <div class="front-bottom-text">
+
+                        CULTURE
+
+                    </div>
+
+
+                    <div class="front-bottom-dot"></div>
+
+
+                    <div class="front-bottom-text">
+
+                        ART
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="card-footer-line"></div>
 
 
             </div>
-
-
-
-            {{-- =================================================
-                 CORPS RECTO
-            ================================================== --}}
-
-            <div class="front-body">
-
-
-                {{-- PHOTO --}}
-
-                @if($card->member->photo)
-
-                    <img
-                        src="{{ asset('storage/' . $card->member->photo) }}"
-                        alt="Photo du membre"
-                        class="member-photo"
-                    >
-
-                @else
-
-                    <div class="photo-placeholder">
-
-                        <i class="bi bi-person-fill"></i>
-
-                    </div>
-
-                @endif
-
-
-
-                {{-- INFORMATIONS --}}
-
-                <div class="member-info">
-
-
-                    <div class="card-label">
-
-                        CARTE DE MEMBRE
-
-                    </div>
-
-
-                    <div class="member-name">
-
-                        {{ $card->member->nom }}
-
-                        {{ $card->member->postnom }}
-
-                        {{ $card->member->prenom }}
-
-                    </div>
-
-
-
-                    <div class="info-grid">
-
-
-                        {{-- PROFESSION --}}
-
-                        <div>
-
-                            <div class="card-label">
-
-                                Profession
-
-                            </div>
-
-
-                            <div class="info-value">
-
-                                {{ $card->member->profession_artistique ?: 'Non renseignée' }}
-
-                            </div>
-
-                        </div>
-
-
-
-                        {{-- CATÉGORIE --}}
-
-                        <div>
-
-                            <div class="card-label">
-
-                                Catégorie
-
-                            </div>
-
-
-                            <div class="info-value">
-
-                                {{ $card->member->category?->nom ?: 'Non renseignée' }}
-
-                            </div>
-
-                        </div>
-
-
-
-                        {{-- FÉDÉRATION --}}
-
-                        <div>
-
-                            <div class="card-label">
-
-                                Fédération
-
-                            </div>
-
-
-                            <div class="info-value">
-
-                                {{ $card->member->federation?->sigle
-                                    ?: $card->member->federation?->nom
-                                    ?: 'Non renseignée' }}
-
-                            </div>
-
-                        </div>
-
-
-
-                        {{-- NUMÉRO MEMBRE --}}
-
-                        <div>
-
-                            <div class="card-label">
-
-                                Numéro membre
-
-                            </div>
-
-
-                            <div class="info-value">
-
-                                {{ $card->member->numero_membre }}
-
-                            </div>
-
-                        </div>
-
-
-                    </div>
-
-
-
-                    {{-- NUMÉRO CARTE --}}
-
-                    <div class="member-number">
-
-                        {{ $card->numero_carte }}
-
-                    </div>
-
-
-                </div>
-
-
-            </div>
-
-
-
-            {{-- =================================================
-                 BAS RECTO
-            ================================================== --}}
-
-            <div class="front-bottom">
-
-
-                <div class="front-bottom-text">
-
-                    IDENTITÉ
-
-                </div>
-
-
-                <div class="front-bottom-dot"></div>
-
-
-                <div class="front-bottom-text">
-
-                    CULTURE
-
-                </div>
-
-
-                <div class="front-bottom-dot"></div>
-
-
-                <div class="front-bottom-text">
-
-                    ART
-
-                </div>
-
-
-            </div>
-
-
-
-            {{-- FOOTER --}}
-
-            <div class="card-footer-line"></div>
-
 
         </div>
 
@@ -2325,238 +2665,177 @@
              VERSO
         ================================================== --}}
 
-        <div class="uneac-card card-back">
+        <div class="print-card-wrapper verso-wrapper">
 
 
-            {{-- FILIGRANE --}}
+            <div
+                class="uneac-card card-back"
+                id="carte-verso"
+            >
 
-            <div class="cultural-watermark">
+
+                {{-- FILIGRANE --}}
+
+                <div class="cultural-watermark">
 
 
-                <div class="watermark-icon wm-book">
+                    <div class="watermark-icon wm-book">
 
-                    <i class="bi bi-book-half"></i>
+                        <i class="bi bi-book-half"></i>
+
+                    </div>
+
+
+                    <div class="watermark-icon wm-feather">
+
+                        <i class="bi bi-feather"></i>
+
+                    </div>
+
+
+                    <div class="watermark-icon wm-music">
+
+                        <i class="bi bi-music-note-beamed"></i>
+
+                    </div>
+
+
+                    <div class="watermark-icon wm-theatre">
+
+                        <i class="bi bi-mask"></i>
+
+                    </div>
+
+
+                    <div class="watermark-icon wm-palette">
+
+                        <i class="bi bi-palette"></i>
+
+                    </div>
+
+
+                    <div class="watermark-icon wm-camera">
+
+                        <i class="bi bi-camera"></i>
+
+                    </div>
+
+
+                    <div class="watermark-circle"></div>
+
+
+                    <div class="watermark-lines"></div>
+
 
                 </div>
 
 
-                <div class="watermark-icon wm-feather">
 
-                    <i class="bi bi-feather"></i>
+                {{-- DÉCORATIONS --}}
 
-                </div>
+                <div class="shape shape-green-corner"></div>
 
+                <div class="shape shape-gold-corner"></div>
 
-                <div class="watermark-icon wm-music">
+                <div class="zigzag zigzag-top"></div>
 
-                    <i class="bi bi-music-note-beamed"></i>
-
-                </div>
-
-
-                <div class="watermark-icon wm-theatre">
-
-                    <i class="bi bi-mask"></i>
-
-                </div>
-
-
-                <div class="watermark-icon wm-palette">
-
-                    <i class="bi bi-palette"></i>
-
-                </div>
-
-
-                <div class="watermark-circle"></div>
-
-
-                <div class="watermark-lines"></div>
-
-
-            </div>
+                <div class="zigzag zigzag-bottom"></div>
 
 
 
-            {{-- DÉCORATIONS --}}
+                {{-- =================================================
+                     HEADER VERSO
+                ================================================== --}}
 
-            <div class="shape shape-green-corner"></div>
-
-            <div class="shape shape-gold-corner"></div>
-
-            <div class="zigzag zigzag-top"></div>
-
-            <div class="zigzag zigzag-bottom"></div>
+                <div class="back-header">
 
 
-
-            {{-- =================================================
-                 HEADER VERSO
-            ================================================== --}}
-
-            <div class="back-header">
+                    <div class="back-header-decoration"></div>
 
 
-                <div class="back-header-decoration"></div>
+                    {{-- LOGO --}}
+
+                    {{-- <div class="back-logo">
 
 
-                {{-- LOGO À GAUCHE --}}
+                        @if(file_exists(public_path('images/uneac-logo.png')))
 
-                <div class="back-logo">
+                            <img
+                                src="{{ asset('images/uneac-logo.png') }}"
+                                alt="Logo UNEAC"
+                            >
+
+                        @else
+
+                            <span>
+
+                                UNEAC
+
+                            </span>
+
+                        @endif
 
 
-                    @if(file_exists(public_path('images/uneac-logo.png')))
+                    </div> --}}
+                    <div class="logo-box back-logo-fixed">
 
-                        <img
-                            src="{{ asset('images/uneac-logo.png') }}"
-                            alt="Logo UNEAC"
-                        >
+                        @if(file_exists(public_path('images/uneac-logo.png')))
 
-                    @else
+                            <img
+                                src="{{ asset('images/uneac-logo.png') }}"
+                                alt="Logo UNEAC"
+                            >
 
-                        <span>
+                        @else
 
-                            UNEAC
+                            <div class="logo-placeholder">
+                                UNEAC
+                            </div>
 
-                        </span>
+                        @endif
+
+                    </div>
+
+
+
+                    {{-- CARTE DU CONGO VERSO --}}
+
+                    @if(file_exists(public_path('images/carte-congo.png')))
+
+                        <div class="back-congo-map">
+
+
+                            <img
+                                src="{{ asset('images/carte-congo.png') }}"
+                                alt="République du Congo"
+                            >
+
+
+                            <div class="back-congo-map-label">
+
+                                CONGO
+
+                            </div>
+
+
+                        </div>
 
                     @endif
 
 
-                </div>
 
-                {{-- =================================================
-                     CARTE DU CONGO
-                ================================================== --}}
+                    {{-- <h2>
 
-                @if(file_exists(public_path('images/carte-congo.png')))
+                        UNEAC ID
 
-                    <div class="congo-map">
-
-
-                        <img
-                            src="{{ asset('images/carte-congo.png') }}"
-                            alt="République du Congo"
-                        >
-
-
-                        <div class="congo-map-label">
-
-                            CONGO
-
-                        </div>
-
-
-                    </div>
-
-                @endif
-
-
-                {{-- TITRE CENTRÉ --}}
-
-                <h2>
-
-                    UNEAC ID
-
-                </h2>
-
-
-                <p>
-
-                    CARTE PROFESSIONNELLE DE MEMBRE
-
-                </p>
-
-
-            </div>
-
-
-
-            {{-- =================================================
-                 CONTENU VERSO
-            ================================================== --}}
-
-            <div class="back-content">
-
-
-                <div class="security-text">
-
-
-                    <div class="security-title">
-
-                        <i class="bi bi-shield-check"></i>
-
-                        Carte officielle de membre
-
-                    </div>
+                    </h2> --}}
 
 
                     <p>
 
-                        Cette carte est personnelle et permet
-                        d'identifier son titulaire en qualité de
-                        membre de l'UNEAC.
+                        CARTE PROFESSIONNELLE DE MEMBRE
 
                     </p>
-
-
-                    <p>
-
-                        Toute personne peut vérifier
-                        l'authenticité et le statut de cette carte
-                        en scannant le QR Code.
-
-                    </p>
-
-
-
-                    {{-- DATES --}}
-
-                    <div class="dates">
-
-
-                        <div class="date-box">
-
-
-                            <div class="date-label">
-
-                                Délivrée le
-
-                            </div>
-
-
-                            <div class="date-value">
-
-                                {{ $card->date_delivrance?->format('d/m/Y') }}
-
-                            </div>
-
-
-                        </div>
-
-
-
-                        <div class="date-box">
-
-
-                            <div class="date-label">
-
-                                Expire le
-
-                            </div>
-
-
-                            <div class="date-value">
-
-                                {{ $card->date_expiration?->format('d/m/Y') }}
-
-                            </div>
-
-
-                        </div>
-
-
-                    </div>
 
 
                 </div>
@@ -2564,29 +2843,123 @@
 
 
                 {{-- =================================================
-                     QR CODE
+                     CONTENU VERSO
                 ================================================== --}}
 
-                <div class="qr-section">
+                <div class="back-content">
 
 
-                    <div class="qr-box">
+                    <div class="security-text">
 
-                        {!! QrCode::size(130)
-                            ->generate(
-                                route(
-                                    'verification.show',
-                                    $card->qr_token
+
+                        <div class="security-title">
+
+                            <i class="bi bi-shield-check"></i>
+
+                            Carte officielle de membre
+
+                        </div>
+
+
+                        <p>
+
+                            Cette carte est personnelle et permet
+                            d'identifier son titulaire en qualité de
+                            membre de l'UNEAC.
+
+                        </p>
+
+
+                        <p>
+
+                            Toute personne peut vérifier
+                            l'authenticité et le statut de cette carte
+                            en scannant le QR Code.
+
+                        </p>
+
+
+
+                        {{-- DATES --}}
+
+                        <div class="dates">
+
+
+                            <div class="date-box">
+
+
+                                <div class="date-label">
+
+                                    Délivrée le
+
+                                </div>
+
+
+                                <div class="date-value">
+
+                                    {{ $card->date_delivrance?->format('d/m/Y') }}
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <div class="date-box">
+
+
+                                <div class="date-label">
+
+                                    Expire le
+
+                                </div>
+
+
+                                <div class="date-value">
+
+                                    {{ $card->date_expiration?->format('d/m/Y') }}
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    {{-- =================================================
+                         QR CODE
+                    ================================================== --}}
+
+                    <div class="qr-section">
+
+
+                        <div class="qr-box">
+
+                            {!! QrCode::size(130)
+                                ->generate(
+                                    route(
+                                        'verification.show',
+                                        $card->qr_token
+                                    )
                                 )
-                            )
-                        !!}
+                            !!}
 
-                    </div>
+                        </div>
 
 
-                    <div class="qr-label">
+                        <div class="qr-label">
 
-                        Scanner pour vérifier
+                            Scanner pour vérifier
+
+                        </div>
+
 
                     </div>
 
@@ -2594,42 +2967,326 @@
                 </div>
 
 
+
+                {{-- =================================================
+                     BAS VERSO
+                ================================================== --}}
+
+                <div class="back-bottom-text">
+
+                    <span>
+
+                        UNION NATIONALE DES ÉCRIVAINS ET ARTISTES CONGOLAIS
+
+                    </span>
+
+                    &nbsp; • &nbsp;
+
+                    CARTE OFFICIELLE
+
+                </div>
+
+
+
+                <div class="back-footer"></div>
+
+
             </div>
-
-
-
-            {{-- =================================================
-                 TEXTE BAS VERSO
-            ================================================== --}}
-
-            <div class="back-bottom-text">
-
-                <span>
-
-                    UNION NATIONALE DES ÉCRIVAINS ET ARTISTES CONGOLAIS
-
-                </span>
-
-                &nbsp; • &nbsp;
-
-                CARTE OFFICIELLE
-
-            </div>
-
-
-
-            {{-- FOOTER --}}
-
-            <div class="back-footer"></div>
-
 
         </div>
 
 
     </div>
 
-
 </div>
+
+
+
+{{-- =============================================================
+     HTML2CANVAS
+============================================================= --}}
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+
+<script>
+
+/* =============================================================
+   ENREGISTRER LE RECTO ET LE VERSO EN PNG
+============================================================= */
+
+async function enregistrerCarteImage() {
+
+    const recto =
+        document.getElementById('carte-recto');
+
+    const verso =
+        document.getElementById('carte-verso');
+
+    const bouton =
+        document.getElementById('btnEnregistrerImage');
+
+
+    if (!recto || !verso) {
+
+        alert(
+            'Impossible de trouver le recto ou le verso.'
+        );
+
+        return;
+
+    }
+
+
+    if (typeof html2canvas === 'undefined') {
+
+        alert(
+            'La bibliothèque de génération d’image n’est pas disponible.'
+        );
+
+        return;
+
+    }
+
+
+    /* ---------------------------------------------------------
+       BOUTON
+    --------------------------------------------------------- */
+
+    bouton.disabled = true;
+
+    bouton.innerHTML =
+        '<span class="spinner-border spinner-border-sm me-1"></span>' +
+        'Génération...';
+
+
+    try {
+
+
+        /* -----------------------------------------------------
+           ATTENDRE LE CHARGEMENT DES IMAGES
+        ----------------------------------------------------- */
+
+        await attendreImages(recto);
+
+        await attendreImages(verso);
+
+
+        /* -----------------------------------------------------
+           RECTO
+        ----------------------------------------------------- */
+
+        const canvasRecto =
+            await html2canvas(
+                recto,
+                {
+
+                    scale: 4,
+
+                    useCORS: true,
+
+                    allowTaint: false,
+
+                    backgroundColor: '#ffffff',
+
+                    logging: false,
+
+                    imageTimeout: 15000,
+
+                    width: 850,
+
+                    height: 536,
+
+                    windowWidth: 850,
+
+                    windowHeight: 536
+
+                }
+            );
+
+
+        /* -----------------------------------------------------
+           VERSO
+        ----------------------------------------------------- */
+
+        const canvasVerso =
+            await html2canvas(
+                verso,
+                {
+
+                    scale: 4,
+
+                    useCORS: true,
+
+                    allowTaint: false,
+
+                    backgroundColor: '#ffffff',
+
+                    logging: false,
+
+                    imageTimeout: 15000,
+
+                    width: 850,
+
+                    height: 536,
+
+                    windowWidth: 850,
+
+                    windowHeight: 536
+
+                }
+            );
+
+
+        /* -----------------------------------------------------
+           TÉLÉCHARGER RECTO
+        ----------------------------------------------------- */
+
+        telechargerCanvas(
+            canvasRecto,
+            'UNEAC-ID-RECTO-{{ $card->numero_carte }}.png'
+        );
+
+
+        /* -----------------------------------------------------
+           PETITE PAUSE
+        ----------------------------------------------------- */
+
+        await attendre(800);
+
+
+        /* -----------------------------------------------------
+           TÉLÉCHARGER VERSO
+        ----------------------------------------------------- */
+
+        telechargerCanvas(
+            canvasVerso,
+            'UNEAC-ID-VERSO-{{ $card->numero_carte }}.png'
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            'Erreur génération carte :',
+            error
+        );
+
+
+        alert(
+            'Une erreur est survenue lors de la génération des images.'
+        );
+
+
+    } finally {
+
+
+        bouton.disabled = false;
+
+
+        bouton.innerHTML =
+            '<i class="bi bi-image me-1"></i>' +
+            'Enregistrer en image';
+
+    }
+
+}
+
+
+/* =============================================================
+   ATTENDRE LES IMAGES
+============================================================= */
+
+function attendreImages(element) {
+
+    const images =
+        Array.from(
+            element.querySelectorAll('img')
+        );
+
+
+    return Promise.all(
+
+        images.map(
+            image => {
+
+                if (image.complete) {
+
+                    return Promise.resolve();
+
+                }
+
+
+                return new Promise(
+                    resolve => {
+
+                        image.onload = resolve;
+
+                        image.onerror = resolve;
+
+                    }
+                );
+
+            }
+        )
+
+    );
+
+}
+
+
+/* =============================================================
+   ATTENDRE
+============================================================= */
+
+function attendre(milliseconds) {
+
+    return new Promise(
+        resolve =>
+            setTimeout(
+                resolve,
+                milliseconds
+            )
+    );
+
+}
+
+
+/* =============================================================
+   TÉLÉCHARGER UN CANVAS
+============================================================= */
+
+function telechargerCanvas(
+    canvas,
+    nomFichier
+) {
+
+    const lien =
+        document.createElement('a');
+
+
+    lien.href =
+        canvas.toDataURL(
+            'image/png',
+            1.0
+        );
+
+
+    lien.download =
+        nomFichier;
+
+
+    document.body.appendChild(lien);
+
+
+    lien.click();
+
+
+    document.body.removeChild(lien);
+
+}
+
+</script>
 
 
 </body>
