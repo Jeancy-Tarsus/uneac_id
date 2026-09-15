@@ -42,21 +42,16 @@
         :root {
 
             --uneac-green: #087f3f;
-
             --uneac-green-dark: #045c2d;
-
             --uneac-green-deep: #034b25;
 
             --uneac-green-light: #e8f3ed;
 
             --uneac-gold: #b8943d;
-
             --uneac-gold-light: #d8c27b;
 
             --text-dark: #202522;
-
             --text-muted: #687078;
-
         }
 
 
@@ -73,7 +68,6 @@
         body {
 
             margin: 0;
-
             padding: 0;
 
         }
@@ -262,11 +256,8 @@
         .wm-book {
 
             right: 65px;
-
             top: 145px;
-
             font-size: 145px;
-
             transform: rotate(-8deg);
 
         }
@@ -275,11 +266,8 @@
         .wm-feather {
 
             right: 205px;
-
             bottom: 45px;
-
             font-size: 125px;
-
             transform: rotate(-25deg);
 
         }
@@ -288,11 +276,8 @@
         .wm-music {
 
             left: 250px;
-
             bottom: 20px;
-
             font-size: 115px;
-
             transform: rotate(8deg);
 
         }
@@ -301,11 +286,8 @@
         .wm-theatre {
 
             right: 350px;
-
             bottom: 25px;
-
             font-size: 105px;
-
             transform: rotate(-5deg);
 
         }
@@ -314,11 +296,8 @@
         .wm-palette {
 
             left: 250px;
-
             top: 135px;
-
             font-size: 115px;
-
             transform: rotate(12deg);
 
         }
@@ -327,11 +306,8 @@
         .wm-camera {
 
             right: 35px;
-
             bottom: 40px;
-
             font-size: 105px;
-
             transform: rotate(5deg);
 
         }
@@ -342,11 +318,9 @@
             position: absolute;
 
             width: 370px;
-
             height: 370px;
 
             right: -180px;
-
             top: 100px;
 
             border: 2px solid rgba(8,127,63,.055);
@@ -391,11 +365,9 @@
             position: absolute;
 
             width: 330px;
-
             height: 120px;
 
             left: 190px;
-
             bottom: 0;
 
             opacity: .045;
@@ -432,11 +404,9 @@
         .shape-green-corner {
 
             width: 260px;
-
             height: 150px;
 
             right: -145px;
-
             bottom: -95px;
 
             background: var(--uneac-green-light);
@@ -453,11 +423,9 @@
         .shape-gold-corner {
 
             width: 150px;
-
             height: 150px;
 
             left: -100px;
-
             bottom: -95px;
 
             border: 16px solid rgba(184,148,61,.08);
@@ -476,7 +444,6 @@
             position: absolute;
 
             width: 230px;
-
             height: 65px;
 
             opacity: .09;
@@ -501,7 +468,6 @@
         .zigzag-top {
 
             right: -5px;
-
             top: 18px;
 
             transform: rotate(-8deg);
@@ -512,7 +478,6 @@
         .zigzag-bottom {
 
             left: -5px;
-
             bottom: 20px;
 
             transform: rotate(172deg);
@@ -571,11 +536,9 @@
             position: absolute;
 
             right: 0;
-
             top: 0;
 
             width: 310px;
-
             height: 115px;
 
             background:
@@ -599,7 +562,6 @@
         .logo-box {
 
             width: 75px;
-
             height: 75px;
 
             flex-shrink: 0;
@@ -607,7 +569,6 @@
             display: flex;
 
             align-items: center;
-
             justify-content: center;
 
             overflow: hidden;
@@ -632,7 +593,6 @@
         .logo-box img {
 
             width: 62px;
-
             height: 62px;
 
             object-fit: contain;
@@ -668,7 +628,6 @@
             text-align: center;
 
             padding-left: 15px;
-
             padding-right: 85px;
 
         }
@@ -724,7 +683,7 @@
 
 
         /* =====================================================
-           CARTE DU CONGO RECTO
+           CARTE DU CONGO
         ===================================================== */
 
         .congo-map {
@@ -738,13 +697,11 @@
             transform: translateY(-50%);
 
             width: 66px;
-
             height: 82px;
 
             display: flex;
 
             align-items: center;
-
             justify-content: center;
 
             z-index: 12;
@@ -757,7 +714,6 @@
         .congo-map img {
 
             width: 100%;
-
             height: 100%;
 
             object-fit: contain;
@@ -823,7 +779,6 @@
         .photo-placeholder {
 
             width: 190px;
-
             height: 225px;
 
             flex-shrink: 0;
@@ -847,7 +802,6 @@
             display: flex;
 
             align-items: center;
-
             justify-content: center;
 
             background: var(--uneac-green-light);
@@ -874,24 +828,24 @@
 
         .card-label {
 
-            font-size: 11px;
+            font-size: 14px;
 
             font-weight: 900;
 
             text-transform: uppercase;
 
-            letter-spacing: 1.1px;
+            letter-spacing: 1.2px;
 
             color: var(--uneac-green);
 
-            margin-bottom: 5px;
+            margin-bottom: 6px;
 
         }
 
 
         .member-name {
 
-            font-size: 27px;
+            font-size: 32px;
 
             line-height: 1.08;
 
@@ -901,7 +855,7 @@
 
             color: #1d211f;
 
-            margin-bottom: 23px;
+            margin-bottom: 25px;
 
         }
 
@@ -919,11 +873,15 @@
 
         .info-value {
 
-            font-size: 15px;
+            font-size: 20px;
 
-            font-weight: 600;
+            line-height: 1.15;
+
+            font-weight: 700;
 
             color: #343936;
+
+            word-break: break-word;
 
         }
 
@@ -940,7 +898,7 @@
 
             margin-top: 25px;
 
-            padding: 10px 19px;
+            padding: 11px 20px;
 
             border-radius: 5px;
 
@@ -953,11 +911,11 @@
 
             color: white;
 
-            font-size: 15px;
+            font-size: 19px;
 
             font-weight: 900;
 
-            letter-spacing: 1.2px;
+            letter-spacing: 1.3px;
 
             box-shadow:
                 0 4px 10px rgba(8,127,63,.22);
@@ -976,7 +934,6 @@
             position: absolute;
 
             left: 32px;
-
             right: 32px;
 
             bottom: 18px;
@@ -1002,7 +959,7 @@
 
         .front-bottom-text {
 
-            font-size: 9px;
+            font-size: 11px;
 
             font-weight: 900;
 
@@ -1018,7 +975,6 @@
         .front-bottom-dot {
 
             width: 5px;
-
             height: 5px;
 
             margin: 0 10px;
@@ -1039,7 +995,6 @@
             position: absolute;
 
             left: 0;
-
             right: 0;
 
             bottom: 0;
@@ -1117,11 +1072,9 @@
             position: absolute;
 
             right: -80px;
-
             top: -90px;
 
             width: 260px;
-
             height: 180px;
 
             background: rgba(255,255,255,.055);
@@ -1137,63 +1090,32 @@
            LOGO VERSO
         ===================================================== */
 
-        .back-logo {
+        .back-logo-fixed {
 
             position: absolute;
 
             left: 28px;
+            top: 16px;
 
-            top: 50%;
-
-            transform: translateY(-50%);
-
-            width: 58px;
-
-            height: 58px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            background: #ffffff;
-
-            border-radius: 50%;
-
-            border: 3px solid #ffffff;
-
-            box-shadow:
-                0 0 0 2px var(--uneac-gold),
-                0 4px 12px rgba(0,0,0,.20);
-
-            overflow: hidden;
+            width: 75px;
+            height: 75px;
 
             z-index: 15;
 
         }
 
 
-        .back-logo img {
+        .back-logo-fixed img {
 
-            width: 49px;
+            width: 62px;
+            height: 62px;
 
-            height: 49px;
+            max-width: 62px;
+            max-height: 62px;
 
             object-fit: contain;
 
             display: block;
-
-        }
-
-
-        .back-logo span {
-
-            font-size: 9px;
-
-            font-weight: 900;
-
-            color: var(--uneac-green);
 
         }
 
@@ -1227,7 +1149,7 @@
 
             margin: 7px 0 0;
 
-            font-size: 11px;
+            font-size: 14px;
 
             color: var(--uneac-gold-light);
 
@@ -1247,11 +1169,9 @@
             position: absolute;
 
             right: 0;
-
             top: 0;
 
             width: 150px;
-
             height: 100%;
 
             opacity: .08;
@@ -1285,13 +1205,11 @@
             transform: translateY(-50%);
 
             width: 66px;
-
             height: 82px;
 
             display: flex;
 
             align-items: center;
-
             justify-content: center;
 
             z-index: 12;
@@ -1302,7 +1220,6 @@
         .back-congo-map img {
 
             width: 100%;
-
             height: 100%;
 
             object-fit: contain;
@@ -1381,11 +1298,11 @@
 
             align-items: center;
 
-            gap: 7px;
+            gap: 8px;
 
-            margin-bottom: 15px;
+            margin-bottom: 17px;
 
-            font-size: 17px;
+            font-size: 21px;
 
             font-weight: 900;
 
@@ -1396,18 +1313,18 @@
 
         .security-title i {
 
-            font-size: 21px;
+            font-size: 25px;
 
         }
 
 
         .security-text p {
 
-            margin-bottom: 11px;
+            margin-bottom: 13px;
 
-            font-size: 11px;
+            font-size: 15px;
 
-            line-height: 1.55;
+            line-height: 1.45;
 
             color: #59615c;
 
@@ -1431,9 +1348,9 @@
 
         .date-box {
 
-            min-width: 130px;
+            min-width: 150px;
 
-            padding: 9px 12px;
+            padding: 10px 14px;
 
             border-left: 4px solid var(--uneac-green);
 
@@ -1446,7 +1363,7 @@
 
         .date-label {
 
-            font-size: 9px;
+            font-size: 12px;
 
             text-transform: uppercase;
 
@@ -1459,9 +1376,9 @@
 
         .date-value {
 
-            margin-top: 3px;
+            margin-top: 4px;
 
-            font-size: 13px;
+            font-size: 17px;
 
             font-weight: 900;
 
@@ -1494,7 +1411,6 @@
         .qr-box {
 
             width: 145px;
-
             height: 145px;
 
             padding: 9px;
@@ -1502,7 +1418,6 @@
             display: flex;
 
             align-items: center;
-
             justify-content: center;
 
             background: #ffffff;
@@ -1523,7 +1438,6 @@
         .qr-box svg {
 
             width: 100%;
-
             height: 100%;
 
             display: block;
@@ -1533,11 +1447,11 @@
 
         .qr-label {
 
-            margin-top: 8px;
+            margin-top: 10px;
 
             text-align: center;
 
-            font-size: 9px;
+            font-size: 13px;
 
             font-weight: 900;
 
@@ -1559,7 +1473,6 @@
             position: absolute;
 
             left: 32px;
-
             right: 32px;
 
             bottom: 17px;
@@ -1568,11 +1481,11 @@
 
             text-align: center;
 
-            font-size: 8px;
+            font-size: 11px;
 
             font-weight: 800;
 
-            letter-spacing: 1.3px;
+            letter-spacing: 1.1px;
 
             text-transform: uppercase;
 
@@ -1597,7 +1510,6 @@
             position: absolute;
 
             left: 0;
-
             right: 0;
 
             bottom: 0;
@@ -1625,16 +1537,12 @@
         @media (max-width: 700px) {
 
             .page-container {
-
                 padding: 20px 10px;
-
             }
 
 
             .actions {
-
                 margin-bottom: 20px;
-
             }
 
 
@@ -1652,7 +1560,6 @@
             .logo-box {
 
                 width: 60px;
-
                 height: 60px;
 
             }
@@ -1661,7 +1568,6 @@
             .logo-box img {
 
                 width: 50px;
-
                 height: 50px;
 
             }
@@ -1670,32 +1576,24 @@
             .header-text {
 
                 padding-left: 0;
-
                 padding-right: 50px;
 
             }
 
 
             .header-country {
-
                 font-size: 9px;
-
                 letter-spacing: 1px;
-
             }
 
 
             .header-title {
-
                 font-size: 12px;
-
             }
 
 
             .header-subtitle {
-
                 font-size: 8px;
-
             }
 
 
@@ -1705,7 +1603,6 @@
                 right: 10px;
 
                 width: 42px;
-
                 height: 55px;
 
             }
@@ -1713,9 +1610,7 @@
 
             .congo-map-label,
             .back-congo-map-label {
-
                 display: none;
-
             }
 
 
@@ -1732,7 +1627,6 @@
             .photo-placeholder {
 
                 width: 120px;
-
                 height: 150px;
 
             }
@@ -1784,7 +1678,6 @@
             .front-bottom {
 
                 left: 18px;
-
                 right: 18px;
 
             }
@@ -1806,37 +1699,32 @@
             }
 
 
-            .back-logo {
+            .back-logo-fixed {
 
                 width: 42px;
-
                 height: 42px;
 
                 left: 18px;
+                top: 12px;
 
             }
 
 
-            .back-logo img {
+            .back-logo-fixed img {
 
                 width: 35px;
-
                 height: 35px;
 
             }
 
 
             .back-header h2 {
-
                 font-size: 19px;
-
             }
 
 
             .back-header p {
-
-                font-size: 7px;
-
+                font-size: 8px;
             }
 
 
@@ -1873,7 +1761,6 @@
             .qr-box {
 
                 width: 105px;
-
                 height: 105px;
 
             }
@@ -1889,7 +1776,6 @@
             .back-bottom-text {
 
                 left: 18px;
-
                 right: 18px;
 
                 font-size: 6px;
@@ -1898,9 +1784,7 @@
 
 
             .watermark-icon {
-
                 opacity: .04;
-
             }
 
         }
@@ -1908,10 +1792,6 @@
 
         /* =====================================================
            IMPRESSION
-
-           IMPORTANT :
-           On ne redimensionne PAS les éléments internes.
-           On redimensionne toute la carte ensemble.
         ===================================================== */
 
         @media print {
@@ -1931,7 +1811,6 @@
                 width: 85.60mm;
 
                 margin: 0 !important;
-
                 padding: 0 !important;
 
                 background: #ffffff !important;
@@ -1962,7 +1841,6 @@
                 min-height: 0;
 
                 padding: 0 !important;
-
                 margin: 0 !important;
 
             }
@@ -1975,16 +1853,10 @@
                 width: 85.60mm;
 
                 margin: 0;
-
                 padding: 0;
 
             }
 
-
-            /*
-             * Chaque wrapper correspond exactement
-             * à une page de carte.
-             */
 
             .print-card-wrapper {
 
@@ -1997,7 +1869,6 @@
                 overflow: hidden;
 
                 margin: 0;
-
                 padding: 0;
 
                 page-break-inside: avoid;
@@ -2008,12 +1879,7 @@
 
 
             /*
-             * La carte reste à sa taille originale
-             * de 850 × 536 px.
-             *
-             * Elle est ensuite réduite ENTIÈREMENT.
-             *
-             * 85.60mm / 850px ≈ 0.3802
+             * Réduction proportionnelle de toute la carte.
              */
 
             .print-card-wrapper .uneac-card {
@@ -2047,10 +1913,6 @@
             }
 
 
-            /*
-             * Recto = première page
-             */
-
             .print-card-wrapper.recto-wrapper {
 
                 page-break-after: always;
@@ -2059,10 +1921,6 @@
 
             }
 
-
-            /*
-             * Verso = deuxième page
-             */
 
             .print-card-wrapper.verso-wrapper {
 
@@ -2073,14 +1931,13 @@
             }
 
 
-            /*
-             * Logos
-             */
+            /* =================================================
+               LOGO IMPRESSION
+            ================================================== */
 
             .logo-box {
 
                 width: 75px !important;
-
                 height: 75px !important;
 
                 overflow: hidden !important;
@@ -2093,11 +1950,9 @@
             .logo-box img {
 
                 width: 62px !important;
-
                 height: 62px !important;
 
                 max-width: 62px !important;
-
                 max-height: 62px !important;
 
                 object-fit: contain !important;
@@ -2107,32 +1962,28 @@
             }
 
 
-            .back-logo {
+            .back-logo-fixed {
 
-                width: 58px !important;
-
-                height: 58px !important;
+                width: 75px !important;
+                height: 75px !important;
 
                 left: 28px !important;
+                top: 16px !important;
 
-                top: 50% !important;
-
-                transform: translateY(-50%) !important;
+                transform: none !important;
 
                 overflow: hidden !important;
 
             }
 
 
-            .back-logo img {
+            .back-logo-fixed img {
 
-                width: 49px !important;
+                width: 62px !important;
+                height: 62px !important;
 
-                height: 49px !important;
-
-                max-width: 49px !important;
-
-                max-height: 49px !important;
+                max-width: 62px !important;
+                max-height: 62px !important;
 
                 object-fit: contain !important;
 
@@ -2141,37 +1992,29 @@
             }
 
 
-            /*
-             * Congo recto
-             */
+            /* =================================================
+               CARTE DU CONGO
+            ================================================== */
 
             .congo-map {
 
                 right: 24px !important;
-
                 top: 50% !important;
 
                 width: 66px !important;
-
                 height: 82px !important;
 
                 transform: translateY(-50%) !important;
 
             }
 
-
-            /*
-             * Congo verso
-             */
 
             .back-congo-map {
 
                 right: 25px !important;
-
                 top: 50% !important;
 
                 width: 66px !important;
-
                 height: 82px !important;
 
                 transform: translateY(-50%) !important;
@@ -2179,9 +2022,9 @@
             }
 
 
-            /*
-             * QR
-             */
+            /* =================================================
+               QR CODE
+            ================================================== */
 
             .qr-box {
 
@@ -2195,7 +2038,6 @@
                 display: block !important;
 
                 width: 100% !important;
-
                 height: 100% !important;
 
             }
@@ -2234,7 +2076,6 @@
         </a>
 
 
-
         {{-- ENREGISTRER EN IMAGE --}}
 
         <button
@@ -2249,7 +2090,6 @@
             Enregistrer en image
 
         </button>
-
 
 
         {{-- IMPRIMER --}}
@@ -2268,7 +2108,6 @@
 
 
     </div>
-
 
 
     <div class="cards-container">
@@ -2291,57 +2130,35 @@
 
                 <div class="cultural-watermark">
 
-
                     <div class="watermark-icon wm-book">
-
                         <i class="bi bi-book-half"></i>
-
                     </div>
-
 
                     <div class="watermark-icon wm-feather">
-
                         <i class="bi bi-feather"></i>
-
                     </div>
-
 
                     <div class="watermark-icon wm-music">
-
                         <i class="bi bi-music-note-beamed"></i>
-
                     </div>
-
 
                     <div class="watermark-icon wm-theatre">
-
                         <i class="bi bi-mask"></i>
-
                     </div>
-
 
                     <div class="watermark-icon wm-palette">
-
                         <i class="bi bi-palette"></i>
-
                     </div>
-
 
                     <div class="watermark-icon wm-camera">
-
                         <i class="bi bi-camera"></i>
-
                     </div>
-
 
                     <div class="watermark-circle"></div>
 
-
                     <div class="watermark-lines"></div>
 
-
                 </div>
-
 
 
                 {{-- DÉCORATIONS --}}
@@ -2355,13 +2172,11 @@
                 <div class="zigzag zigzag-bottom"></div>
 
 
-
                 {{-- =================================================
                      HEADER RECTO
                 ================================================== --}}
 
                 <div class="card-top">
-
 
                     <div class="header-pattern"></div>
 
@@ -2369,7 +2184,6 @@
                     {{-- LOGO --}}
 
                     <div class="logo-box">
-
 
                         @if(file_exists(public_path('images/uneac-logo.png')))
 
@@ -2381,47 +2195,32 @@
                         @else
 
                             <div class="logo-placeholder">
-
                                 UNEAC
-
                             </div>
 
                         @endif
 
-
                     </div>
 
 
-
-                    {{-- TEXTE --}}
+                    {{-- TEXTE HEADER --}}
 
                     <div class="header-text">
 
-
                         <div class="header-country">
-
                             RÉPUBLIQUE DU CONGO
-
                         </div>
-
 
                         <div class="header-title">
-
                             UNION NATIONALE DES ÉCRIVAINS
                             ET ARTISTES CONGOLAIS
-
                         </div>
-
 
                         <div class="header-subtitle">
-
                             UNEAC
-
                         </div>
 
-
                     </div>
-
 
 
                     {{-- CARTE DU CONGO --}}
@@ -2430,27 +2229,20 @@
 
                         <div class="congo-map">
 
-
                             <img
                                 src="{{ asset('images/carte-congo.png') }}"
                                 alt="République du Congo"
                             >
 
-
                             <div class="congo-map-label">
-
                                 CONGO
-
                             </div>
-
 
                         </div>
 
                     @endif
 
-
                 </div>
-
 
 
                 {{-- =================================================
@@ -2481,29 +2273,23 @@
                     @endif
 
 
-
                     {{-- INFORMATIONS --}}
 
                     <div class="member-info">
 
 
                         <div class="card-label">
-
                             CARTE DE MEMBRE
-
                         </div>
 
 
                         <div class="member-name">
 
                             {{ $card->member->nom }}
-
                             {{ $card->member->postnom }}
-
                             {{ $card->member->prenom }}
 
                         </div>
-
 
 
                         <div class="info-grid">
@@ -2514,11 +2300,8 @@
                             <div>
 
                                 <div class="card-label">
-
                                     Profession
-
                                 </div>
-
 
                                 <div class="info-value">
 
@@ -2529,17 +2312,13 @@
                             </div>
 
 
-
                             {{-- CATÉGORIE --}}
 
                             <div>
 
                                 <div class="card-label">
-
                                     Catégorie
-
                                 </div>
-
 
                                 <div class="info-value">
 
@@ -2550,17 +2329,13 @@
                             </div>
 
 
-
                             {{-- FÉDÉRATION --}}
 
                             <div>
 
                                 <div class="card-label">
-
                                     Fédération
-
                                 </div>
-
 
                                 <div class="info-value">
 
@@ -2573,17 +2348,13 @@
                             </div>
 
 
-
                             {{-- NUMÉRO MEMBRE --}}
 
                             <div>
 
                                 <div class="card-label">
-
                                     Numéro membre
-
                                 </div>
-
 
                                 <div class="info-value">
 
@@ -2597,7 +2368,6 @@
                         </div>
 
 
-
                         {{-- NUMÉRO CARTE --}}
 
                         <div class="member-number">
@@ -2609,9 +2379,7 @@
 
                     </div>
 
-
                 </div>
-
 
 
                 {{-- =================================================
@@ -2620,36 +2388,23 @@
 
                 <div class="front-bottom">
 
-
                     <div class="front-bottom-text">
-
                         IDENTITÉ
-
                     </div>
-
 
                     <div class="front-bottom-dot"></div>
 
-
                     <div class="front-bottom-text">
-
                         CULTURE
-
                     </div>
-
 
                     <div class="front-bottom-dot"></div>
 
-
                     <div class="front-bottom-text">
-
                         ART
-
                     </div>
-
 
                 </div>
-
 
 
                 <div class="card-footer-line"></div>
@@ -2658,7 +2413,6 @@
             </div>
 
         </div>
-
 
 
         {{-- =================================================
@@ -2678,57 +2432,35 @@
 
                 <div class="cultural-watermark">
 
-
                     <div class="watermark-icon wm-book">
-
                         <i class="bi bi-book-half"></i>
-
                     </div>
-
 
                     <div class="watermark-icon wm-feather">
-
                         <i class="bi bi-feather"></i>
-
                     </div>
-
 
                     <div class="watermark-icon wm-music">
-
                         <i class="bi bi-music-note-beamed"></i>
-
                     </div>
-
 
                     <div class="watermark-icon wm-theatre">
-
                         <i class="bi bi-mask"></i>
-
                     </div>
-
 
                     <div class="watermark-icon wm-palette">
-
                         <i class="bi bi-palette"></i>
-
                     </div>
-
 
                     <div class="watermark-icon wm-camera">
-
                         <i class="bi bi-camera"></i>
-
                     </div>
-
 
                     <div class="watermark-circle"></div>
 
-
                     <div class="watermark-lines"></div>
 
-
                 </div>
-
 
 
                 {{-- DÉCORATIONS --}}
@@ -2742,41 +2474,17 @@
                 <div class="zigzag zigzag-bottom"></div>
 
 
-
                 {{-- =================================================
                      HEADER VERSO
                 ================================================== --}}
 
                 <div class="back-header">
 
-
                     <div class="back-header-decoration"></div>
 
 
                     {{-- LOGO --}}
 
-                    {{-- <div class="back-logo">
-
-
-                        @if(file_exists(public_path('images/uneac-logo.png')))
-
-                            <img
-                                src="{{ asset('images/uneac-logo.png') }}"
-                                alt="Logo UNEAC"
-                            >
-
-                        @else
-
-                            <span>
-
-                                UNEAC
-
-                            </span>
-
-                        @endif
-
-
-                    </div> --}}
                     <div class="logo-box back-logo-fixed">
 
                         @if(file_exists(public_path('images/uneac-logo.png')))
@@ -2797,49 +2505,31 @@
                     </div>
 
 
-
-                    {{-- CARTE DU CONGO VERSO --}}
+                    {{-- CARTE DU CONGO --}}
 
                     @if(file_exists(public_path('images/carte-congo.png')))
 
                         <div class="back-congo-map">
-
 
                             <img
                                 src="{{ asset('images/carte-congo.png') }}"
                                 alt="République du Congo"
                             >
 
-
                             <div class="back-congo-map-label">
-
                                 CONGO
-
                             </div>
-
 
                         </div>
 
                     @endif
 
 
-
-                    {{-- <h2>
-
-                        UNEAC ID
-
-                    </h2> --}}
-
-
                     <p>
-
                         CARTE PROFESSIONNELLE DE MEMBRE
-
                     </p>
 
-
                 </div>
-
 
 
                 {{-- =================================================
@@ -2879,7 +2569,6 @@
                         </p>
 
 
-
                         {{-- DATES --}}
 
                         <div class="dates">
@@ -2887,41 +2576,26 @@
 
                             <div class="date-box">
 
-
                                 <div class="date-label">
-
                                     Délivrée le
-
                                 </div>
-
 
                                 <div class="date-value">
-
                                     {{ $card->date_delivrance?->format('d/m/Y') }}
-
                                 </div>
-
 
                             </div>
 
 
-
                             <div class="date-box">
 
-
                                 <div class="date-label">
-
                                     Expire le
-
                                 </div>
-
 
                                 <div class="date-value">
-
                                     {{ $card->date_expiration?->format('d/m/Y') }}
-
                                 </div>
-
 
                             </div>
 
@@ -2932,13 +2606,11 @@
                     </div>
 
 
-
                     {{-- =================================================
                          QR CODE
                     ================================================== --}}
 
                     <div class="qr-section">
-
 
                         <div class="qr-box">
 
@@ -2955,17 +2627,13 @@
 
 
                         <div class="qr-label">
-
                             Scanner pour vérifier
-
                         </div>
-
 
                     </div>
 
 
                 </div>
-
 
 
                 {{-- =================================================
@@ -2975,9 +2643,7 @@
                 <div class="back-bottom-text">
 
                     <span>
-
                         UNION NATIONALE DES ÉCRIVAINS ET ARTISTES CONGOLAIS
-
                     </span>
 
                     &nbsp; • &nbsp;
@@ -2985,7 +2651,6 @@
                     CARTE OFFICIELLE
 
                 </div>
-
 
 
                 <div class="back-footer"></div>
@@ -2999,7 +2664,6 @@
     </div>
 
 </div>
-
 
 
 {{-- =============================================================
@@ -3049,10 +2713,6 @@ async function enregistrerCarteImage() {
     }
 
 
-    /* ---------------------------------------------------------
-       BOUTON
-    --------------------------------------------------------- */
-
     bouton.disabled = true;
 
     bouton.innerHTML =
@@ -3064,7 +2724,7 @@ async function enregistrerCarteImage() {
 
 
         /* -----------------------------------------------------
-           ATTENDRE LE CHARGEMENT DES IMAGES
+           ATTENDRE LES IMAGES
         ----------------------------------------------------- */
 
         await attendreImages(recto);
@@ -3148,10 +2808,6 @@ async function enregistrerCarteImage() {
         );
 
 
-        /* -----------------------------------------------------
-           PETITE PAUSE
-        ----------------------------------------------------- */
-
         await attendre(800);
 
 
@@ -3180,9 +2836,7 @@ async function enregistrerCarteImage() {
 
     } finally {
 
-
         bouton.disabled = false;
-
 
         bouton.innerHTML =
             '<i class="bi bi-image me-1"></i>' +
