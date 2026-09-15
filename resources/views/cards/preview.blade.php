@@ -13,9 +13,9 @@
     </title>
 
 
-    {{-- =====================================================
+    <!-- =========================================================
          BOOTSTRAP
-    ====================================================== --}}
+    ========================================================== -->
 
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -23,9 +23,9 @@
     >
 
 
-    {{-- =====================================================
+    <!-- =========================================================
          BOOTSTRAP ICONS
-    ====================================================== --}}
+    ========================================================== -->
 
     <link
         rel="stylesheet"
@@ -35,29 +35,28 @@
 
     <style>
 
-        /* =====================================================
+        /* =========================================================
            VARIABLES
-        ===================================================== */
+        ========================================================== */
 
         :root {
 
-            --uneac-green: #087f3f;
-            --uneac-green-dark: #045c2d;
-            --uneac-green-deep: #034b25;
+            --green-dark: #012c1c;
+            --green: #034f30;
+            --green-light: #086b40;
 
-            --uneac-green-light: #e8f3ed;
+            --gold: #c49a32;
+            --gold-light: #e6c85c;
+            --gold-dark: #94701f;
 
-            --uneac-gold: #b8943d;
-            --uneac-gold-light: #d8c27b;
+            --white: #ffffff;
 
-            --text-dark: #202522;
-            --text-muted: #687078;
         }
 
 
-        /* =====================================================
+        /* =========================================================
            RESET
-        ===================================================== */
+        ========================================================== */
 
         * {
             box-sizing: border-box;
@@ -66,43 +65,41 @@
 
         html,
         body {
-
             margin: 0;
             padding: 0;
-
         }
 
 
         body {
-
-            background: #eef1ef;
 
             font-family:
                 Arial,
                 Helvetica,
                 sans-serif;
 
-            color: var(--text-dark);
+            background: #edf0ed;
+
+            color: #222;
 
         }
 
 
-        /* =====================================================
+        /* =========================================================
            PAGE
-        ===================================================== */
+        ========================================================== */
 
         .page-container {
 
             min-height: 100vh;
 
-            padding: 40px 20px;
+            padding: 35px 20px;
 
         }
 
 
-        /* =====================================================
-           ACTIONS
-        ===================================================== */
+        /* =========================================================
+           BOUTONS
+        ========================================================== */
 
         .actions {
 
@@ -121,24 +118,41 @@
         }
 
 
-        /* =====================================================
-           CARTES
-        ===================================================== */
+        /* =========================================================
+           CONTAINER CARTES
+        ========================================================== */
 
         .cards-container {
 
             display: flex;
 
-            flex-wrap: wrap;
+            flex-direction: column;
 
-            justify-content: center;
+            align-items: center;
 
-            align-items: flex-start;
-
-            gap: 35px;
+            gap: 45px;
 
         }
 
+
+        /* =========================================================
+           WRAPPER IMPRESSION
+        ========================================================== */
+
+        .print-card-wrapper {
+
+            width: 850px;
+
+            height: 536px;
+
+            position: relative;
+
+        }
+
+
+        /* =========================================================
+           CARTE
+        ========================================================== */
 
         .uneac-card {
 
@@ -146,27 +160,31 @@
 
             height: 536px;
 
-            max-width: 100%;
-
             position: relative;
 
             overflow: hidden;
 
-            background: #ffffff;
+            border-radius: 22px;
 
-            border-radius: 16px;
+            background:
+                linear-gradient(
+                    135deg,
+                    #012d1d 0%,
+                    #034b2d 45%,
+                    #01351f 100%
+                );
 
-            border: 1px solid #cfd9d3;
+            border: 3px solid var(--gold);
 
             box-shadow:
-                0 18px 45px rgba(0, 0, 0, .14);
+                0 20px 45px rgba(0,0,0,.28);
 
         }
 
 
-        /* =====================================================
-           CONTOURS
-        ===================================================== */
+        /* =========================================================
+           CADRE INTERIEUR
+        ========================================================== */
 
         .uneac-card::before {
 
@@ -174,11 +192,12 @@
 
             position: absolute;
 
-            inset: 8px;
+            inset: 11px;
 
-            border: 1px solid rgba(8, 127, 63, .35);
+            border: 2px solid
+                rgba(222,190,82,.75);
 
-            border-radius: 10px;
+            border-radius: 15px;
 
             pointer-events: none;
 
@@ -193,11 +212,12 @@
 
             position: absolute;
 
-            inset: 12px;
+            inset: 17px;
 
-            border: 1px solid rgba(184, 148, 61, .25);
+            border: 1px solid
+                rgba(222,190,82,.30);
 
-            border-radius: 8px;
+            border-radius: 11px;
 
             pointer-events: none;
 
@@ -206,11 +226,50 @@
         }
 
 
-        /* =====================================================
-           FILIGRANE CULTUREL
-        ===================================================== */
+        /* =========================================================
+           TEXTURE DE FOND
+        ========================================================== */
 
-        .cultural-watermark {
+        .background-pattern {
+
+            position: absolute;
+
+            inset: 0;
+
+            opacity: .055;
+
+            background:
+
+                radial-gradient(
+                    circle at 20% 20%,
+                    #ffffff 0,
+                    transparent 2px
+                ),
+
+                radial-gradient(
+                    circle at 70% 70%,
+                    #ffffff 0,
+                    transparent 2px
+                );
+
+            background-size:
+                28px 28px,
+                35px 35px;
+
+            pointer-events: none;
+
+            z-index: 1;
+
+        }
+
+
+        /* =========================================================
+           =========================================================
+                  FILIGRANES ARTISTIQUES
+           =========================================================
+        ========================================================== */
+
+        .art-watermarks {
 
             position: absolute;
 
@@ -220,14 +279,16 @@
 
             pointer-events: none;
 
-            z-index: 1;
-
-            color: var(--uneac-green);
+            z-index: 4;
 
         }
 
 
-        .watermark-icon {
+        /* =========================================================
+           STYLE GENERAL DES FILIGRANES
+        ========================================================== */
+
+        .art-watermark {
 
             position: absolute;
 
@@ -237,100 +298,201 @@
 
             justify-content: center;
 
-            color: var(--uneac-green);
+            color: #e6c85c;
 
             opacity: .055;
 
-            filter: blur(.25px);
-
-        }
-
-
-        .watermark-icon i {
-
             line-height: 1;
 
+            filter: blur(.15px);
+
         }
 
 
-        .wm-book {
+        /* =========================================================
+           APPAREIL PHOTO
+        ========================================================== */
+
+        .wm-camera {
 
             right: 65px;
-            top: 145px;
-            font-size: 145px;
+
+            bottom: 95px;
+
+            font-size: 125px;
+
             transform: rotate(-8deg);
 
         }
 
 
+        /* =========================================================
+           CAMERA VIDEO
+        ========================================================== */
+
+        .wm-camera-video {
+
+            right: 245px;
+
+            bottom: 35px;
+
+            font-size: 95px;
+
+            transform: rotate(7deg);
+
+        }
+
+
+        /* =========================================================
+           LIVRE
+        ========================================================== */
+
+        .wm-book {
+
+            right: 375px;
+
+            bottom: 30px;
+
+            font-size: 105px;
+
+            transform: rotate(-6deg);
+
+        }
+
+
+        /* =========================================================
+           PLUME
+        ========================================================== */
+
         .wm-feather {
 
-            right: 205px;
-            bottom: 45px;
-            font-size: 125px;
+            right: 500px;
+
+            bottom: 75px;
+
+            font-size: 90px;
+
             transform: rotate(-25deg);
 
         }
 
 
-        .wm-music {
-
-            left: 250px;
-            bottom: 20px;
-            font-size: 115px;
-            transform: rotate(8deg);
-
-        }
-
-
-        .wm-theatre {
-
-            right: 350px;
-            bottom: 25px;
-            font-size: 105px;
-            transform: rotate(-5deg);
-
-        }
-
+        /* =========================================================
+           PALETTE
+        ========================================================== */
 
         .wm-palette {
 
-            left: 250px;
-            top: 135px;
-            font-size: 115px;
+            right: 175px;
+
+            bottom: 115px;
+
+            font-size: 100px;
+
             transform: rotate(12deg);
 
         }
 
 
-        .wm-camera {
+        /* =========================================================
+           MUSIQUE
+        ========================================================== */
 
-            right: 35px;
-            bottom: 40px;
-            font-size: 105px;
+        .wm-music {
+
+            right: 310px;
+
+            bottom: 125px;
+
+            font-size: 80px;
+
+            transform: rotate(10deg);
+
+        }
+
+
+        /* =========================================================
+           THEATRE
+        ========================================================== */
+
+        .wm-theatre {
+
+            right: 465px;
+
+            bottom: 20px;
+
+            font-size: 90px;
+
+            transform: rotate(-7deg);
+
+        }
+
+
+        /* =========================================================
+           CINEMA
+        ========================================================== */
+
+        .wm-film {
+
+            right: 30px;
+
+            bottom: 35px;
+
+            font-size: 90px;
+
             transform: rotate(5deg);
 
         }
 
 
-        .watermark-circle {
+        /* =========================================================
+           MICROPHONE
+        ========================================================== */
 
-            position: absolute;
+        .wm-mic {
 
-            width: 370px;
-            height: 370px;
+            right: 120px;
 
-            right: -180px;
-            top: 100px;
+            bottom: 175px;
 
-            border: 2px solid rgba(8,127,63,.055);
+            font-size: 70px;
 
-            border-radius: 50%;
+            transform: rotate(-8deg);
 
         }
 
 
-        .watermark-circle::before {
+        /* =========================================================
+           DECORATION CIRCULAIRE
+        ========================================================== */
+
+        .gold-decoration {
+
+            position: absolute;
+
+            right: -100px;
+
+            bottom: -110px;
+
+            width: 390px;
+
+            height: 250px;
+
+            border-radius: 50%;
+
+            border: 2px solid
+                rgba(213,180,70,.12);
+
+            transform: rotate(-15deg);
+
+            z-index: 2;
+
+            pointer-events: none;
+
+        }
+
+
+        .gold-decoration::before {
 
             content: "";
 
@@ -338,14 +500,15 @@
 
             inset: 25px;
 
-            border: 1px solid rgba(184,148,61,.055);
+            border: 1px solid
+                rgba(213,180,70,.10);
 
             border-radius: 50%;
 
         }
 
 
-        .watermark-circle::after {
+        .gold-decoration::after {
 
             content: "";
 
@@ -353,247 +516,52 @@
 
             inset: 55px;
 
-            border: 1px solid rgba(8,127,63,.045);
+            border: 1px solid
+                rgba(213,180,70,.08);
 
             border-radius: 50%;
 
         }
 
 
-        .watermark-lines {
-
-            position: absolute;
-
-            width: 330px;
-            height: 120px;
-
-            left: 190px;
-            bottom: 0;
-
-            opacity: .045;
-
-            transform: rotate(-8deg);
-
-            background:
-                repeating-linear-gradient(
-                    -45deg,
-                    var(--uneac-green) 0,
-                    var(--uneac-green) 2px,
-                    transparent 2px,
-                    transparent 18px
-                );
-
-        }
-
-
-        /* =====================================================
-           DÉCORATIONS
-        ===================================================== */
-
-        .shape {
-
-            position: absolute;
-
-            pointer-events: none;
-
-            z-index: 0;
-
-        }
-
-
-        .shape-green-corner {
-
-            width: 260px;
-            height: 150px;
-
-            right: -145px;
-            bottom: -95px;
-
-            background: var(--uneac-green-light);
-
-            transform: rotate(-18deg);
-
-            border-radius: 30px;
-
-            opacity: .85;
-
-        }
-
-
-        .shape-gold-corner {
-
-            width: 150px;
-            height: 150px;
-
-            left: -100px;
-            bottom: -95px;
-
-            border: 16px solid rgba(184,148,61,.08);
-
-            transform: rotate(45deg);
-
-        }
-
-
-        /* =====================================================
-           ZIGZAG
-        ===================================================== */
-
-        .zigzag {
-
-            position: absolute;
-
-            width: 230px;
-            height: 65px;
-
-            opacity: .09;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    transparent 0 18px,
-                    var(--uneac-green) 18px 20px,
-                    transparent 20px 38px
-                );
-
-            background-size: 40px 40px;
-
-            pointer-events: none;
-
-            z-index: 2;
-
-        }
-
-
-        .zigzag-top {
-
-            right: -5px;
-            top: 18px;
-
-            transform: rotate(-8deg);
-
-        }
-
-
-        .zigzag-bottom {
-
-            left: -5px;
-            bottom: 20px;
-
-            transform: rotate(172deg);
-
-        }
-
-
-        /* =====================================================
-           RECTO
-        ===================================================== */
-
-        .card-front {
-
-            background: #ffffff;
-
-        }
-
-
-        /* =====================================================
-           HEADER RECTO
-        ===================================================== */
-
-        .card-top {
-
-            height: 115px;
-
-            position: relative;
-
-            z-index: 10;
-
-            padding: 13px 30px;
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 20px;
-
-            background:
-                linear-gradient(
-                    110deg,
-                    var(--uneac-green-deep) 0%,
-                    var(--uneac-green-dark) 50%,
-                    var(--uneac-green) 100%
-                );
-
-            border-bottom: 4px solid var(--uneac-gold);
-
-            color: white;
-
-        }
-
-
-        .card-top .header-pattern {
-
-            position: absolute;
-
-            right: 0;
-            top: 0;
-
-            width: 310px;
-            height: 115px;
-
-            background:
-                repeating-linear-gradient(
-                    135deg,
-                    rgba(255,255,255,.035) 0,
-                    rgba(255,255,255,.035) 2px,
-                    transparent 2px,
-                    transparent 18px
-                );
-
-            pointer-events: none;
-
-        }
-
-
-        /* =====================================================
-           LOGO RECTO
-        ===================================================== */
+        /* =========================================================
+           LOGO
+        ========================================================== */
 
         .logo-box {
 
-            width: 75px;
-            height: 75px;
+            width: 92px;
 
-            flex-shrink: 0;
+            height: 92px;
+
+            border-radius: 50%;
+
+            background: #ffffff;
+
+            border: 4px solid var(--gold);
+
+            box-shadow:
+
+                0 0 0 2px #0d3f29,
+
+                0 5px 15px rgba(0,0,0,.35);
 
             display: flex;
 
             align-items: center;
+
             justify-content: center;
 
             overflow: hidden;
-
-            background: #ffffff;
-
-            border-radius: 50%;
-
-            border: 3px solid #ffffff;
-
-            box-shadow:
-                0 0 0 2px var(--uneac-gold),
-                0 4px 12px rgba(0,0,0,.18);
-
-            position: relative;
-
-            z-index: 15;
 
         }
 
 
         .logo-box img {
 
-            width: 62px;
-            height: 62px;
+            width: 78px;
+
+            height: 78px;
 
             object-fit: contain;
 
@@ -604,220 +572,207 @@
 
         .logo-placeholder {
 
-            color: var(--uneac-green);
+            font-size: 19px;
 
             font-weight: 900;
 
-            font-size: 18px;
+            color: var(--green);
 
         }
 
 
-        /* =====================================================
-           TEXTE HEADER
-        ===================================================== */
+        /* =========================================================
+           =========================================================
+                            RECTO
+           =========================================================
+        ========================================================== */
 
-        .header-text {
 
-            flex: 1;
+        .front-header {
 
             position: relative;
 
-            z-index: 15;
+            z-index: 10;
 
-            text-align: center;
-
-            padding-left: 15px;
-            padding-right: 85px;
-
-        }
-
-
-        .header-country {
-
-            font-size: 15px;
-
-            font-weight: 900;
-
-            letter-spacing: 1.8px;
-
-            color: #ffffff;
-
-            margin-bottom: 5px;
-
-        }
-
-
-        .header-title {
-
-            max-width: 610px;
-
-            margin: 0 auto;
-
-            font-size: 20px;
-
-            line-height: 1.15;
-
-            font-weight: 900;
-
-            text-transform: uppercase;
-
-            color: #ffffff;
-
-        }
-
-
-        .header-subtitle {
-
-            margin-top: 5px;
-
-            font-size: 13px;
-
-            font-weight: 900;
-
-            color: var(--uneac-gold-light);
-
-            letter-spacing: 2.5px;
-
-        }
-
-
-        /* =====================================================
-           CARTE DU CONGO
-        ===================================================== */
-
-        .congo-map {
-
-            position: absolute;
-
-            right: 24px;
-
-            top: 50%;
-
-            transform: translateY(-50%);
-
-            width: 66px;
-            height: 82px;
+            height: 150px;
 
             display: flex;
 
             align-items: center;
+
             justify-content: center;
 
-            z-index: 12;
+            text-align: center;
 
-            opacity: .92;
+            padding: 15px 145px 15px 110px;
+
+            border-bottom:
+                2px solid var(--gold);
 
         }
 
 
-        .congo-map img {
+        /* =========================================================
+           LOGO RECTO
+        ========================================================== */
+
+        .front-logo {
+
+            position: absolute;
+
+            right: 35px;
+
+            top: 27px;
+
+            z-index: 20;
+
+        }
+
+
+        /* =========================================================
+           PAYS
+        ========================================================== */
+
+        .country {
+
+            font-size: 18px;
+
+            font-weight: 900;
+
+            letter-spacing: 4px;
+
+            color: var(--gold-light);
+
+            margin-bottom: 8px;
+
+        }
+
+
+        /* =========================================================
+           ORGANISATION
+        ========================================================== */
+
+        .organization {
+
+            font-size: 26px;
+
+            line-height: 1.12;
+
+            font-weight: 900;
+
+            color: white;
+
+            text-transform: uppercase;
+
+            text-shadow:
+                0 2px 3px rgba(0,0,0,.35);
+
+        }
+
+
+        .organization .ampersand {
+
+            color: var(--gold-light);
+
+            font-size: 19px;
+
+        }
+
+
+        /* =========================================================
+           CONTENU RECTO
+        ========================================================== */
+
+        .front-main {
+
+            position: relative;
+
+            z-index: 10;
+
+            display: flex;
+
+            gap: 38px;
+
+            padding: 27px 35px;
+
+        }
+
+
+        /* =========================================================
+           PHOTO
+        ========================================================== */
+
+        .photo-container {
+
+            width: 230px;
+
+            height: 290px;
+
+            flex-shrink: 0;
+
+            padding: 6px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--gold-light),
+                    var(--gold),
+                    #8e6818
+                );
+
+            border-radius: 17px;
+
+            box-shadow:
+                0 7px 18px rgba(0,0,0,.35);
+
+        }
+
+
+        .member-photo {
 
             width: 100%;
+
             height: 100%;
 
-            object-fit: contain;
+            object-fit: cover;
 
-            filter:
-                brightness(0)
-                invert(1);
+            border-radius: 11px;
 
-            opacity: .22;
+            border: 2px solid white;
 
             display: block;
 
         }
 
 
-        .congo-map-label {
-
-            position: absolute;
-
-            bottom: -2px;
-
-            left: 50%;
-
-            transform: translateX(-50%);
-
-            font-size: 7px;
-
-            font-weight: 800;
-
-            letter-spacing: 1px;
-
-            color: rgba(255,255,255,.60);
-
-            white-space: nowrap;
-
-        }
-
-
-        /* =====================================================
-           CORPS RECTO
-        ===================================================== */
-
-        .front-body {
-
-            position: relative;
-
-            z-index: 10;
-
-            padding: 28px 32px 18px;
-
-            display: flex;
-
-            gap: 30px;
-
-        }
-
-
-        /* =====================================================
-           PHOTO
-        ===================================================== */
-
-        .member-photo,
         .photo-placeholder {
 
-            width: 190px;
-            height: 225px;
+            width: 100%;
 
-            flex-shrink: 0;
+            height: 100%;
 
-            object-fit: cover;
+            border-radius: 11px;
 
-            border-radius: 8px;
+            background: #f4f4f4;
 
-            border: 3px solid #ffffff;
-
-            outline: 2px solid var(--uneac-green);
-
-            box-shadow:
-                0 5px 15px rgba(0,0,0,.12);
-
-        }
-
-
-        .photo-placeholder {
+            color: var(--green);
 
             display: flex;
 
             align-items: center;
+
             justify-content: center;
 
-            background: var(--uneac-green-light);
-
-            color: var(--uneac-green);
-
-            font-size: 55px;
+            font-size: 75px;
 
         }
 
 
-        /* =====================================================
-           INFORMATIONS
-        ===================================================== */
+        /* =========================================================
+           DETAILS MEMBRE
+        ========================================================== */
 
-        .member-info {
+        .member-details {
 
             flex: 1;
 
@@ -826,119 +781,175 @@
         }
 
 
-        .card-label {
-
-            font-size: 14px;
-
-            font-weight: 900;
-
-            text-transform: uppercase;
-
-            letter-spacing: 1.2px;
-
-            color: var(--uneac-green);
-
-            margin-bottom: 6px;
-
-        }
-
+        /* =========================================================
+           NOM
+        ========================================================== */
 
         .member-name {
 
-            font-size: 32px;
+            font-size: 38px;
 
-            line-height: 1.08;
+            line-height: 1.05;
 
             font-weight: 900;
 
+            color: white;
+
             text-transform: uppercase;
 
-            color: #1d211f;
+            letter-spacing: 1px;
 
-            margin-bottom: 25px;
+            padding-bottom: 12px;
+
+            border-bottom:
+                2px solid var(--gold);
+
+            text-shadow:
+                0 3px 4px rgba(0,0,0,.35);
 
         }
 
 
-        .info-grid {
+        /* =========================================================
+           PROFESSION
+        ========================================================== */
 
-            display: grid;
+        .profession {
 
-            grid-template-columns: 1fr 1fr;
+            font-size: 28px;
 
-            gap: 18px 25px;
+            font-weight: 500;
+
+            color: var(--gold-light);
+
+            text-align: right;
+
+            margin-top: 8px;
+
+            margin-bottom: 22px;
+
+        }
+
+
+        /* =========================================================
+           LIGNES INFORMATIONS
+        ========================================================== */
+
+        .info-line {
+
+            min-height: 52px;
+
+            display: flex;
+
+            align-items: center;
+
+            border-top:
+                1px solid rgba(220,193,93,.35);
+
+            color: white;
+
+        }
+
+
+        .info-line:last-of-type {
+
+            border-bottom:
+                1px solid rgba(220,193,93,.35);
+
+        }
+
+
+        .info-label {
+
+            width: 190px;
+
+            font-size: 17px;
+
+            font-weight: 900;
+
+            color: white;
 
         }
 
 
         .info-value {
 
-            font-size: 20px;
+            flex: 1;
 
-            line-height: 1.15;
+            font-size: 20px;
 
             font-weight: 700;
 
-            color: #343936;
-
-            word-break: break-word;
+            color: white;
 
         }
 
 
-        /* =====================================================
-           NUMÉRO CARTE
-        ===================================================== */
+        /* =========================================================
+           NUMERO CARTE
+        ========================================================== */
 
-        .member-number {
+        .card-number {
 
             display: inline-flex;
 
             align-items: center;
 
-            margin-top: 25px;
+            gap: 9px;
 
-            padding: 11px 20px;
+            margin-top: 20px;
+
+            padding: 9px 20px;
 
             border-radius: 5px;
 
             background:
+
                 linear-gradient(
                     90deg,
-                    var(--uneac-green-dark),
-                    var(--uneac-green)
+                    #c49a32,
+                    #e1bf52,
+                    #b18725
                 );
 
-            color: white;
+            color: #132719;
 
-            font-size: 19px;
+            font-size: 18px;
 
             font-weight: 900;
 
-            letter-spacing: 1.3px;
+            letter-spacing: 1.5px;
 
             box-shadow:
-                0 4px 10px rgba(8,127,63,.22);
-
-            border-left: 4px solid var(--uneac-gold);
+                0 4px 12px rgba(0,0,0,.25);
 
         }
 
 
-        /* =====================================================
-           BAS RECTO
-        ===================================================== */
+        .card-number i {
 
-        .front-bottom {
+            color: #132719;
+
+        }
+
+
+        /* =========================================================
+           FOOTER RECTO
+        ========================================================== */
+
+        .front-footer {
 
             position: absolute;
 
-            left: 32px;
-            right: 32px;
+            left: 0;
+
+            right: 0;
 
             bottom: 18px;
 
-            height: 34px;
+            height: 55px;
+
+            z-index: 20;
 
             display: flex;
 
@@ -946,89 +957,40 @@
 
             justify-content: center;
 
-            border-top: 1px solid rgba(8,127,63,.18);
+            background:
 
-            border-bottom: 1px solid rgba(184,148,61,.20);
+                linear-gradient(
+                    90deg,
+                    #b98921,
+                    #e1c04e 50%,
+                    #a77a1d
+                );
 
-            z-index: 15;
+            color: #102318;
 
-            background: rgba(255,255,255,.35);
-
-        }
-
-
-        .front-bottom-text {
-
-            font-size: 11px;
+            font-size: 21px;
 
             font-weight: 900;
 
-            letter-spacing: 1.6px;
-
-            color: var(--uneac-green);
+            letter-spacing: 4px;
 
             text-transform: uppercase;
 
-        }
+            border-top:
+                2px solid #f0d879;
 
-
-        .front-bottom-dot {
-
-            width: 5px;
-            height: 5px;
-
-            margin: 0 10px;
-
-            border-radius: 50%;
-
-            background: var(--uneac-gold);
+            border-bottom:
+                2px solid #8b6518;
 
         }
 
 
-        /* =====================================================
-           FOOTER RECTO
-        ===================================================== */
+        /* =========================================================
+           =========================================================
+                            VERSO
+           =========================================================
+        ========================================================== */
 
-        .card-footer-line {
-
-            position: absolute;
-
-            left: 0;
-            right: 0;
-
-            bottom: 0;
-
-            height: 9px;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    var(--uneac-green-deep) 0%,
-                    var(--uneac-green) 72%,
-                    var(--uneac-gold) 72%,
-                    var(--uneac-gold) 100%
-                );
-
-            z-index: 20;
-
-        }
-
-
-        /* =====================================================
-           VERSO
-        ===================================================== */
-
-        .card-back {
-
-            background: #ffffff;
-
-        }
-
-
-        /* =====================================================
-           HEADER VERSO
-        ===================================================== */
 
         .back-header {
 
@@ -1036,13 +998,9 @@
 
             z-index: 10;
 
-            height: 108px;
-
-            padding: 10px 30px;
+            height: 125px;
 
             display: flex;
-
-            flex-direction: column;
 
             align-items: center;
 
@@ -1051,243 +1009,99 @@
             text-align: center;
 
             background:
+
                 linear-gradient(
                     110deg,
-                    var(--uneac-green-deep) 0%,
-                    var(--uneac-green-dark) 50%,
-                    var(--uneac-green) 100%
+                    #012c1c,
+                    #075b36,
+                    #012c1c
                 );
 
-            border-bottom: 4px solid var(--uneac-gold);
+            border-bottom:
+                3px solid var(--gold);
+
+        }
+
+
+        /* =========================================================
+           LOGO VERSO
+        ========================================================== */
+
+        .back-logo {
+
+            position: absolute;
+
+            left: 32px;
+
+            top: 18px;
+
+        }
+
+
+        /* =========================================================
+           TITRE VERSO
+        ========================================================== */
+
+        .back-title {
+
+            font-size: 29px;
 
             color: white;
-
-        }
-
-
-        .back-header::before {
-
-            content: "";
-
-            position: absolute;
-
-            right: -80px;
-            top: -90px;
-
-            width: 260px;
-            height: 180px;
-
-            background: rgba(255,255,255,.055);
-
-            transform: rotate(-20deg);
-
-            pointer-events: none;
-
-        }
-
-
-        /* =====================================================
-           LOGO VERSO
-        ===================================================== */
-
-        .back-logo-fixed {
-
-            position: absolute;
-
-            left: 28px;
-            top: 16px;
-
-            width: 75px;
-            height: 75px;
-
-            z-index: 15;
-
-        }
-
-
-        .back-logo-fixed img {
-
-            width: 62px;
-            height: 62px;
-
-            max-width: 62px;
-            max-height: 62px;
-
-            object-fit: contain;
-
-            display: block;
-
-        }
-
-
-        /* =====================================================
-           TITRE VERSO
-        ===================================================== */
-
-        .back-header h2 {
-
-            margin: 0;
-
-            color: #ffffff;
-
-            font-size: 28px;
-
-            font-weight: 900;
-
-            letter-spacing: 2.5px;
-
-            line-height: 1;
-
-            position: relative;
-
-            z-index: 15;
-
-        }
-
-
-        .back-header p {
-
-            margin: 7px 0 0;
-
-            font-size: 14px;
-
-            color: var(--uneac-gold-light);
 
             font-weight: 900;
 
             letter-spacing: 2px;
 
-            position: relative;
-
-            z-index: 15;
+            text-transform: uppercase;
 
         }
 
 
-        .back-header-decoration {
+        .back-subtitle {
 
-            position: absolute;
+            margin-top: 7px;
 
-            right: 0;
-            top: 0;
+            font-size: 14px;
 
-            width: 150px;
-            height: 100%;
-
-            opacity: .08;
-
-            background:
-                repeating-linear-gradient(
-                    135deg,
-                    #ffffff 0,
-                    #ffffff 2px,
-                    transparent 2px,
-                    transparent 16px
-                );
-
-            pointer-events: none;
-
-        }
-
-
-        /* =====================================================
-           CARTE DU CONGO VERSO
-        ===================================================== */
-
-        .back-congo-map {
-
-            position: absolute;
-
-            right: 25px;
-
-            top: 50%;
-
-            transform: translateY(-50%);
-
-            width: 66px;
-            height: 82px;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            z-index: 12;
-
-        }
-
-
-        .back-congo-map img {
-
-            width: 100%;
-            height: 100%;
-
-            object-fit: contain;
-
-            filter:
-                brightness(0)
-                invert(1);
-
-            opacity: .20;
-
-            display: block;
-
-        }
-
-
-        .back-congo-map-label {
-
-            position: absolute;
-
-            bottom: -2px;
-
-            left: 50%;
-
-            transform: translateX(-50%);
-
-            font-size: 7px;
+            color: var(--gold-light);
 
             font-weight: 800;
 
-            letter-spacing: 1px;
-
-            color: rgba(255,255,255,.60);
-
-            white-space: nowrap;
+            letter-spacing: 3px;
 
         }
 
 
-        /* =====================================================
-           CONTENU VERSO
-        ===================================================== */
+        /* =========================================================
+           CORPS VERSO
+        ========================================================== */
 
-        .back-content {
+        .back-main {
 
             position: relative;
 
             z-index: 10;
 
-            height: calc(100% - 117px);
-
-            padding: 24px 32px 45px;
-
             display: flex;
 
             align-items: center;
 
-            justify-content: space-between;
+            gap: 45px;
 
-            gap: 35px;
+            padding: 32px 45px;
 
         }
 
 
-        .security-text {
+        /* =========================================================
+           SECURITE
+        ========================================================== */
+
+        .security {
 
             flex: 1;
 
-            max-width: 570px;
+            color: white;
 
         }
 
@@ -1298,78 +1112,119 @@
 
             align-items: center;
 
-            gap: 8px;
+            gap: 10px;
 
-            margin-bottom: 17px;
+            color: var(--gold-light);
 
-            font-size: 21px;
+            font-size: 23px;
 
             font-weight: 900;
 
-            color: var(--uneac-green);
+            margin-bottom: 20px;
 
         }
 
 
         .security-title i {
 
-            font-size: 25px;
+            font-size: 29px;
 
         }
 
 
-        .security-text p {
+        .security-text {
 
-            margin-bottom: 13px;
+            font-size: 16px;
 
-            font-size: 15px;
+            line-height: 1.55;
 
-            line-height: 1.45;
+            color: rgba(255,255,255,.88);
 
-            color: #59615c;
+            margin-bottom: 14px;
 
         }
 
 
-        /* =====================================================
+        /* =========================================================
+           VERIFICATION
+        ========================================================== */
+
+        .verification-box {
+
+            margin-top: 20px;
+
+            padding: 13px 17px;
+
+            border-left:
+                4px solid var(--gold);
+
+            background:
+                rgba(255,255,255,.06);
+
+            color: white;
+
+            font-size: 14px;
+
+            line-height: 1.4;
+
+        }
+
+
+        .verification-box strong {
+
+            color: var(--gold-light);
+
+        }
+
+
+        /* =========================================================
            DATES
-        ===================================================== */
+        ========================================================== */
 
-        .dates {
-
+       .dates {
             display: flex;
 
-            gap: 15px;
+            gap: 5px;
 
-            margin-top: 18px;
+            margin-top: 10px;
 
+            position: relative;
+
+            z-index: 30;
+
+            transform: translateY(-8px);
         }
 
 
         .date-box {
 
-            min-width: 150px;
+            min-width: 145px;
 
             padding: 10px 14px;
 
-            border-left: 4px solid var(--uneac-green);
+            border:
+                1px solid
+                rgba(216,194,123,.45);
 
-            background: #f4f8f5;
+            background:
+                rgba(255,255,255,.05);
 
-            border-radius: 0 5px 5px 0;
+            border-radius: 5px;
 
         }
 
 
         .date-label {
 
-            font-size: 12px;
+            color: var(--gold-light);
+
+            font-size: 10px;
+
+            font-weight: 900;
 
             text-transform: uppercase;
 
-            letter-spacing: .8px;
-
-            color: #78817b;
+            letter-spacing: 1px;
 
         }
 
@@ -1378,22 +1233,22 @@
 
             margin-top: 4px;
 
+            color: white;
+
             font-size: 17px;
 
             font-weight: 900;
 
-            color: #252927;
-
         }
 
 
-        /* =====================================================
-           QR
-        ===================================================== */
+        /* =========================================================
+           QR CODE
+        ========================================================== */
 
-        .qr-section {
+        .qr-area {
 
-            width: 180px;
+            width: 205px;
 
             flex-shrink: 0;
 
@@ -1403,41 +1258,33 @@
 
             align-items: center;
 
-            justify-content: center;
-
         }
 
 
-        .qr-box {
+        .qr-container {
 
-            width: 145px;
-            height: 145px;
+            width: 175px;
 
-            padding: 9px;
+            height: 175px;
 
-            display: flex;
+            padding: 10px;
 
-            align-items: center;
-            justify-content: center;
+            background: white;
 
-            background: #ffffff;
+            border-radius: 8px;
 
-            border: 3px solid var(--uneac-green);
-
-            border-radius: 9px;
+            border: 4px solid var(--gold);
 
             box-shadow:
-                0 5px 15px rgba(0,0,0,.10);
-
-            overflow: hidden;
+                0 8px 20px rgba(0,0,0,.30);
 
         }
 
 
-        .qr-box img,
-        .qr-box svg {
+        .qr-container svg {
 
             width: 100%;
+
             height: 100%;
 
             display: block;
@@ -1447,352 +1294,72 @@
 
         .qr-label {
 
-            margin-top: 10px;
+            margin-top: 11px;
 
-            text-align: center;
+            color: var(--gold-light);
 
-            font-size: 13px;
+            font-size: 12px;
 
             font-weight: 900;
 
-            text-transform: uppercase;
-
-            letter-spacing: 1px;
-
-            color: var(--uneac-green);
-
-        }
-
-
-        /* =====================================================
-           TEXTE BAS VERSO
-        ===================================================== */
-
-        .back-bottom-text {
-
-            position: absolute;
-
-            left: 32px;
-            right: 32px;
-
-            bottom: 17px;
-
-            z-index: 15;
+            letter-spacing: 1.5px;
 
             text-align: center;
 
-            font-size: 11px;
-
-            font-weight: 800;
-
-            letter-spacing: 1.1px;
-
             text-transform: uppercase;
 
-            color: #7b847e;
-
         }
 
 
-        .back-bottom-text span {
-
-            color: var(--uneac-green);
-
-        }
-
-
-        /* =====================================================
+        /* =========================================================
            FOOTER VERSO
-        ===================================================== */
+        ========================================================== */
 
         .back-footer {
 
             position: absolute;
 
             left: 0;
+
             right: 0;
 
-            bottom: 0;
+            bottom: 18px;
+
+            height: 48px;
 
             z-index: 20;
 
-            height: 9px;
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
 
             background:
+
                 linear-gradient(
                     90deg,
-                    var(--uneac-gold) 0%,
-                    var(--uneac-gold) 25%,
-                    var(--uneac-green) 25%,
-                    var(--uneac-green-dark) 100%
+                    #b98921,
+                    #e1c04e 50%,
+                    #a77a1d
                 );
 
-        }
+            color: #102318;
 
+            font-size: 13px;
 
-        /* =====================================================
-           RESPONSIVE
-        ===================================================== */
+            font-weight: 900;
 
-        @media (max-width: 700px) {
+            letter-spacing: 2px;
 
-            .page-container {
-                padding: 20px 10px;
-            }
-
-
-            .actions {
-                margin-bottom: 20px;
-            }
-
-
-            .card-top {
-
-                height: 90px;
-
-                padding: 12px 18px;
-
-                gap: 12px;
-
-            }
-
-
-            .logo-box {
-
-                width: 60px;
-                height: 60px;
-
-            }
-
-
-            .logo-box img {
-
-                width: 50px;
-                height: 50px;
-
-            }
-
-
-            .header-text {
-
-                padding-left: 0;
-                padding-right: 50px;
-
-            }
-
-
-            .header-country {
-                font-size: 9px;
-                letter-spacing: 1px;
-            }
-
-
-            .header-title {
-                font-size: 12px;
-            }
-
-
-            .header-subtitle {
-                font-size: 8px;
-            }
-
-
-            .congo-map,
-            .back-congo-map {
-
-                right: 10px;
-
-                width: 42px;
-                height: 55px;
-
-            }
-
-
-            .congo-map-label,
-            .back-congo-map-label {
-                display: none;
-            }
-
-
-            .front-body {
-
-                padding: 18px;
-
-                gap: 15px;
-
-            }
-
-
-            .member-photo,
-            .photo-placeholder {
-
-                width: 120px;
-                height: 150px;
-
-            }
-
-
-            .member-name {
-
-                font-size: 18px;
-
-                margin-bottom: 12px;
-
-            }
-
-
-            .card-label {
-
-                font-size: 8px;
-
-            }
-
-
-            .info-grid {
-
-                grid-template-columns: 1fr;
-
-                gap: 8px;
-
-            }
-
-
-            .info-value {
-
-                font-size: 10px;
-
-            }
-
-
-            .member-number {
-
-                font-size: 10px;
-
-                padding: 6px 9px;
-
-                margin-top: 12px;
-
-            }
-
-
-            .front-bottom {
-
-                left: 18px;
-                right: 18px;
-
-            }
-
-
-            .front-bottom-text {
-
-                font-size: 6px;
-
-                letter-spacing: 1px;
-
-            }
-
-
-            .back-header {
-
-                height: 90px;
-
-            }
-
-
-            .back-logo-fixed {
-
-                width: 42px;
-                height: 42px;
-
-                left: 18px;
-                top: 12px;
-
-            }
-
-
-            .back-logo-fixed img {
-
-                width: 35px;
-                height: 35px;
-
-            }
-
-
-            .back-header h2 {
-                font-size: 19px;
-            }
-
-
-            .back-header p {
-                font-size: 8px;
-            }
-
-
-            .back-content {
-
-                padding: 18px 18px 40px;
-
-                gap: 15px;
-
-            }
-
-
-            .security-text p {
-
-                font-size: 9px;
-
-            }
-
-
-            .security-title {
-
-                font-size: 13px;
-
-            }
-
-
-            .qr-section {
-
-                width: 125px;
-
-            }
-
-
-            .qr-box {
-
-                width: 105px;
-                height: 105px;
-
-            }
-
-
-            .date-box {
-
-                min-width: 100px;
-
-            }
-
-
-            .back-bottom-text {
-
-                left: 18px;
-                right: 18px;
-
-                font-size: 6px;
-
-            }
-
-
-            .watermark-icon {
-                opacity: .04;
-            }
+            text-transform: uppercase;
 
         }
 
 
-        /* =====================================================
+        /* =========================================================
            IMPRESSION
-        ===================================================== */
+        ========================================================== */
 
         @media print {
 
@@ -1811,18 +1378,21 @@
                 width: 85.60mm;
 
                 margin: 0 !important;
+
                 padding: 0 !important;
 
-                background: #ffffff !important;
+                background: white !important;
 
             }
 
 
             body {
 
-                -webkit-print-color-adjust: exact !important;
+                -webkit-print-color-adjust:
+                    exact !important;
 
-                print-color-adjust: exact !important;
+                print-color-adjust:
+                    exact !important;
 
             }
 
@@ -1838,10 +1408,11 @@
 
                 width: 85.60mm;
 
-                min-height: 0;
-
                 padding: 0 !important;
+
                 margin: 0 !important;
+
+                min-height: 0;
 
             }
 
@@ -1852,8 +1423,9 @@
 
                 width: 85.60mm;
 
-                margin: 0;
                 padding: 0;
+
+                margin: 0;
 
             }
 
@@ -1864,12 +1436,7 @@
 
                 height: 53.98mm;
 
-                position: relative;
-
                 overflow: hidden;
-
-                margin: 0;
-                padding: 0;
 
                 page-break-inside: avoid;
 
@@ -1878,27 +1445,29 @@
             }
 
 
-            /*
-             * Réduction proportionnelle de toute la carte.
-             */
+            .recto-wrapper {
 
-            .print-card-wrapper .uneac-card {
+                page-break-after: always;
+
+                break-after: page;
+
+            }
+
+
+            .verso-wrapper {
+
+                page-break-after: auto;
+
+            }
+
+
+            .uneac-card {
 
                 width: 850px !important;
 
                 height: 536px !important;
 
                 max-width: none !important;
-
-                aspect-ratio: auto !important;
-
-                position: absolute !important;
-
-                left: 0 !important;
-
-                top: 0 !important;
-
-                margin: 0 !important;
 
                 border-radius: 0 !important;
 
@@ -1912,137 +1481,26 @@
 
             }
 
-
-            .print-card-wrapper.recto-wrapper {
-
-                page-break-after: always;
-
-                break-after: page;
-
-            }
+        }
 
 
-            .print-card-wrapper.verso-wrapper {
+        /* =========================================================
+           MOBILE
+        ========================================================== */
 
-                page-break-after: auto;
+        @media screen and (max-width: 900px) {
 
-                break-after: auto;
+            .cards-container {
 
-            }
+                overflow-x: auto;
 
-
-            /* =================================================
-               LOGO IMPRESSION
-            ================================================== */
-
-            .logo-box {
-
-                width: 75px !important;
-                height: 75px !important;
-
-                overflow: hidden !important;
-
-                flex-shrink: 0 !important;
-
-            }
-
-
-            .logo-box img {
-
-                width: 62px !important;
-                height: 62px !important;
-
-                max-width: 62px !important;
-                max-height: 62px !important;
-
-                object-fit: contain !important;
-
-                display: block !important;
-
-            }
-
-
-            .back-logo-fixed {
-
-                width: 75px !important;
-                height: 75px !important;
-
-                left: 28px !important;
-                top: 16px !important;
-
-                transform: none !important;
-
-                overflow: hidden !important;
-
-            }
-
-
-            .back-logo-fixed img {
-
-                width: 62px !important;
-                height: 62px !important;
-
-                max-width: 62px !important;
-                max-height: 62px !important;
-
-                object-fit: contain !important;
-
-                display: block !important;
-
-            }
-
-
-            /* =================================================
-               CARTE DU CONGO
-            ================================================== */
-
-            .congo-map {
-
-                right: 24px !important;
-                top: 50% !important;
-
-                width: 66px !important;
-                height: 82px !important;
-
-                transform: translateY(-50%) !important;
-
-            }
-
-
-            .back-congo-map {
-
-                right: 25px !important;
-                top: 50% !important;
-
-                width: 66px !important;
-                height: 82px !important;
-
-                transform: translateY(-50%) !important;
-
-            }
-
-
-            /* =================================================
-               QR CODE
-            ================================================== */
-
-            .qr-box {
-
-                overflow: hidden !important;
-
-            }
-
-
-            .qr-box svg {
-
-                display: block !important;
-
-                width: 100% !important;
-                height: 100% !important;
+                align-items: flex-start;
 
             }
 
         }
+
+
 
     </style>
 
@@ -2055,14 +1513,12 @@
 <div class="page-container">
 
 
-    {{-- =====================================================
+    <!-- =========================================================
          BOUTONS
-    ====================================================== --}}
+    ========================================================== -->
 
     <div class="actions no-print">
 
-
-        {{-- RETOUR --}}
 
         <a
             href="{{ route('cards.index') }}"
@@ -2071,12 +1527,10 @@
 
             <i class="bi bi-arrow-left me-1"></i>
 
-            Retour aux cartes
+            Retour
 
         </a>
 
-
-        {{-- ENREGISTRER EN IMAGE --}}
 
         <button
             type="button"
@@ -2092,8 +1546,6 @@
         </button>
 
 
-        {{-- IMPRIMER --}}
-
         <button
             type="button"
             class="btn btn-success"
@@ -2102,100 +1554,234 @@
 
             <i class="bi bi-printer me-1"></i>
 
-            Imprimer la carte
+            Imprimer
 
         </button>
-
 
     </div>
 
 
+
+    <!-- =========================================================
+         CARTES
+    ========================================================== -->
+
     <div class="cards-container">
 
 
-        {{-- =================================================
+        <!-- =====================================================
              RECTO
-        ================================================== --}}
+        ====================================================== -->
 
         <div class="print-card-wrapper recto-wrapper">
 
 
             <div
-                class="uneac-card card-front"
+                class="uneac-card"
                 id="carte-recto"
             >
 
 
-                {{-- FILIGRANE --}}
+                <!-- =================================================
+                     TEXTURE
+                ================================================== -->
 
-                <div class="cultural-watermark">
+                <div class="background-pattern"></div>
 
-                    <div class="watermark-icon wm-book">
-                        <i class="bi bi-book-half"></i>
-                    </div>
 
-                    <div class="watermark-icon wm-feather">
-                        <i class="bi bi-feather"></i>
-                    </div>
+                <!-- =================================================
+                     FILIGRANES ARTISTIQUES
+                ================================================== -->
 
-                    <div class="watermark-icon wm-music">
-                        <i class="bi bi-music-note-beamed"></i>
-                    </div>
+                <div class="art-watermarks">
 
-                    <div class="watermark-icon wm-theatre">
-                        <i class="bi bi-mask"></i>
-                    </div>
 
-                    <div class="watermark-icon wm-palette">
-                        <i class="bi bi-palette"></i>
-                    </div>
+                    <!-- Appareil photo -->
 
-                    <div class="watermark-icon wm-camera">
+                    <div class="art-watermark wm-camera">
+
                         <i class="bi bi-camera"></i>
+
                     </div>
 
-                    <div class="watermark-circle"></div>
 
-                    <div class="watermark-lines"></div>
+                    <!-- Caméra -->
+
+                    <div class="art-watermark wm-camera-video">
+
+                        <i class="bi bi-camera-reels"></i>
+
+                    </div>
+
+
+                    <!-- Livre -->
+
+                    <div class="art-watermark wm-book">
+
+                        <i class="bi bi-book-half"></i>
+
+                    </div>
+
+
+                    <!-- Plume -->
+
+                    <div class="art-watermark wm-feather">
+
+                        <i class="bi bi-feather"></i>
+
+                    </div>
+
+
+                    <!-- Palette -->
+
+                    <div class="art-watermark wm-palette">
+
+                        <i class="bi bi-palette"></i>
+
+                    </div>
+
+
+                    <!-- Musique -->
+
+                    <div class="art-watermark wm-music">
+
+                        <i class="bi bi-music-note-beamed"></i>
+
+                    </div>
+
+
+                    <!-- Théâtre -->
+
+                    <div class="art-watermark wm-theatre">
+
+                        <i class="bi bi-mask"></i>
+
+                    </div>
+
+
+                    <!-- Cinéma -->
+
+                    <div class="art-watermark wm-film">
+
+                        <i class="bi bi-film"></i>
+
+                    </div>
+
+
+                    <!-- Microphone -->
+
+                    <div class="art-watermark wm-mic">
+
+                        <i class="bi bi-mic"></i>
+
+                    </div>
+
 
                 </div>
 
 
-                {{-- DÉCORATIONS --}}
 
-                <div class="shape shape-green-corner"></div>
+                <!-- =================================================
+                     DECORATION
+                ================================================== -->
 
-                <div class="shape shape-gold-corner"></div>
-
-                <div class="zigzag zigzag-top"></div>
-
-                <div class="zigzag zigzag-bottom"></div>
+                <div class="gold-decoration"></div>
 
 
-                {{-- =================================================
-                     HEADER RECTO
-                ================================================== --}}
 
-                <div class="card-top">
+                <!-- =================================================
+                     HEADER
+                ================================================== -->
 
-                    <div class="header-pattern"></div>
+                <div class="front-header">
 
 
-                    {{-- LOGO --}}
+                    <!-- LOGO -->
 
-                    <div class="logo-box">
+                    <div class="front-logo">
 
-                        @if(file_exists(public_path('images/uneac-logo.png')))
+                        <div class="logo-box">
+
+                            @if(file_exists(public_path('images/uneac-logo.png')))
+
+                                <img
+                                    src="{{ asset('images/uneac-logo.png') }}"
+                                    alt="Logo UNEAC"
+                                >
+
+                            @else
+
+                                <div class="logo-placeholder">
+
+                                    UNEAC
+
+                                </div>
+
+                            @endif
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- TITRES -->
+
+                    <div>
+
+                        <div class="country">
+
+                            RÉPUBLIQUE DU CONGO
+
+                        </div>
+
+
+                        <div class="organization">
+
+                            UNION NATIONALE DES ÉCRIVAINS
+
+                            <br>
+
+                            <span class="ampersand">
+                                &
+                            </span>
+
+                            ARTISTES CONGOLAIS
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =================================================
+                     CONTENU RECTO
+                ================================================== -->
+
+                <div class="front-main">
+
+
+                    <!-- PHOTO -->
+
+                    <div class="photo-container">
+
+                        @if($card->member->photo)
 
                             <img
-                                src="{{ asset('images/uneac-logo.png') }}"
-                                alt="Logo UNEAC"
+                                src="{{ asset('storage/' . $card->member->photo) }}"
+                                alt="Photo du membre"
+                                class="member-photo"
                             >
 
                         @else
 
-                            <div class="logo-placeholder">
-                                UNEAC
+                            <div class="photo-placeholder">
+
+                                <i class="bi bi-person-fill"></i>
+
                             </div>
 
                         @endif
@@ -2203,85 +1789,13 @@
                     </div>
 
 
-                    {{-- TEXTE HEADER --}}
 
-                    <div class="header-text">
+                    <!-- INFORMATIONS -->
 
-                        <div class="header-country">
-                            RÉPUBLIQUE DU CONGO
-                        </div>
-
-                        <div class="header-title">
-                            UNION NATIONALE DES ÉCRIVAINS
-                            ET ARTISTES CONGOLAIS
-                        </div>
-
-                        <div class="header-subtitle">
-                            UNEAC
-                        </div>
-
-                    </div>
+                    <div class="member-details">
 
 
-                    {{-- CARTE DU CONGO --}}
-
-                    @if(file_exists(public_path('images/carte-congo.png')))
-
-                        <div class="congo-map">
-
-                            <img
-                                src="{{ asset('images/carte-congo.png') }}"
-                                alt="République du Congo"
-                            >
-
-                            <div class="congo-map-label">
-                                CONGO
-                            </div>
-
-                        </div>
-
-                    @endif
-
-                </div>
-
-
-                {{-- =================================================
-                     CORPS RECTO
-                ================================================== --}}
-
-                <div class="front-body">
-
-
-                    {{-- PHOTO --}}
-
-                    @if($card->member->photo)
-
-                        <img
-                            src="{{ asset('storage/' . $card->member->photo) }}"
-                            alt="Photo du membre"
-                            class="member-photo"
-                        >
-
-                    @else
-
-                        <div class="photo-placeholder">
-
-                            <i class="bi bi-person-fill"></i>
-
-                        </div>
-
-                    @endif
-
-
-                    {{-- INFORMATIONS --}}
-
-                    <div class="member-info">
-
-
-                        <div class="card-label">
-                            CARTE DE MEMBRE
-                        </div>
-
+                        <!-- NOM -->
 
                         <div class="member-name">
 
@@ -2292,85 +1806,85 @@
                         </div>
 
 
-                        <div class="info-grid">
 
+                        <!-- PROFESSION -->
 
-                            {{-- PROFESSION --}}
+                        <div class="profession">
 
-                            <div>
-
-                                <div class="card-label">
-                                    Profession
-                                </div>
-
-                                <div class="info-value">
-
-                                    {{ $card->member->profession_artistique ?: 'Non renseignée' }}
-
-                                </div>
-
-                            </div>
-
-
-                            {{-- CATÉGORIE --}}
-
-                            <div>
-
-                                <div class="card-label">
-                                    Catégorie
-                                </div>
-
-                                <div class="info-value">
-
-                                    {{ $card->member->category?->nom ?: 'Non renseignée' }}
-
-                                </div>
-
-                            </div>
-
-
-                            {{-- FÉDÉRATION --}}
-
-                            <div>
-
-                                <div class="card-label">
-                                    Fédération
-                                </div>
-
-                                <div class="info-value">
-
-                                    {{ $card->member->federation?->sigle
-                                        ?: $card->member->federation?->nom
-                                        ?: 'Non renseignée' }}
-
-                                </div>
-
-                            </div>
-
-
-                            {{-- NUMÉRO MEMBRE --}}
-
-                            <div>
-
-                                <div class="card-label">
-                                    Numéro membre
-                                </div>
-
-                                <div class="info-value">
-
-                                    {{ $card->member->numero_membre }}
-
-                                </div>
-
-                            </div>
-
+                            {{ $card->member->profession_artistique ?: 'Profession non renseignée' }}
 
                         </div>
 
 
-                        {{-- NUMÉRO CARTE --}}
 
-                        <div class="member-number">
+                        <!-- FÉDÉRATION -->
+
+                        <div class="info-line">
+
+                            <div class="info-label">
+
+                                Fédération
+
+                            </div>
+
+                            <div class="info-value">
+
+                                {{ $card->member->federation?->sigle
+                                    ?: $card->member->federation?->nom
+                                    ?: 'Non renseignée' }}
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- CATÉGORIE -->
+
+                        <div class="info-line">
+
+                            <div class="info-label">
+
+                                Catégorie
+
+                            </div>
+
+                            <div class="info-value">
+
+                                {{ $card->member->category?->nom
+                                    ?: 'Non renseignée' }}
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- NUMÉRO MEMBRE -->
+
+                        <div class="info-line">
+
+                            <div class="info-label">
+
+                                Numéro membre
+
+                            </div>
+
+                            <div class="info-value">
+
+                                {{ $card->member->numero_membre }}
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- NUMÉRO CARTE -->
+
+                        <div class="card-number">
+
+                            <i class="bi bi-person-vcard-fill"></i>
 
                             {{ $card->numero_carte }}
 
@@ -2379,35 +1893,20 @@
 
                     </div>
 
-                </div>
-
-
-                {{-- =================================================
-                     BAS RECTO
-                ================================================== --}}
-
-                <div class="front-bottom">
-
-                    <div class="front-bottom-text">
-                        IDENTITÉ
-                    </div>
-
-                    <div class="front-bottom-dot"></div>
-
-                    <div class="front-bottom-text">
-                        CULTURE
-                    </div>
-
-                    <div class="front-bottom-dot"></div>
-
-                    <div class="front-bottom-text">
-                        ART
-                    </div>
 
                 </div>
 
 
-                <div class="card-footer-line"></div>
+
+                <!-- =================================================
+                     FOOTER RECTO
+                ================================================== -->
+
+                <div class="front-footer">
+
+                    CARTE PROFESSIONNELLE
+
+                </div>
 
 
             </div>
@@ -2415,161 +1914,231 @@
         </div>
 
 
-        {{-- =================================================
+
+        <!-- =====================================================
              VERSO
-        ================================================== --}}
+        ====================================================== -->
 
         <div class="print-card-wrapper verso-wrapper">
 
 
             <div
-                class="uneac-card card-back"
+                class="uneac-card"
                 id="carte-verso"
             >
 
 
-                {{-- FILIGRANE --}}
+                <!-- =================================================
+                     TEXTURE
+                ================================================== -->
 
-                <div class="cultural-watermark">
+                <div class="background-pattern"></div>
 
-                    <div class="watermark-icon wm-book">
-                        <i class="bi bi-book-half"></i>
-                    </div>
 
-                    <div class="watermark-icon wm-feather">
-                        <i class="bi bi-feather"></i>
-                    </div>
 
-                    <div class="watermark-icon wm-music">
-                        <i class="bi bi-music-note-beamed"></i>
-                    </div>
+                <!-- =================================================
+                     FILIGRANES ARTISTIQUES
+                ================================================== -->
 
-                    <div class="watermark-icon wm-theatre">
-                        <i class="bi bi-mask"></i>
-                    </div>
+                <div class="art-watermarks">
 
-                    <div class="watermark-icon wm-palette">
-                        <i class="bi bi-palette"></i>
-                    </div>
 
-                    <div class="watermark-icon wm-camera">
+                    <div class="art-watermark wm-camera">
+
                         <i class="bi bi-camera"></i>
+
                     </div>
 
-                    <div class="watermark-circle"></div>
 
-                    <div class="watermark-lines"></div>
+                    <div class="art-watermark wm-camera-video">
+
+                        <i class="bi bi-camera-reels"></i>
+
+                    </div>
+
+
+                    <div class="art-watermark wm-book">
+
+                        <i class="bi bi-book-half"></i>
+
+                    </div>
+
+
+                    <div class="art-watermark wm-feather">
+
+                        <i class="bi bi-feather"></i>
+
+                    </div>
+
+
+                    <div class="art-watermark wm-palette">
+
+                        <i class="bi bi-palette"></i>
+
+                    </div>
+
+
+                    <div class="art-watermark wm-music">
+
+                        <i class="bi bi-music-note-beamed"></i>
+
+                    </div>
+
+
+                    <div class="art-watermark wm-theatre">
+
+                        <i class="bi bi-mask"></i>
+
+                    </div>
+
+
+                    <div class="art-watermark wm-film">
+
+                        <i class="bi bi-film"></i>
+
+                    </div>
+
+
+                    <div class="art-watermark wm-mic">
+
+                        <i class="bi bi-mic"></i>
+
+                    </div>
+
 
                 </div>
 
 
-                {{-- DÉCORATIONS --}}
 
-                <div class="shape shape-green-corner"></div>
+                <!-- =================================================
+                     DECORATION
+                ================================================== -->
 
-                <div class="shape shape-gold-corner"></div>
-
-                <div class="zigzag zigzag-top"></div>
-
-                <div class="zigzag zigzag-bottom"></div>
+                <div class="gold-decoration"></div>
 
 
-                {{-- =================================================
+
+                <!-- =================================================
                      HEADER VERSO
-                ================================================== --}}
+                ================================================== -->
 
                 <div class="back-header">
 
-                    <div class="back-header-decoration"></div>
 
+                    <!-- LOGO -->
 
-                    {{-- LOGO --}}
+                    <div class="back-logo">
 
-                    <div class="logo-box back-logo-fixed">
+                        <div class="logo-box">
 
-                        @if(file_exists(public_path('images/uneac-logo.png')))
+                            @if(file_exists(public_path('images/uneac-logo.png')))
 
-                            <img
-                                src="{{ asset('images/uneac-logo.png') }}"
-                                alt="Logo UNEAC"
-                            >
+                                <img
+                                    src="{{ asset('images/uneac-logo.png') }}"
+                                    alt="Logo UNEAC"
+                                >
 
-                        @else
+                            @else
 
-                            <div class="logo-placeholder">
-                                UNEAC
-                            </div>
+                                <div class="logo-placeholder">
 
-                        @endif
+                                    UNEAC
+
+                                </div>
+
+                            @endif
+
+                        </div>
 
                     </div>
 
 
-                    {{-- CARTE DU CONGO --}}
 
-                    @if(file_exists(public_path('images/carte-congo.png')))
+                    <!-- TITRE -->
 
-                        <div class="back-congo-map">
+                    <div>
 
-                            <img
-                                src="{{ asset('images/carte-congo.png') }}"
-                                alt="République du Congo"
-                            >
+                        <div class="back-title">
 
-                            <div class="back-congo-map-label">
-                                CONGO
-                            </div>
+                            CARTE PROFESSIONNELLE
 
                         </div>
 
-                    @endif
 
+                        <div class="back-subtitle">
 
-                    <p>
-                        CARTE PROFESSIONNELLE DE MEMBRE
-                    </p>
+                            IDENTITÉ • CULTURE • ART
+
+                        </div>
+
+                    </div>
+
 
                 </div>
 
 
-                {{-- =================================================
+
+                <!-- =================================================
                      CONTENU VERSO
-                ================================================== --}}
+                ================================================== -->
 
-                <div class="back-content">
+                <div class="back-main">
 
 
-                    <div class="security-text">
+                    <!-- =================================================
+                         TEXTE
+                    ================================================== -->
+
+                    <div class="security">
 
 
                         <div class="security-title">
 
                             <i class="bi bi-shield-check"></i>
 
-                            Carte officielle de membre
+                            VÉRIFICATION DE LA CARTE
 
                         </div>
 
 
-                        <p>
 
-                            Cette carte est personnelle et permet
-                            d'identifier son titulaire en qualité de
-                            membre de l'UNEAC.
+                        <div class="security-text">
 
-                        </p>
+                            Cette carte est personnelle et
+                            appartient exclusivement à son
+                            titulaire.
 
-
-                        <p>
-
-                            Toute personne peut vérifier
-                            l'authenticité et le statut de cette carte
-                            en scannant le QR Code.
-
-                        </p>
+                        </div>
 
 
-                        {{-- DATES --}}
+                        <div class="security-text">
+
+                            Elle permet d'identifier son titulaire
+                            en qualité de membre de l'Union
+                            Nationale des Écrivains et Artistes
+                            Congolais.
+
+                        </div>
+
+
+
+                        <!-- VERIFICATION -->
+
+                        <div class="verification-box">
+
+                            <strong>
+                                Authentification :
+                            </strong>
+
+                            Scannez le QR Code afin de vérifier
+                            l'identité du membre, le numéro de
+                            carte et la validité de cette carte.
+
+                        </div>
+
+
+
+                        <!-- DATES -->
 
                         <div class="dates">
 
@@ -2577,24 +2146,33 @@
                             <div class="date-box">
 
                                 <div class="date-label">
+
                                     Délivrée le
+
                                 </div>
 
                                 <div class="date-value">
+
                                     {{ $card->date_delivrance?->format('d/m/Y') }}
+
                                 </div>
 
                             </div>
 
 
+
                             <div class="date-box">
 
                                 <div class="date-label">
+
                                     Expire le
+
                                 </div>
 
                                 <div class="date-value">
+
                                     {{ $card->date_expiration?->format('d/m/Y') }}
+
                                 </div>
 
                             </div>
@@ -2606,15 +2184,17 @@
                     </div>
 
 
-                    {{-- =================================================
+
+                    <!-- =================================================
                          QR CODE
-                    ================================================== --}}
+                    ================================================== -->
 
-                    <div class="qr-section">
+                    <div class="qr-area">
 
-                        <div class="qr-box">
 
-                            {!! QrCode::size(130)
+                        <div class="qr-container">
+
+                            {!! QrCode::size(150)
                                 ->generate(
                                     route(
                                         'verification.show',
@@ -2627,8 +2207,11 @@
 
 
                         <div class="qr-label">
+
                             Scanner pour vérifier
+
                         </div>
+
 
                     </div>
 
@@ -2636,24 +2219,17 @@
                 </div>
 
 
-                {{-- =================================================
-                     BAS VERSO
-                ================================================== --}}
 
-                <div class="back-bottom-text">
+                <!-- =================================================
+                     FOOTER VERSO
+                ================================================== -->
 
-                    <span>
-                        UNION NATIONALE DES ÉCRIVAINS ET ARTISTES CONGOLAIS
-                    </span>
+                <div class="back-footer">
 
-                    &nbsp; • &nbsp;
-
-                    CARTE OFFICIELLE
+                    UNION NATIONALE DES ÉCRIVAINS
+                    ET ARTISTES CONGOLAIS
 
                 </div>
-
-
-                <div class="back-footer"></div>
 
 
             </div>
@@ -2666,26 +2242,33 @@
 </div>
 
 
-{{-- =============================================================
-     HTML2CANVAS
-============================================================= --}}
 
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<!-- =============================================================
+     HTML2CANVAS
+============================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js">
+</script>
 
 
 <script>
 
+
 /* =============================================================
-   ENREGISTRER LE RECTO ET LE VERSO EN PNG
+   ENREGISTRER RECTO + VERSO
 ============================================================= */
 
 async function enregistrerCarteImage() {
 
+
     const recto =
         document.getElementById('carte-recto');
 
+
     const verso =
         document.getElementById('carte-verso');
+
 
     const bouton =
         document.getElementById('btnEnregistrerImage');
@@ -2705,7 +2288,7 @@ async function enregistrerCarteImage() {
     if (typeof html2canvas === 'undefined') {
 
         alert(
-            'La bibliothèque de génération d’image n’est pas disponible.'
+            'La bibliothèque html2canvas n’est pas disponible.'
         );
 
         return;
@@ -2715,26 +2298,29 @@ async function enregistrerCarteImage() {
 
     bouton.disabled = true;
 
+
     bouton.innerHTML =
         '<span class="spinner-border spinner-border-sm me-1"></span>' +
         'Génération...';
 
 
+
     try {
 
 
-        /* -----------------------------------------------------
+        /* =====================================================
            ATTENDRE LES IMAGES
-        ----------------------------------------------------- */
+        ====================================================== */
 
         await attendreImages(recto);
 
         await attendreImages(verso);
 
 
-        /* -----------------------------------------------------
+
+        /* =====================================================
            RECTO
-        ----------------------------------------------------- */
+        ====================================================== */
 
         const canvasRecto =
             await html2canvas(
@@ -2747,7 +2333,7 @@ async function enregistrerCarteImage() {
 
                     allowTaint: false,
 
-                    backgroundColor: '#ffffff',
+                    backgroundColor: null,
 
                     logging: false,
 
@@ -2765,9 +2351,10 @@ async function enregistrerCarteImage() {
             );
 
 
-        /* -----------------------------------------------------
+
+        /* =====================================================
            VERSO
-        ----------------------------------------------------- */
+        ====================================================== */
 
         const canvasVerso =
             await html2canvas(
@@ -2780,7 +2367,7 @@ async function enregistrerCarteImage() {
 
                     allowTaint: false,
 
-                    backgroundColor: '#ffffff',
+                    backgroundColor: null,
 
                     logging: false,
 
@@ -2798,30 +2385,33 @@ async function enregistrerCarteImage() {
             );
 
 
-        /* -----------------------------------------------------
-           TÉLÉCHARGER RECTO
-        ----------------------------------------------------- */
+
+        /* =====================================================
+           TELECHARGER RECTO
+        ====================================================== */
 
         telechargerCanvas(
             canvasRecto,
-            'UNEAC-ID-RECTO-{{ $card->numero_carte }}.png'
+            'UNEAC-RECTO-{{ $card->numero_carte }}.png'
         );
 
 
         await attendre(800);
 
 
-        /* -----------------------------------------------------
-           TÉLÉCHARGER VERSO
-        ----------------------------------------------------- */
+
+        /* =====================================================
+           TELECHARGER VERSO
+        ====================================================== */
 
         telechargerCanvas(
             canvasVerso,
-            'UNEAC-ID-VERSO-{{ $card->numero_carte }}.png'
+            'UNEAC-VERSO-{{ $card->numero_carte }}.png'
         );
 
 
     } catch (error) {
+
 
         console.error(
             'Erreur génération carte :',
@@ -2830,13 +2420,15 @@ async function enregistrerCarteImage() {
 
 
         alert(
-            'Une erreur est survenue lors de la génération des images.'
+            'Une erreur est survenue pendant la génération.'
         );
 
 
     } finally {
 
+
         bouton.disabled = false;
+
 
         bouton.innerHTML =
             '<i class="bi bi-image me-1"></i>' +
@@ -2847,11 +2439,13 @@ async function enregistrerCarteImage() {
 }
 
 
+
 /* =============================================================
    ATTENDRE LES IMAGES
 ============================================================= */
 
 function attendreImages(element) {
+
 
     const images =
         Array.from(
@@ -2889,6 +2483,7 @@ function attendreImages(element) {
 }
 
 
+
 /* =============================================================
    ATTENDRE
 ============================================================= */
@@ -2906,14 +2501,16 @@ function attendre(milliseconds) {
 }
 
 
+
 /* =============================================================
-   TÉLÉCHARGER UN CANVAS
+   TELECHARGER CANVAS
 ============================================================= */
 
 function telechargerCanvas(
     canvas,
     nomFichier
 ) {
+
 
     const lien =
         document.createElement('a');
