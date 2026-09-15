@@ -1,33 +1,24 @@
 <?php
 
-namespace Database\Seeders;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-use App\Models\User;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
-
-class AdminUserSeeder extends Seeder
+return new class extends Migration
 {
-    public function run(): void
+    public function up(): void
     {
-        // Compte Super Administrateur
-        User::updateOrCreate(
-            ['email' => 'admin@uneac.cg'],
-            [
-                'name' => 'Super Administrateur',
-                'password' => Hash::make('azertyui'),
-                'role' => 'super_admin',
-            ]
-        );
-
-        // Compte Administrateur UNEAC
-        User::updateOrCreate(
-            ['email' => 'uneac@uneac.cg'],
-            [
-                'name' => 'Administrateur UNEAC',
-                'password' => Hash::make('azertyui'),
-                'role' => 'admin_uneac',
-            ]
-        );
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('role')
+                ->default('admin_uneac')
+                ->after('email');
+        });
     }
-}
+
+    public function down(): void
+    {
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('role');
+        });
+    }
+};
