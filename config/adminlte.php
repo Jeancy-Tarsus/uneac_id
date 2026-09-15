@@ -868,7 +868,7 @@ return [
 
         [
             'text' => 'UTILISATEURS',
-            'url' => '#',
+            'url' => 'users',
             'icon' => 'bi bi-person-gear',
         ],
 

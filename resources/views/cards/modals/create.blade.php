@@ -180,32 +180,26 @@
                             </div>
 
 
-                            {{-- DATE EXPIRATION --}}
+                           {{-- DATE D'EXPIRATION AUTOMATIQUE --}}
 
                             <div class="col-md-6">
 
                                 <label for="date_expiration"
-                                       class="form-label fw-semibold">
+                                    class="form-label fw-semibold">
 
                                     Date d'expiration
-                                    <span class="text-danger">*</span>
 
                                 </label>
 
                                 <input type="date"
-                                       name="date_expiration"
-                                       id="date_expiration"
-                                       class="form-control @error('date_expiration') is-invalid @enderror"
-                                       value="{{ old('date_expiration', now()->addYear()->format('Y-m-d')) }}"
-                                       required>
+                                    id="date_expiration"
+                                    class="form-control"
+                                    value="{{ old('date_expiration', now()->addYear()->format('Y-m-d')) }}"
+                                    readonly>
 
-                                @error('date_expiration')
-
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-
-                                @enderror
+                                <small class="text-muted">
+                                    La carte est valable pendant 1 année à compter de la date de délivrance.
+                                </small>
 
                             </div>
 
@@ -352,3 +346,34 @@
     </div>
 
 </div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const dateDelivrance = document.getElementById('date_delivrance');
+    const dateExpiration = document.getElementById('date_expiration');
+
+    function calculerExpiration() {
+
+        if (!dateDelivrance.value) {
+            return;
+        }
+
+        const date = new Date(dateDelivrance.value + 'T00:00:00');
+
+        date.setFullYear(date.getFullYear() + 1);
+
+        const annee = date.getFullYear();
+        const mois = String(date.getMonth() + 1).padStart(2, '0');
+        const jour = String(date.getDate()).padStart(2, '0');
+
+        dateExpiration.value = `${annee}-${mois}-${jour}`;
+    }
+
+    dateDelivrance.addEventListener('change', calculerExpiration);
+
+    calculerExpiration();
+
+});
+</script>
