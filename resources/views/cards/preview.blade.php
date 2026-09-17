@@ -728,7 +728,11 @@
 
                         <div class="president-label">
 
-                            Le Président
+                            Le Président du Conseil Culturel
+
+                            <br>
+
+                            National
 
                         </div>
 
@@ -748,7 +752,7 @@
                         @endif
 
 
-                        <div class="president-name">
+                        <div class="president-name president-name-black">
 
                             {{ $presidentName ?? 'Henri DJOMBO' }}
 
@@ -757,7 +761,7 @@
 
                         <div class="president-name president-role">
 
-                            Signature et cachet de l'UNEAC
+                            Président de l'UNEAC
 
                         </div>
 
@@ -1750,37 +1754,45 @@
            NUMÉRO CARTE RECTO
         ========================================================== */
 
-        .front-card-number {
+               .front-card-number {
 
-            position: absolute;
+    position: absolute;
 
-            left: 75px;
+    left: 75px;
+    top: 255px;
 
-            width: 190px;
+    width: 190px;
+    min-height: 55px;
 
-            bottom: 0;
+    z-index: 30;
 
-            z-index: 30;
+    display: flex;
 
-            padding: 7px 10px;
+    align-items: center;
+    justify-content: center;
 
-            text-align: center;
+    padding: 6px 2px;
 
-            background: var(--uneac-green);
+    background: var(--uneac-green);
 
-            color: white;
+    color: #ffffff;
 
-            border-radius: 5px;
+    border-radius: 0 0 8px 8px;
 
-            font-size: 17px;
+    font-size: 14px;
 
-            font-weight: 900;
+    font-weight: 900;
 
-            letter-spacing: 1.4px;
+    letter-spacing: 0.5px;
 
-            box-shadow: 0 4px 12px rgba(8,127,63,.20);
+    white-space: nowrap;
 
-        }
+    line-height: 1.2;
+
+    box-shadow:
+        0 4px 10px rgba(8,127,63,.20);
+
+}
 
         /* Profession + Fédération sur la même ligne */
         .info-dual-row {
@@ -2411,6 +2423,17 @@
             text-transform: none;
 
             color: #7a827d;
+
+        }
+
+
+        .president-name-black {
+
+            color: #000000 !important;
+
+            font-size: 12px;
+
+            font-weight: 900;
 
         }
 

@@ -191,14 +191,13 @@ class CardController extends Controller
             : 1;
 
         $validated['numero_carte'] =
-            'UNEAC-C-' .
+            'UNEAC-CG-26' .
             str_pad(
                 $nextNumber,
                 5,
                 '0',
                 STR_PAD_LEFT
             );
-
 
         /*
         |--------------------------------------------------------------------------
@@ -209,7 +208,6 @@ class CardController extends Controller
         do {
 
             $qrToken = Str::random(40);
-
         } while (
             Card::where(
                 'qr_token',
