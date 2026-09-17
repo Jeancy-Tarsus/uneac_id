@@ -1,55 +1,848 @@
-<!DOCTYPE html>
-<html lang="fr">
+@extends('adminlte::page')
 
-<head>
+@section('title', 'UNEAC ID - {{ $card->numero_carte }}')
 
-    <meta charset="UTF-8">
+@section('content_header')
+    <div class="d-flex align-items-center justify-content-between no-print">
+        <div>
+            <h1 class="m-0">
+                <i class="bi bi-person-vcard-fill mr-2"></i>
+                Aperçu de la carte
+            </h1>
+            <small class="text-muted">
+                {{ $card->numero_carte }}
+            </small>
+        </div>
+    </div>
+@stop
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1">
+@section('content')
 
-    <title>
-        Carte UNEAC - {{ $card->numero_carte }}
-    </title>
+    <div class="uneac-preview-adminlte">
 
-
-    <!-- =========================================================
-         BOOTSTRAP
-    ========================================================== -->
-
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
+<div class="page-container">
 
 
-    <!-- =========================================================
-         BOOTSTRAP ICONS
-    ========================================================== -->
+    {{-- =========================================================
+         BOUTONS
+    ========================================================== --}}
 
+    <div class="actions no-print">
+
+        <a
+            href="{{ route('cards.index') }}"
+            class="btn-secondary"
+        >
+
+            <i class="bi bi-arrow-left me-1"></i>
+
+            Retour aux cartes
+
+        </a>
+
+
+        <button
+            type="button"
+            id="btnEnregistrerImage"
+            class="btn-primary"
+            onclick="enregistrerCarteImage()"
+        >
+
+            <i class="bi bi-image me-1"></i>
+
+            Enregistrer en image
+
+        </button>
+
+
+        <button
+            type="button"
+            class="btn-success"
+            onclick="window.print()"
+        >
+
+            <i class="bi bi-printer me-1"></i>
+
+            Imprimer la carte
+
+        </button>
+
+    </div>
+
+
+
+    <div class="cards-container">
+
+
+        {{-- =====================================================
+             RECTO
+        ====================================================== --}}
+
+        <div class="print-card-wrapper recto-wrapper">
+
+            <div
+                class="uneac-card card-front"
+                id="carte-recto"
+            >
+
+
+                {{-- FILIGRANES --}}
+
+                <div class="cultural-watermark">
+
+                    <div class="watermark-icon wm-book">
+                        <i class="bi bi-book-half"></i>
+                    </div>
+
+                    <div class="watermark-icon wm-feather">
+                        <i class="bi bi-feather"></i>
+                    </div>
+
+                    <div class="watermark-icon wm-music">
+                        <i class="bi bi-music-note-beamed"></i>
+                    </div>
+
+                    <div class="watermark-icon wm-theatre">
+                        <i class="bi bi-mask"></i>
+                    </div>
+
+                    <div class="watermark-icon wm-palette">
+                        <i class="bi bi-palette"></i>
+                    </div>
+
+                    <div class="watermark-icon wm-camera">
+                        <i class="bi bi-camera"></i>
+                    </div>
+
+                    <div class="watermark-circle"></div>
+
+                    <div class="watermark-lines"></div>
+
+                </div>
+
+
+                {{-- DÉCORATIONS --}}
+
+                <div class="shape shape-green-corner"></div>
+
+                <div class="shape shape-gold-corner"></div>
+
+                <div class="zigzag zigzag-top"></div>
+
+                <div class="zigzag zigzag-bottom"></div>
+
+
+
+                {{-- =================================================
+                     HEADER RECTO
+                ================================================== --}}
+
+                <div class="front-header">
+
+
+                    {{-- LOGO --}}
+
+                    <div class="front-logo">
+
+                        @if(file_exists(public_path('images/uneac-logo.png')))
+
+                            <img
+                                src="{{ asset('images/uneac-logo.png') }}"
+                                alt="Logo UNEAC"
+                            >
+
+                        @else
+
+                            <div class="logo-placeholder">
+                                UNEAC
+                            </div>
+
+                        @endif
+
+                    </div>
+
+
+                    {{-- TEXTE --}}
+
+                    <div class="front-header-text">
+
+                        <div class="front-country">
+                            RÉPUBLIQUE DU CONGO
+                        </div>
+
+                        <div class="front-organization">
+                            UNION NATIONALE DES ÉCRIVAINS
+                            ET ARTISTES CONGOLAIS
+                        </div>
+
+                        <div class="front-motto">
+                            « UNITÉ • LIBERTÉ • CULTURE »
+                        </div>
+
+                    </div>
+
+
+                    {{-- CARTE DU CONGO --}}
+
+                    @if(file_exists(public_path('images/embleme-congo.png')))
+
+                        <div class="front-emblem">
+
+                            <img
+                                src="{{ asset('images/embleme-congo.png') }}"
+                                alt="Emblème du Congo"
+                            >
+
+                        </div>
+
+                    @endif
+
+
+                </div>
+
+
+                {{-- =================================================
+                     TITRE CARTE
+                ================================================== --}}
+
+                <div class="front-card-title">
+
+                    <span>
+                        CARTE DE MEMBRE
+                    </span>
+
+                </div>
+
+
+                {{-- =================================================
+                     CORPS RECTO
+                ================================================== --}}
+
+                <div class="front-body">
+
+
+                    {{-- PHOTO --}}
+
+                    @if($card->member->photo)
+
+                        <img
+                            src="{{ asset('storage/' . $card->member->photo) }}"
+                            alt="Photo du membre"
+                            class="member-photo"
+                        >
+
+                    @else
+
+                        <div class="photo-placeholder">
+
+                            <i class="bi bi-person-fill"></i>
+
+                        </div>
+
+                    @endif
+
+
+
+                    {{-- INFORMATIONS --}}
+
+                    <div class="member-info">
+
+
+                        {{-- NOM --}}
+
+                        <div class="info-row member-main-name">
+
+                            <div class="info-label">
+                                Nom(s)
+                            </div>
+
+                            <div class="info-value">
+
+                                {{ $card->member->nom }}
+
+                                @if($card->member->postnom)
+                                    {{ $card->member->postnom }}
+                                @endif
+
+                            </div>
+
+                        </div>
+
+
+                        {{-- PRÉNOM --}}
+
+                        <div class="info-row">
+
+                            <div class="info-label">
+                                Prénom(s)
+                            </div>
+
+                            <div class="info-value">
+
+                                {{ $card->member->prenom }}
+
+                            </div>
+
+                        </div>
+
+
+                        {{-- DATE NAISSANCE --}}
+
+                        <div class="info-row">
+
+                            <div class="info-label">
+                                Date de naissance
+                            </div>
+
+                            <div class="info-value">
+
+                                {{ $card->member->date_naissance?->format('d/m/Y') ?: 'Non renseignée' }}
+
+                            </div>
+
+                        </div>
+
+
+                        {{-- SEXE --}}
+
+                        <div class="info-row">
+
+                            <div class="info-label">
+                                Sexe
+                            </div>
+
+                            <div class="info-value">
+
+                                {{ $card->member->sexe ?: 'Non renseigné' }}
+
+                            </div>
+
+                        </div>
+
+
+                        {{-- LIEU --}}
+
+                        <div class="info-row">
+
+                            <div class="info-label">
+                                Lieu
+                            </div>
+
+                            <div class="info-value">
+
+                                {{ $card->member->lieu_naissance ?: 'Non renseigné' }}
+
+                            </div>
+
+                        </div>
+
+
+                        {{-- NATIONALITÉ --}}
+
+                        <div class="info-row">
+
+                            <div class="info-label">
+                                Nationalité
+                            </div>
+
+                            <div class="info-value">
+
+                                {{ $card->member->nationalite ?: 'Non renseignée' }}
+
+                            </div>
+
+                        </div>
+
+
+                        {{-- PROFESSION + FÉDÉRATION SUR LA MÊME LIGNE --}}
+
+                        <div class="info-dual-row">
+
+                            <div class="info-pair">
+
+                                <div class="info-label">
+                                    Profession
+                                </div>
+
+                                <div class="info-value">
+
+                                    {{ $card->member->profession_artistique ?: 'Non renseignée' }}
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="info-pair">
+
+                                <div class="info-label">
+                                    Fédération
+                                </div>
+
+                                <div class="info-value">
+
+                                    {{
+                                        $card->member->federation?->sigle
+                                        ?: $card->member->federation?->nom
+                                        ?: 'Non renseignée'
+                                    }}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        {{-- DOMICILE --}}
+
+                        <div class="info-row">
+
+                            <div class="info-label">
+                                Domicile
+                            </div>
+
+                            <div class="info-value">
+
+                                {{ $card->member->domicile ?: 'Non renseigné' }}
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    {{-- NUMÉRO DE CARTE --}}
+
+                    <div class="front-card-number">
+
+                        {{ $card->numero_carte }}
+
+                    </div>
+
+
+                </div>
+
+
+                {{-- FOOTER --}}
+
+                <div class="front-footer"></div>
+
+
+            </div>
+
+        </div>
+
+
+
+        {{-- =====================================================
+             VERSO
+        ====================================================== --}}
+
+        <div class="print-card-wrapper verso-wrapper">
+
+            <div
+                class="uneac-card card-back"
+                id="carte-verso"
+            >
+
+
+                {{-- FILIGRANES CULTURELS --}}
+
+                <div class="cultural-watermark">
+
+                    <div class="watermark-icon wm-book">
+                        <i class="bi bi-book-half"></i>
+                    </div>
+
+                    <div class="watermark-icon wm-feather">
+                        <i class="bi bi-feather"></i>
+                    </div>
+
+                    <div class="watermark-icon wm-music">
+                        <i class="bi bi-music-note-beamed"></i>
+                    </div>
+
+                    <div class="watermark-icon wm-theatre">
+                        <i class="bi bi-mask"></i>
+                    </div>
+
+                    <div class="watermark-icon wm-palette">
+                        <i class="bi bi-palette"></i>
+                    </div>
+
+                    <div class="watermark-icon wm-camera">
+                        <i class="bi bi-camera"></i>
+                    </div>
+
+                    <div class="watermark-circle"></div>
+
+                    <div class="watermark-lines"></div>
+
+                </div>
+
+
+                {{-- FILIGRANE CENTRAL — EMBLÈME DU CONGO --}}
+
+                @if(file_exists(public_path('images/embleme-congo.png')))
+
+                    <div class="back-watermark-emblem">
+
+                        <img
+                            src="{{ asset('images/embleme-congo.png') }}"
+                            alt=""
+                        >
+
+                    </div>
+
+                @endif
+
+
+                <div class="back-cultural-watermarks">
+
+                    <i class="bi bi-book-half back-wm-book"></i>
+
+                    <i class="bi bi-feather back-wm-feather"></i>
+
+                    <i class="bi bi-music-note-beamed back-wm-music"></i>
+
+                    <i class="bi bi-camera back-wm-camera"></i>
+
+                </div>
+
+
+                {{-- DÉCORATIONS --}}
+
+                <div class="shape shape-green-corner"></div>
+
+                <div class="shape shape-gold-corner"></div>
+
+                <div class="zigzag zigzag-top"></div>
+
+                <div class="zigzag zigzag-bottom"></div>
+
+
+
+                {{-- =================================================
+                     HEADER VERSO
+                ================================================== --}}
+
+                <div class="back-header">
+
+
+                    {{-- LOGO --}}
+
+                    <div class="back-logo">
+
+                        @if(file_exists(public_path('images/uneac-logo.png')))
+
+                            <img
+                                src="{{ asset('images/uneac-logo.png') }}"
+                                alt="Logo UNEAC"
+                            >
+
+                        @else
+
+                            <div class="logo-placeholder">
+                                UNEAC
+                            </div>
+
+                        @endif
+
+                    </div>
+
+
+                    {{-- TEXTE --}}
+
+                    <div class="back-header-text">
+
+                        <div class="back-country">
+                            RÉPUBLIQUE DU CONGO
+                        </div>
+
+                        <div class="back-motto">
+                            « UNITÉ • LIBERTÉ • CULTURE »
+                        </div>
+
+                        <div class="back-gold-line"></div>
+
+                    </div>
+
+
+                    {{-- EMBLÈME DU CONGO --}}
+
+                    @if(file_exists(public_path('images/embleme-congo.png')))
+
+                        <div class="back-congo">
+
+                            <img
+                                src="{{ asset('images/embleme-congo.png') }}"
+                                alt="Emblème du Congo"
+                            >
+
+                        </div>
+
+                    @endif
+
+
+                </div>
+
+
+
+                {{-- =================================================
+                     TEXTES DÉCORATIFS
+                ================================================== --}}
+
+                <div class="decorative-left">
+
+                    UNION • CULTURE • ART
+
+                </div>
+
+
+                <div class="decorative-right">
+
+                    UNEAC • CONGO
+
+                </div>
+
+
+
+                {{-- =================================================
+                     CONTENU PRINCIPAL VERSO
+                ================================================== --}}
+
+                <div class="back-main">
+
+
+                    {{-- TITRE --}}
+
+                    <div class="security-title">
+
+                        <i class="bi bi-shield-check"></i>
+
+                        Carte officielle de membre
+
+                    </div>
+
+
+                    {{-- DESCRIPTION --}}
+
+                    <p class="security-description">
+
+                        Cette carte est personnelle et permet
+                        d'identifier son titulaire en qualité de
+                        membre de l'UNEAC.
+                        <br>
+
+                        Son authenticité et son statut peuvent être
+                        vérifiés à l'aide du QR Code.
+
+                    </p>
+
+
+                    {{-- =================================================
+                         QR CODE CENTRE
+                    ================================================== --}}
+
+                    <div class="back-qr">
+
+                        <div class="back-qr-box">
+
+                            {!! QrCode::size(130)
+                                ->generate(
+                                    route(
+                                        'verification.show',
+                                        $card->qr_token
+                                    )
+                                )
+                            !!}
+
+                        </div>
+
+
+                        <div class="back-qr-label">
+
+                            Scanner pour vérifier l'authenticité
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                {{-- =================================================
+                     DATES + SIGNATURE
+                ================================================== --}}
+
+                <div class="back-bottom">
+
+
+                    {{-- DATES --}}
+
+                    <div class="dates">
+
+
+                        <div class="date-box">
+
+                            <div class="date-label">
+                                Délivrée le
+                            </div>
+
+                            <div class="date-value">
+
+                                {{ $card->date_delivrance?->format('d/m/Y') }}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="date-box">
+
+                            <div class="date-label">
+                                Expire le
+                            </div>
+
+                            <div class="date-value">
+
+                                {{ $card->date_expiration?->format('d/m/Y') }}
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    {{-- PRÉSIDENT --}}
+
+                    <div class="president">
+
+                        <div class="president-label">
+
+                            Le Président
+
+                        </div>
+
+
+                        @if(file_exists(public_path('images/signature-president.png')))
+
+                            <img
+                                src="{{ asset('images/signature-president.png') }}"
+                                alt="Signature du Président"
+                                class="president-signature-image"
+                            >
+
+                        @else
+
+                            <div class="signature-line"></div>
+
+                        @endif
+
+
+                        <div class="president-name">
+
+                            {{ $presidentName ?? 'Henri DJOMBO' }}
+
+                        </div>
+
+
+                        <div class="president-name president-role">
+
+                            Signature et cachet de l'UNEAC
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                {{-- =================================================
+                     TEXTE BAS
+                ================================================== --}}
+
+                <div class="back-bottom-text">
+
+                    <span>
+                        UNION NATIONALE DES ÉCRIVAINS ET ARTISTES CONGOLAIS
+                    </span>
+
+                    &nbsp; • &nbsp;
+
+                    CARTE OFFICIELLE
+
+                </div>
+
+
+
+                {{-- FOOTER --}}
+
+                <div class="back-footer"></div>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+{{-- =============================================================
+     HTML2CANVAS
+============================================================= --}}
+
+
+
+
+
+
+    </div>
+
+@stop
+
+@section('css')
     <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     >
 
-
     <style>
 
+
         /* =========================================================
-           VARIABLES
+           VARIABLES UNEAC
         ========================================================== */
 
         :root {
 
-            --green-dark: #012c1c;
-            --green: #034f30;
-            --green-light: #086b40;
+            --uneac-green: #087f3f;
+            --uneac-green-dark: #045c2d;
+            --uneac-green-deep: #023b1d;
+            --uneac-green-light: #eaf6ef;
 
-            --gold: #c49a32;
-            --gold-light: #e6c85c;
-            --gold-dark: #94701f;
+            --uneac-gold: #c5a04a;
+            --uneac-gold-light: #e2cc8b;
 
-            --white: #ffffff;
+            --uneac-gray: #66706a;
+            --uneac-border: #d9e2dc;
+
+            --text-dark: #202622;
+            --text-gray: #626a65;
 
         }
 
@@ -65,34 +858,37 @@
 
         html,
         body {
+
             margin: 0;
             padding: 0;
-        }
-
-
-        body {
 
             font-family:
                 Arial,
                 Helvetica,
                 sans-serif;
 
-            background: #edf0ed;
+            background: #eef1ef;
 
-            color: #222;
+            color: var(--text-dark);
 
         }
 
 
+        body {
+            min-height: 100vh;
+        }
+
+
         /* =========================================================
-           PAGE
+           CONTENEUR PRINCIPAL
         ========================================================== */
 
         .page-container {
 
+            width: 100%;
             min-height: 100vh;
 
-            padding: 35px 20px;
+            padding: 35px;
 
         }
 
@@ -106,20 +902,71 @@
             display: flex;
 
             justify-content: center;
-
             align-items: center;
 
             gap: 10px;
 
-            margin-bottom: 35px;
-
             flex-wrap: wrap;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .actions button,
+        .actions a {
+
+            border: none;
+
+            border-radius: 7px;
+
+            padding: 10px 18px;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            text-decoration: none;
+
+            cursor: pointer;
+
+        }
+
+
+        .actions .btn-secondary {
+
+            background: #6c757d;
+            color: white;
+
+        }
+
+
+        .actions .btn-primary {
+
+            background: var(--uneac-green);
+            color: white;
+
+        }
+
+
+        .actions .btn-success {
+
+            background: var(--uneac-green-dark);
+            color: white;
+
+        }
+
+
+        .actions button:hover,
+        .actions a:hover {
+
+            opacity: .90;
 
         }
 
 
         /* =========================================================
-           CONTAINER CARTES
+           CONTENEUR DES CARTES
         ========================================================== */
 
         .cards-container {
@@ -136,13 +983,12 @@
 
 
         /* =========================================================
-           WRAPPER IMPRESSION
+           WRAPPER
         ========================================================== */
 
         .print-card-wrapper {
 
             width: 850px;
-
             height: 536px;
 
             position: relative;
@@ -151,60 +997,35 @@
 
 
         /* =========================================================
-           CARTE
+           CARTE PRINCIPALE
         ========================================================== */
 
         .uneac-card {
 
             width: 850px;
-
             height: 536px;
 
             position: relative;
 
             overflow: hidden;
 
+            background: #ffffff;
+
+            border: 3px solid var(--uneac-green);
+
             border-radius: 22px;
 
-            background:
-                linear-gradient(
-                    135deg,
-                    #012d1d 0%,
-                    #034b2d 45%,
-                    #01351f 100%
-                );
-
-            border: 3px solid var(--gold);
-
             box-shadow:
-                0 20px 45px rgba(0,0,0,.28);
+                0 18px 45px rgba(0,0,0,.16);
+
+            isolation: isolate;
 
         }
 
 
         /* =========================================================
-           CADRE INTERIEUR
+           BORDURE INTERNE DORÉE
         ========================================================== */
-
-        .uneac-card::before {
-
-            content: "";
-
-            position: absolute;
-
-            inset: 11px;
-
-            border: 2px solid
-                rgba(222,190,82,.75);
-
-            border-radius: 15px;
-
-            pointer-events: none;
-
-            z-index: 50;
-
-        }
-
 
         .uneac-card::after {
 
@@ -212,12 +1033,12 @@
 
             position: absolute;
 
-            inset: 17px;
+            inset: 8px;
 
-            border: 1px solid
-                rgba(222,190,82,.30);
+            border:
+                1px solid rgba(197,160,74,.75);
 
-            border-radius: 11px;
+            border-radius: 16px;
 
             pointer-events: none;
 
@@ -227,34 +1048,16 @@
 
 
         /* =========================================================
-           TEXTURE DE FOND
+           FILIGRANES CULTURELS
         ========================================================== */
 
-        .background-pattern {
+        .cultural-watermark {
 
             position: absolute;
 
             inset: 0;
 
-            opacity: .055;
-
-            background:
-
-                radial-gradient(
-                    circle at 20% 20%,
-                    #ffffff 0,
-                    transparent 2px
-                ),
-
-                radial-gradient(
-                    circle at 70% 70%,
-                    #ffffff 0,
-                    transparent 2px
-                );
-
-            background-size:
-                28px 28px,
-                35px 35px;
+            overflow: hidden;
 
             pointer-events: none;
 
@@ -263,351 +1066,253 @@
         }
 
 
-        /* =========================================================
-           =========================================================
-                  FILIGRANES ARTISTIQUES
-           =========================================================
-        ========================================================== */
-
-        .art-watermarks {
+        .watermark-icon {
 
             position: absolute;
 
-            inset: 0;
-
-            overflow: hidden;
-
-            pointer-events: none;
-
-            z-index: 4;
-
-        }
-
-
-        /* =========================================================
-           STYLE GENERAL DES FILIGRANES
-        ========================================================== */
-
-        .art-watermark {
-
-            position: absolute;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            color: #e6c85c;
+            color: var(--uneac-green);
 
             opacity: .055;
 
-            line-height: 1;
-
-            filter: blur(.15px);
+            font-size: 105px;
 
         }
 
-
-        /* =========================================================
-           APPAREIL PHOTO
-        ========================================================== */
-
-        .wm-camera {
-
-            right: 65px;
-
-            bottom: 95px;
-
-            font-size: 125px;
-
-            transform: rotate(-8deg);
-
-        }
-
-
-        /* =========================================================
-           CAMERA VIDEO
-        ========================================================== */
-
-        .wm-camera-video {
-
-            right: 245px;
-
-            bottom: 35px;
-
-            font-size: 95px;
-
-            transform: rotate(7deg);
-
-        }
-
-
-        /* =========================================================
-           LIVRE
-        ========================================================== */
 
         .wm-book {
 
-            right: 375px;
+            left: 80px;
+            bottom: 35px;
 
-            bottom: 30px;
-
-            font-size: 105px;
-
-            transform: rotate(-6deg);
+            transform: rotate(-15deg);
 
         }
 
 
-        /* =========================================================
-           PLUME
-        ========================================================== */
-
         .wm-feather {
 
-            right: 500px;
-
-            bottom: 75px;
-
-            font-size: 90px;
+            left: 320px;
+            top: 155px;
 
             transform: rotate(-25deg);
 
         }
 
 
-        /* =========================================================
-           PALETTE
-        ========================================================== */
+        .wm-music {
 
-        .wm-palette {
-
-            right: 175px;
-
-            bottom: 115px;
-
-            font-size: 100px;
+            right: 250px;
+            bottom: 65px;
 
             transform: rotate(12deg);
 
         }
 
 
-        /* =========================================================
-           MUSIQUE
-        ========================================================== */
-
-        .wm-music {
-
-            right: 310px;
-
-            bottom: 125px;
-
-            font-size: 80px;
-
-            transform: rotate(10deg);
-
-        }
-
-
-        /* =========================================================
-           THEATRE
-        ========================================================== */
-
         .wm-theatre {
 
-            right: 465px;
+            right: 70px;
+            top: 160px;
 
-            bottom: 20px;
-
-            font-size: 90px;
-
-            transform: rotate(-7deg);
+            transform: rotate(12deg);
 
         }
 
 
-        /* =========================================================
-           CINEMA
-        ========================================================== */
+        .wm-palette {
 
-        .wm-film {
-
-            right: 30px;
-
-            bottom: 35px;
-
-            font-size: 90px;
-
-            transform: rotate(5deg);
-
-        }
-
-
-        /* =========================================================
-           MICROPHONE
-        ========================================================== */
-
-        .wm-mic {
-
-            right: 120px;
-
-            bottom: 175px;
-
-            font-size: 70px;
+            left: 245px;
+            bottom: 10px;
 
             transform: rotate(-8deg);
 
         }
 
 
-        /* =========================================================
-           DECORATION CIRCULAIRE
-        ========================================================== */
+        .wm-camera {
 
-        .gold-decoration {
+            right: 95px;
+            bottom: 35px;
+
+            transform: rotate(-10deg);
+
+        }
+
+
+        .watermark-circle {
 
             position: absolute;
 
-            right: -100px;
+            width: 380px;
+            height: 380px;
 
-            bottom: -110px;
-
-            width: 390px;
-
-            height: 250px;
+            border:
+                35px solid var(--uneac-green);
 
             border-radius: 50%;
 
-            border: 2px solid
-                rgba(213,180,70,.12);
+            right: -170px;
+            top: 120px;
 
-            transform: rotate(-15deg);
+            opacity: .035;
 
-            z-index: 2;
+        }
+
+
+        .watermark-lines {
+
+            position: absolute;
+
+            width: 650px;
+            height: 250px;
+
+            right: -130px;
+            bottom: -80px;
+
+            transform: rotate(-20deg);
+
+            opacity: .035;
+
+            background:
+                repeating-linear-gradient(
+                    135deg,
+                    var(--uneac-green) 0,
+                    var(--uneac-green) 3px,
+                    transparent 3px,
+                    transparent 20px
+                );
+
+        }
+
+
+        /* =========================================================
+           FORMES DÉCORATIVES
+        ========================================================== */
+
+        .shape {
+
+            position: absolute;
 
             pointer-events: none;
 
-        }
-
-
-        .gold-decoration::before {
-
-            content: "";
-
-            position: absolute;
-
-            inset: 25px;
-
-            border: 1px solid
-                rgba(213,180,70,.10);
-
-            border-radius: 50%;
+            z-index: 3;
 
         }
 
 
-        .gold-decoration::after {
+        .shape-green-corner {
 
-            content: "";
+            width: 175px;
+            height: 175px;
 
-            position: absolute;
+            left: -115px;
+            top: -115px;
 
-            inset: 55px;
+            background:
+                var(--uneac-green);
 
-            border: 1px solid
-                rgba(213,180,70,.08);
+            transform: rotate(45deg);
 
-            border-radius: 50%;
+            opacity: .95;
+
+        }
+
+
+        .shape-gold-corner {
+
+            width: 125px;
+            height: 125px;
+
+            right: -80px;
+            bottom: -80px;
+
+            background:
+                var(--uneac-gold);
+
+            transform: rotate(45deg);
+
+            opacity: .95;
 
         }
 
 
         /* =========================================================
-           LOGO
+           ZIGZAG
         ========================================================== */
 
-        .logo-box {
+        .zigzag {
 
-            width: 92px;
+            position: absolute;
 
-            height: 92px;
+            height: 16px;
+            width: 220px;
 
-            border-radius: 50%;
+            z-index: 5;
+
+            opacity: .85;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    transparent 7px,
+                    var(--uneac-gold) 7px,
+                    var(--uneac-gold) 10px,
+                    transparent 10px
+                );
+
+            background-size: 20px 20px;
+
+        }
+
+
+        .zigzag-top {
+
+            right: 0;
+            top: 105px;
+
+            transform: rotate(180deg);
+
+        }
+
+
+        .zigzag-bottom {
+
+            left: 0;
+            bottom: 20px;
+
+        }
+
+
+        /* =========================================================
+           =========================================================
+           RECTO
+           =========================================================
+        ========================================================== */
+
+        .card-front {
 
             background: #ffffff;
 
-            border: 4px solid var(--gold);
-
-            box-shadow:
-
-                0 0 0 2px #0d3f29,
-
-                0 5px 15px rgba(0,0,0,.35);
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            overflow: hidden;
-
-        }
-
-
-        .logo-box img {
-
-            width: 78px;
-
-            height: 78px;
-
-            object-fit: contain;
-
-            display: block;
-
-        }
-
-
-        .logo-placeholder {
-
-            font-size: 19px;
-
-            font-weight: 900;
-
-            color: var(--green);
-
         }
 
 
         /* =========================================================
-           =========================================================
-                            RECTO
-           =========================================================
+           HEADER RECTO
         ========================================================== */
-
 
         .front-header {
 
-            position: relative;
+            position: absolute;
+
+            top: 0;
+            left: 0;
+            right: 0;
+
+            height: 170px;
 
             z-index: 10;
 
-            height: 150px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
             text-align: center;
-
-            padding: 15px 145px 15px 110px;
-
-            border-bottom:
-                2px solid var(--gold);
 
         }
 
@@ -620,80 +1325,268 @@
 
             position: absolute;
 
-            right: 35px;
+            left: 58px;
+            top: 42px;
 
-            top: 27px;
+            width: 105px;
+            height: 105px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: white;
+
+            border: 3px solid white;
+
+            border-radius: 50%;
+
+            box-shadow:
+                0 0 0 2px var(--uneac-gold),
+                0 6px 18px rgba(0,0,0,.15);
+
+            overflow: hidden;
 
             z-index: 20;
 
         }
 
 
+        .front-logo img {
+
+            width: 86px;
+            height: 86px;
+
+            max-width: 86px;
+            max-height: 86px;
+
+            object-fit: contain;
+
+            display: block;
+
+        }
+
+
+        .logo-placeholder {
+
+            color: var(--uneac-green);
+
+            font-size: 15px;
+
+            font-weight: 900;
+
+        }
+
+
         /* =========================================================
-           PAYS
+           TEXTE RECTO
         ========================================================== */
 
-        .country {
+        .front-header-text {
+
+            position: absolute;
+
+            left: 190px;
+            right: 190px;
+
+            top: 25px;
+
+            text-align: center;
+
+            z-index: 20;
+
+        }
+
+
+        .front-country {
+
+            font-size: 28px;
+
+            line-height: 1;
+
+            font-weight: 900;
+
+            letter-spacing: 2px;
+
+            color: var(--uneac-green-dark);
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .front-organization {
+
+            font-size: 18px;
+
+            line-height: 1.25;
+
+            font-weight: 900;
+
+            text-transform: uppercase;
+
+            color: var(--text-dark);
+
+            letter-spacing: .8px;
+
+        }
+
+
+        .front-motto {
+
+            margin-top: 8px;
+
+            font-size: 13px;
+
+            font-weight: 900;
+
+            letter-spacing: 2.5px;
+
+            text-transform: uppercase;
+
+            color: var(--uneac-green);
+
+        }
+
+
+        /* =========================================================
+           EMBLÈME DU CONGO RECTO
+        ========================================================== */
+
+        .front-emblem {
+
+            position: absolute;
+
+            right: 38px;
+            top: 38px;
+
+            width: 82px;
+            height: 100px;
+
+            z-index: 20;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            background: rgba(255,255,255,.96);
+
+            border-radius: 8px;
+
+            padding: 4px;
+
+            box-shadow:
+                0 0 0 2px var(--uneac-gold),
+                0 4px 12px rgba(0,0,0,.10);
+
+        }
+
+
+        .front-emblem img {
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: contain;
+
+            opacity: 1;
+
+            filter: none;
+
+            display: block;
+
+        }
+
+
+        /* =========================================================
+           TITRE CARTE DE MEMBRE
+        ========================================================== */
+
+        .front-card-title {
+
+            position: absolute;
+
+            top: 145px;
+
+            left: 70px;
+            right: 70px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 15px;
+
+            z-index: 20;
+
+        }
+
+
+        .front-card-title::before,
+        .front-card-title::after {
+
+            content: "";
+
+            height: 2px;
+
+            flex: 1;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    var(--uneac-gold)
+                );
+
+        }
+
+
+        .front-card-title::after {
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--uneac-gold),
+                    transparent
+                );
+
+        }
+
+
+        .front-card-title span {
 
             font-size: 18px;
 
             font-weight: 900;
 
-            letter-spacing: 4px;
+            letter-spacing: 2px;
 
-            color: var(--gold-light);
+            color: var(--uneac-green-dark);
 
-            margin-bottom: 8px;
-
-        }
-
-
-        /* =========================================================
-           ORGANISATION
-        ========================================================== */
-
-        .organization {
-
-            font-size: 26px;
-
-            line-height: 1.12;
-
-            font-weight: 900;
-
-            color: white;
-
-            text-transform: uppercase;
-
-            text-shadow:
-                0 2px 3px rgba(0,0,0,.35);
-
-        }
-
-
-        .organization .ampersand {
-
-            color: var(--gold-light);
-
-            font-size: 19px;
+            white-space: nowrap;
 
         }
 
 
         /* =========================================================
-           CONTENU RECTO
+           CORPS RECTO
         ========================================================== */
 
-        .front-main {
+        .front-body {
 
-            position: relative;
+            position: absolute;
+
+            left: 0;
+            right: 0;
+
+            top: 180px;
+            bottom: 45px;
 
             z-index: 10;
-
-            display: flex;
-
-            gap: 38px;
-
-            padding: 27px 35px;
 
         }
 
@@ -702,172 +1595,99 @@
            PHOTO
         ========================================================== */
 
-        .photo-container {
+        .member-photo,
+        .photo-placeholder {
 
-            width: 230px;
+            position: absolute;
 
-            height: 290px;
+            left: 75px;
+            top: 5px;
 
-            flex-shrink: 0;
-
-            padding: 6px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--gold-light),
-                    var(--gold),
-                    #8e6818
-                );
-
-            border-radius: 17px;
-
-            box-shadow:
-                0 7px 18px rgba(0,0,0,.35);
-
-        }
-
-
-        .member-photo {
-
-            width: 100%;
-
-            height: 100%;
+            width: 190px;
+            height: 245px;
 
             object-fit: cover;
 
-            border-radius: 11px;
+            border: 4px solid white;
 
-            border: 2px solid white;
+            outline:
+                3px solid var(--uneac-green);
 
-            display: block;
+            border-radius: 10px;
+
+            background: #f2f5f3;
+
+            box-shadow:
+                0 7px 20px rgba(0,0,0,.15);
+
+            z-index: 15;
 
         }
 
 
         .photo-placeholder {
 
-            width: 100%;
-
-            height: 100%;
-
-            border-radius: 11px;
-
-            background: #f4f4f4;
-
-            color: var(--green);
-
             display: flex;
 
             align-items: center;
-
             justify-content: center;
 
-            font-size: 75px;
+            color: #9ba59f;
+
+            font-size: 65px;
 
         }
 
 
         /* =========================================================
-           DETAILS MEMBRE
+           INFORMATIONS MEMBRE
         ========================================================== */
 
-        .member-details {
+        .member-info {
 
-            flex: 1;
+            position: absolute;
 
-            padding-top: 4px;
+            left: 300px;
+            right: 55px;
+
+            top: 0;
+
+            z-index: 20;
 
         }
 
 
-        /* =========================================================
-           NOM
-        ========================================================== */
-
-        .member-name {
-
-            font-size: 38px;
-
-            line-height: 1.05;
-
-            font-weight: 900;
-
-            color: white;
-
-            text-transform: uppercase;
-
-            letter-spacing: 1px;
-
-            padding-bottom: 12px;
-
-            border-bottom:
-                2px solid var(--gold);
-
-            text-shadow:
-                0 3px 4px rgba(0,0,0,.35);
-
-        }
-
-
-        /* =========================================================
-           PROFESSION
-        ========================================================== */
-
-        .profession {
-
-            font-size: 28px;
-
-            font-weight: 500;
-
-            color: var(--gold-light);
-
-            text-align: right;
-
-            margin-top: 8px;
-
-            margin-bottom: 22px;
-
-        }
-
-
-        /* =========================================================
-           LIGNES INFORMATIONS
-        ========================================================== */
-
-        .info-line {
-
-            min-height: 52px;
+        .info-row {
 
             display: flex;
 
-            align-items: center;
+            align-items: baseline;
 
-            border-top:
-                1px solid rgba(220,193,93,.35);
-
-            color: white;
-
-        }
-
-
-        .info-line:last-of-type {
+            margin-bottom: 8px;
 
             border-bottom:
-                1px solid rgba(220,193,93,.35);
+                1px solid rgba(8,127,63,.13);
+
+            padding-bottom: 5px;
 
         }
 
 
         .info-label {
 
-            width: 190px;
+            width: 155px;
 
-            font-size: 17px;
+            flex-shrink: 0;
+
+            font-size: 12px;
 
             font-weight: 900;
 
-            color: white;
+            text-transform: uppercase;
+
+            letter-spacing: .8px;
+
+            color: var(--uneac-green);
 
         }
 
@@ -876,59 +1696,136 @@
 
             flex: 1;
 
-            font-size: 20px;
+            min-width: 0;
+
+            font-size: 17px;
+
+            line-height: 1.15;
 
             font-weight: 700;
 
-            color: white;
+            color: #252b28;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
 
         }
 
 
         /* =========================================================
-           NUMERO CARTE
+           NOM PRINCIPAL
         ========================================================== */
 
-        .card-number {
+        .member-main-name {
 
-            display: inline-flex;
-
-            align-items: center;
-
-            gap: 9px;
-
-            margin-top: 20px;
-
-            padding: 9px 20px;
-
-            border-radius: 5px;
-
-            background:
-
-                linear-gradient(
-                    90deg,
-                    #c49a32,
-                    #e1bf52,
-                    #b18725
-                );
-
-            color: #132719;
-
-            font-size: 18px;
-
-            font-weight: 900;
-
-            letter-spacing: 1.5px;
-
-            box-shadow:
-                0 4px 12px rgba(0,0,0,.25);
+            margin-bottom: 10px;
 
         }
 
 
-        .card-number i {
+        .member-main-name .info-label {
 
-            color: #132719;
+            font-size: 13px;
+
+        }
+
+
+        .member-main-name .info-value {
+
+            font-size: 23px;
+
+            font-weight: 900;
+
+            text-transform: uppercase;
+
+            color: var(--uneac-green-dark);
+
+        }
+
+
+        /* =========================================================
+           NUMÉRO CARTE RECTO
+        ========================================================== */
+
+        .front-card-number {
+
+            position: absolute;
+
+            left: 75px;
+
+            width: 190px;
+
+            bottom: 0;
+
+            z-index: 30;
+
+            padding: 7px 10px;
+
+            text-align: center;
+
+            background: var(--uneac-green);
+
+            color: white;
+
+            border-radius: 5px;
+
+            font-size: 17px;
+
+            font-weight: 900;
+
+            letter-spacing: 1.4px;
+
+            box-shadow: 0 4px 12px rgba(8,127,63,.20);
+
+        }
+
+        /* Profession + Fédération sur la même ligne */
+        .info-dual-row {
+
+            display: flex;
+
+            gap: 14px;
+
+            align-items: flex-start;
+
+            border-bottom: 1px solid rgba(8,127,63,.13);
+
+            padding-bottom: 5px;
+
+            margin-bottom: 8px;
+
+        }
+
+        .info-pair {
+
+            flex: 1;
+
+            min-width: 0;
+
+            display: flex;
+
+            align-items: baseline;
+
+            gap: 8px;
+
+        }
+
+        .info-pair .info-label {
+
+            width: auto;
+
+            flex-shrink: 0;
+
+            font-size: 11px;
+
+        }
+
+        .info-pair .info-value {
+
+            font-size: 15px;
 
         }
 
@@ -942,83 +1839,55 @@
             position: absolute;
 
             left: 0;
-
             right: 0;
+            bottom: 0;
 
-            bottom: 18px;
+            height: 9px;
 
-            height: 55px;
-
-            z-index: 20;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
+            z-index: 40;
 
             background:
-
                 linear-gradient(
                     90deg,
-                    #b98921,
-                    #e1c04e 50%,
-                    #a77a1d
+                    var(--uneac-green-deep) 0%,
+                    var(--uneac-green) 72%,
+                    var(--uneac-gold) 72%,
+                    var(--uneac-gold) 100%
                 );
-
-            color: #102318;
-
-            font-size: 21px;
-
-            font-weight: 900;
-
-            letter-spacing: 4px;
-
-            text-transform: uppercase;
-
-            border-top:
-                2px solid #f0d879;
-
-            border-bottom:
-                2px solid #8b6518;
 
         }
 
 
         /* =========================================================
            =========================================================
-                            VERSO
+           VERSO
            =========================================================
         ========================================================== */
 
+        .card-back {
+
+            background: #ffffff;
+
+        }
+
+
+        /* =========================================================
+           HEADER VERSO
+        ========================================================== */
 
         .back-header {
 
-            position: relative;
+            position: absolute;
+
+            top: 0;
+            left: 0;
+            right: 0;
+
+            height: 155px;
 
             z-index: 10;
 
-            height: 125px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
             text-align: center;
-
-            background:
-
-                linear-gradient(
-                    110deg,
-                    #012c1c,
-                    #075b36,
-                    #012c1c
-                );
-
-            border-bottom:
-                3px solid var(--gold);
 
         }
 
@@ -1031,226 +1900,229 @@
 
             position: absolute;
 
-            left: 32px;
+            left: 58px;
+            top: 35px;
 
-            top: 18px;
+            width: 95px;
+            height: 95px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: white;
+
+            border: 3px solid white;
+
+            border-radius: 50%;
+
+            box-shadow:
+                0 0 0 2px var(--uneac-gold),
+                0 5px 16px rgba(0,0,0,.14);
+
+            overflow: hidden;
+
+            z-index: 20;
+
+        }
+
+
+        .back-logo img {
+
+            width: 76px;
+            height: 76px;
+
+            max-width: 76px;
+            max-height: 76px;
+
+            object-fit: contain;
 
         }
 
 
         /* =========================================================
-           TITRE VERSO
+           TEXTE VERSO
         ========================================================== */
 
-        .back-title {
+        .back-header-text {
 
-            font-size: 29px;
+            position: absolute;
 
-            color: white;
+            left: 180px;
+            right: 180px;
+
+            top: 35px;
+
+            z-index: 20;
+
+        }
+
+
+        .back-country {
+
+            font-size: 28px;
 
             font-weight: 900;
 
-            letter-spacing: 2px;
+            letter-spacing: 2.5px;
+
+            color: var(--uneac-green-dark);
+
+        }
+
+
+        .back-motto {
+
+            margin-top: 10px;
+
+            font-size: 14px;
+
+            font-weight: 900;
+
+            letter-spacing: 3px;
+
+            color: var(--uneac-green);
 
             text-transform: uppercase;
 
         }
 
 
-        .back-subtitle {
+        .back-gold-line {
 
-            margin-top: 7px;
+            width: 430px;
 
-            font-size: 14px;
+            height: 3px;
 
-            color: var(--gold-light);
-
-            font-weight: 800;
-
-            letter-spacing: 3px;
-
-        }
-
-
-        /* =========================================================
-           CORPS VERSO
-        ========================================================== */
-
-        .back-main {
-
-            position: relative;
-
-            z-index: 10;
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 45px;
-
-            padding: 32px 45px;
-
-        }
-
-
-        /* =========================================================
-           SECURITE
-        ========================================================== */
-
-        .security {
-
-            flex: 1;
-
-            color: white;
-
-        }
-
-
-        .security-title {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 10px;
-
-            color: var(--gold-light);
-
-            font-size: 23px;
-
-            font-weight: 900;
-
-            margin-bottom: 20px;
-
-        }
-
-
-        .security-title i {
-
-            font-size: 29px;
-
-        }
-
-
-        .security-text {
-
-            font-size: 16px;
-
-            line-height: 1.55;
-
-            color: rgba(255,255,255,.88);
-
-            margin-bottom: 14px;
-
-        }
-
-
-        /* =========================================================
-           VERIFICATION
-        ========================================================== */
-
-        .verification-box {
-
-            margin-top: 20px;
-
-            padding: 13px 17px;
-
-            border-left:
-                4px solid var(--gold);
+            margin: 16px auto 0;
 
             background:
-                rgba(255,255,255,.06);
-
-            color: white;
-
-            font-size: 14px;
-
-            line-height: 1.4;
-
-        }
-
-
-        .verification-box strong {
-
-            color: var(--gold-light);
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    var(--uneac-gold),
+                    transparent
+                );
 
         }
 
 
         /* =========================================================
-           DATES
+           TEXTES DÉCORATIFS GAUCHE / DROITE
         ========================================================== */
 
-       .dates {
-            display: flex;
+        .decorative-left,
+        .decorative-right {
 
-            gap: 5px;
+            position: absolute;
 
-            margin-top: 10px;
+            top: 150px;
 
-            position: relative;
+            z-index: 12;
 
-            z-index: 30;
+            writing-mode: vertical-rl;
 
-            transform: translateY(-8px);
-        }
-
-
-        .date-box {
-
-            min-width: 145px;
-
-            padding: 10px 14px;
-
-            border:
-                1px solid
-                rgba(216,194,123,.45);
-
-            background:
-                rgba(255,255,255,.05);
-
-            border-radius: 5px;
-
-        }
-
-
-        .date-label {
-
-            color: var(--gold-light);
+            text-orientation: mixed;
 
             font-size: 10px;
 
             font-weight: 900;
 
-            text-transform: uppercase;
+            letter-spacing: 2px;
 
-            letter-spacing: 1px;
+            color:
+                rgba(8,127,63,.45);
+
+            text-transform: uppercase;
 
         }
 
 
-        .date-value {
+        .decorative-left {
 
-            margin-top: 4px;
+            left: 25px;
 
-            color: white;
+            transform:
+                rotate(180deg);
 
-            font-size: 17px;
+        }
 
-            font-weight: 900;
+
+        .decorative-right {
+
+            right: 25px;
 
         }
 
 
         /* =========================================================
-           QR CODE
+           FILIGRANE EMBLÈME DU CONGO VERSO
         ========================================================== */
 
-        .qr-area {
+        .back-congo {
 
-            width: 205px;
+            position: absolute;
 
-            flex-shrink: 0;
+            right: 38px;
+            top: 30px;
+
+            width: 82px;
+            height: 100px;
+
+            z-index: 20;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            background: rgba(255,255,255,.96);
+
+            border-radius: 8px;
+
+            padding: 4px;
+
+            box-shadow:
+                0 0 0 2px var(--uneac-gold),
+                0 4px 12px rgba(0,0,0,.10);
+
+            opacity: 1;
+
+        }
+
+
+        .back-congo img {
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: contain;
+
+            opacity: 1;
+
+            filter: none;
+
+            display: block;
+
+        }
+
+
+        /* =========================================================
+           CONTENU VERSO
+        ========================================================== */
+
+        .back-main {
+
+            position: absolute;
+
+            left: 55px;
+            right: 55px;
+
+            top: 165px;
+            bottom: 55px;
+
+            z-index: 15;
 
             display: flex;
 
@@ -1261,30 +2133,108 @@
         }
 
 
-        .qr-container {
+        /* =========================================================
+           TITRE SÉCURITÉ
+        ========================================================== */
 
-            width: 175px;
+        .security-title {
 
-            height: 175px;
+            display: flex;
 
-            padding: 10px;
+            align-items: center;
 
-            background: white;
+            justify-content: center;
 
-            border-radius: 8px;
+            gap: 8px;
 
-            border: 4px solid var(--gold);
+            font-size: 18px;
 
-            box-shadow:
-                0 8px 20px rgba(0,0,0,.30);
+            font-weight: 900;
+
+            color: var(--uneac-green);
+
+            margin-bottom: 8px;
 
         }
 
 
-        .qr-container svg {
+        .security-title i {
+
+            font-size: 22px;
+
+        }
+
+
+        /* =========================================================
+           TEXTE SÉCURITÉ
+        ========================================================== */
+
+        .security-description {
+
+            width: 520px;
+
+            text-align: center;
+
+            font-size: 12px;
+
+            line-height: 1.35;
+
+            color: var(--text-gray);
+
+            margin: 0;
+
+        }
+
+
+        /* =========================================================
+           QR CENTRE VERSO
+        ========================================================== */
+
+        .back-qr {
+
+            margin-top: 12px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            z-index: 25;
+
+        }
+
+
+        .back-qr-box {
+
+            width: 158px;
+            height: 158px;
+
+            padding: 7px;
+
+            background: #ffffff;
+
+            border:
+                3px solid var(--uneac-green);
+
+            border-radius: 10px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            box-shadow:
+                0 5px 15px rgba(0,0,0,.12);
+
+        }
+
+
+        .back-qr-box svg {
 
             width: 100%;
-
             height: 100%;
 
             display: block;
@@ -1292,21 +2242,333 @@
         }
 
 
-        .qr-label {
+        .back-qr-label {
 
-            margin-top: 11px;
+            margin-top: 5px;
 
-            color: var(--gold-light);
-
-            font-size: 12px;
+            font-size: 9px;
 
             font-weight: 900;
 
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
+
+            color: var(--uneac-green);
+
+            text-transform: uppercase;
+
+        }
+
+
+        /* =========================================================
+           BAS VERSO
+        ========================================================== */
+
+        .back-bottom {
+
+            position: absolute;
+
+            left: 55px;
+            right: 55px;
+
+            bottom: 48px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: flex-end;
+
+            z-index: 25;
+
+        }
+
+
+        /* =========================================================
+           DATES
+        ========================================================== */
+
+        .dates {
+
+            display: flex;
+
+            gap: 12px;
+
+        }
+
+
+        .date-box {
+
+            min-width: 140px;
+
+            padding:
+                7px 11px;
+
+            border-left:
+                4px solid var(--uneac-green);
+
+            background:
+                #f4f8f5;
+
+            border-radius:
+                0 5px 5px 0;
+
+        }
+
+
+        .date-label {
+
+            font-size: 9px;
+
+            line-height: 1.1;
+
+            text-transform: uppercase;
+
+            letter-spacing: .8px;
+
+            color: #78817b;
+
+        }
+
+
+        .date-value {
+
+            margin-top: 4px;
+
+            font-size: 15px;
+
+            line-height: 1.1;
+
+            font-weight: 900;
+
+            color: #252927;
+
+        }
+
+
+        /* =========================================================
+           SIGNATURE PRÉSIDENT
+        ========================================================== */
+
+        .president {
+
+            width: 220px;
 
             text-align: center;
 
+        }
+
+
+        .president-label {
+
+            font-size: 10px;
+
+            font-weight: 900;
+
+            color: var(--uneac-green);
+
             text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+        }
+
+
+        .signature-line {
+
+            width: 180px;
+
+            height: 1px;
+
+            background: var(--uneac-gold);
+
+            margin:
+                28px auto 5px;
+
+        }
+
+
+        .president-name {
+
+            font-size: 11px;
+
+            font-weight: 900;
+
+            color: var(--text-gray);
+
+            text-transform: uppercase;
+
+        }
+
+
+        .president-role {
+
+            margin-top: 2px;
+
+            font-size: 9px;
+
+            font-weight: 700;
+
+            text-transform: none;
+
+            color: #7a827d;
+
+        }
+
+        .president-signature-image {
+
+            display: block;
+
+            width: 135px;
+
+            height: 38px;
+
+            object-fit: contain;
+
+            margin: 4px auto 2px;
+
+            opacity: .92;
+
+        }
+
+
+        /* =========================================================
+           TEXTE DÉCORATIF BAS
+        ========================================================== */
+
+        .back-bottom-text {
+
+            position: absolute;
+
+            left: 40px;
+            right: 40px;
+
+            bottom: 12px;
+
+            z-index: 30;
+
+            text-align: center;
+
+            font-size: 9px;
+
+            font-weight: 800;
+
+            letter-spacing: 1.2px;
+
+            text-transform: uppercase;
+
+            color: #7b847e;
+
+        }
+
+
+        .back-bottom-text span {
+
+            color: var(--uneac-green);
+
+        }
+
+
+        /* =========================================================
+           FILIGRANE CENTRAL VERSO
+        ========================================================== */
+
+        .back-watermark-emblem {
+
+            position: absolute;
+
+            left: 50%;
+
+            top: 205px;
+
+            width: 360px;
+
+            height: 300px;
+
+            transform: translateX(-50%);
+
+            z-index: 4;
+
+            opacity: .055;
+
+            pointer-events: none;
+
+        }
+
+        .back-watermark-emblem img {
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: contain;
+
+            filter: grayscale(1);
+
+        }
+
+        .back-cultural-watermarks {
+
+            position: absolute;
+
+            inset: 0;
+
+            z-index: 2;
+
+            pointer-events: none;
+
+            overflow: hidden;
+
+        }
+
+        .back-cultural-watermarks i {
+
+            position: absolute;
+
+            color: var(--uneac-green);
+
+            opacity: .045;
+
+            font-size: 92px;
+
+        }
+
+        .back-wm-book {
+
+            left: 75px;
+
+            bottom: 55px;
+
+            transform: rotate(-15deg);
+
+        }
+
+        .back-wm-music {
+
+            left: 365px;
+
+            bottom: 45px;
+
+            transform: rotate(8deg);
+
+        }
+
+        .back-wm-camera {
+
+            right: 75px;
+
+            bottom: 45px;
+
+            transform: rotate(-10deg);
+
+        }
+
+        .back-wm-feather {
+
+            left: 355px;
+
+            top: 245px;
+
+            transform: rotate(-20deg);
 
         }
 
@@ -1320,39 +2582,39 @@
             position: absolute;
 
             left: 0;
-
             right: 0;
 
-            bottom: 18px;
+            bottom: 0;
 
-            height: 48px;
+            height: 9px;
 
-            z-index: 20;
-
-            display: flex;
-
-            justify-content: center;
-
-            align-items: center;
+            z-index: 40;
 
             background:
-
                 linear-gradient(
                     90deg,
-                    #b98921,
-                    #e1c04e 50%,
-                    #a77a1d
+                    var(--uneac-gold) 0%,
+                    var(--uneac-gold) 25%,
+                    var(--uneac-green) 25%,
+                    var(--uneac-green-dark) 100%
                 );
 
-            color: #102318;
+        }
 
-            font-size: 13px;
 
-            font-weight: 900;
+        /* =========================================================
+           RESPONSIVE
+        ========================================================== */
 
-            letter-spacing: 2px;
+        @media (max-width: 900px) {
 
-            text-transform: uppercase;
+            .page-container {
+
+                padding: 20px 10px;
+
+                overflow-x: auto;
+
+            }
 
         }
 
@@ -1365,7 +2627,8 @@
 
             @page {
 
-                size: 85.60mm 53.98mm;
+                size:
+                    85.60mm 53.98mm;
 
                 margin: 0;
 
@@ -1375,13 +2638,15 @@
             html,
             body {
 
-                width: 85.60mm;
+                width:
+                    85.60mm;
 
                 margin: 0 !important;
 
                 padding: 0 !important;
 
-                background: white !important;
+                background:
+                    #ffffff !important;
 
             }
 
@@ -1399,79 +2664,106 @@
 
             .no-print {
 
-                display: none !important;
+                display:
+                    none !important;
 
             }
 
 
             .page-container {
 
-                width: 85.60mm;
+                width:
+                    85.60mm;
 
-                padding: 0 !important;
+                min-height:
+                    0;
 
-                margin: 0 !important;
+                padding:
+                    0 !important;
 
-                min-height: 0;
+                margin:
+                    0 !important;
 
             }
 
 
             .cards-container {
 
-                display: block;
+                display:
+                    block;
 
-                width: 85.60mm;
+                width:
+                    85.60mm;
 
-                padding: 0;
+                margin:
+                    0;
 
-                margin: 0;
+                padding:
+                    0;
 
             }
 
 
             .print-card-wrapper {
 
-                width: 85.60mm;
+                width:
+                    85.60mm;
 
-                height: 53.98mm;
+                height:
+                    53.98mm;
 
-                overflow: hidden;
+                position:
+                    relative;
 
-                page-break-inside: avoid;
+                overflow:
+                    hidden;
 
-                break-inside: avoid;
+                margin:
+                    0;
 
-            }
+                padding:
+                    0;
 
+                page-break-inside:
+                    avoid;
 
-            .recto-wrapper {
-
-                page-break-after: always;
-
-                break-after: page;
-
-            }
-
-
-            .verso-wrapper {
-
-                page-break-after: auto;
+                break-inside:
+                    avoid;
 
             }
 
 
-            .uneac-card {
+            .print-card-wrapper .uneac-card {
 
-                width: 850px !important;
+                width:
+                    850px !important;
 
-                height: 536px !important;
+                height:
+                    536px !important;
 
-                max-width: none !important;
+                max-width:
+                    none !important;
 
-                border-radius: 0 !important;
+                aspect-ratio:
+                    auto !important;
 
-                box-shadow: none !important;
+                position:
+                    absolute !important;
+
+                left:
+                    0 !important;
+
+                top:
+                    0 !important;
+
+                margin:
+                    0 !important;
+
+                border-radius:
+                    0 !important;
+
+                box-shadow:
+                    none !important;
 
                 transform:
                     scale(0.3802352941) !important;
@@ -1481,20 +2773,33 @@
 
             }
 
-        }
+
+            .print-card-wrapper.recto-wrapper {
+
+                page-break-after:
+                    always;
+
+                break-after:
+                    page;
+
+            }
 
 
-        /* =========================================================
-           MOBILE
-        ========================================================== */
+            .print-card-wrapper.verso-wrapper {
 
-        @media screen and (max-width: 900px) {
+                page-break-after:
+                    auto;
 
-            .cards-container {
+                break-after:
+                    auto;
 
-                overflow-x: auto;
+            }
 
-                align-items: flex-start;
+
+            svg {
+
+                shape-rendering:
+                    crispEdges;
 
             }
 
@@ -1502,755 +2807,85 @@
 
 
 
+        /* =========================================================
+           INTÉGRATION ADMINLTE
+        ========================================================== */
+
+        /*
+         * AdminLTE devient l'enveloppe de l'écran.
+         * La carte conserve strictement ses dimensions d'impression
+         * 850 x 536 px et son design UNEAC.
+         */
+
+        .uneac-preview-adminlte {
+            width: 100%;
+        }
+
+        .uneac-preview-adminlte .page-container {
+            min-height: auto;
+            padding: 10px 0 30px;
+        }
+
+        .uneac-preview-adminlte .actions {
+            margin-top: 0;
+        }
+
+        /* Le fond de la page est celui d'AdminLTE.
+           La carte reste blanche comme dans le design validé. */
+        body {
+            background: #f4f6f9;
+        }
+
+        /* Évite que le contenu AdminLTE réduise ou déforme la carte. */
+        .uneac-preview-adminlte .cards-container {
+            width: 100%;
+        }
+
+        /* Sur écran, les cartes restent centrées. */
+        @media (min-width: 901px) {
+            .uneac-preview-adminlte .cards-container {
+                align-items: center;
+            }
+        }
+
+        /* L'interface AdminLTE ne doit jamais apparaître sur la carte imprimée. */
+        @media print {
+            .main-header,
+            .main-sidebar,
+            .main-footer,
+            .content-header,
+            .no-print,
+            .breadcrumb,
+            .wrapper > .content-wrapper > .content-header {
+                display: none !important;
+            }
+
+            .content-wrapper,
+            .main-footer,
+            .main-header {
+                margin-left: 0 !important;
+                padding: 0 !important;
+                background: #ffffff !important;
+            }
+
+            .uneac-preview-adminlte,
+            .content,
+            .content-wrapper {
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .uneac-preview-adminlte .page-container {
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+        }
     </style>
+@stop
 
-</head>
-
-
-<body>
-
-
-<div class="page-container">
-
-
-    <!-- =========================================================
-         BOUTONS
-    ========================================================== -->
-
-    <div class="actions no-print">
-
-
-        <a
-            href="{{ route('cards.index') }}"
-            class="btn btn-secondary"
-        >
-
-            <i class="bi bi-arrow-left me-1"></i>
-
-            Retour
-
-        </a>
-
-
-        <button
-            type="button"
-            id="btnEnregistrerImage"
-            class="btn btn-primary"
-            onclick="enregistrerCarteImage()"
-        >
-
-            <i class="bi bi-image me-1"></i>
-
-            Enregistrer en image
-
-        </button>
-
-
-        <button
-            type="button"
-            class="btn btn-success"
-            onclick="window.print()"
-        >
-
-            <i class="bi bi-printer me-1"></i>
-
-            Imprimer
-
-        </button>
-
-    </div>
-
-
-
-    <!-- =========================================================
-         CARTES
-    ========================================================== -->
-
-    <div class="cards-container">
-
-
-        <!-- =====================================================
-             RECTO
-        ====================================================== -->
-
-        <div class="print-card-wrapper recto-wrapper">
-
-
-            <div
-                class="uneac-card"
-                id="carte-recto"
-            >
-
-
-                <!-- =================================================
-                     TEXTURE
-                ================================================== -->
-
-                <div class="background-pattern"></div>
-
-
-                <!-- =================================================
-                     FILIGRANES ARTISTIQUES
-                ================================================== -->
-
-                <div class="art-watermarks">
-
-
-                    <!-- Appareil photo -->
-
-                    <div class="art-watermark wm-camera">
-
-                        <i class="bi bi-camera"></i>
-
-                    </div>
-
-
-                    <!-- Caméra -->
-
-                    <div class="art-watermark wm-camera-video">
-
-                        <i class="bi bi-camera-reels"></i>
-
-                    </div>
-
-
-                    <!-- Livre -->
-
-                    <div class="art-watermark wm-book">
-
-                        <i class="bi bi-book-half"></i>
-
-                    </div>
-
-
-                    <!-- Plume -->
-
-                    <div class="art-watermark wm-feather">
-
-                        <i class="bi bi-feather"></i>
-
-                    </div>
-
-
-                    <!-- Palette -->
-
-                    <div class="art-watermark wm-palette">
-
-                        <i class="bi bi-palette"></i>
-
-                    </div>
-
-
-                    <!-- Musique -->
-
-                    <div class="art-watermark wm-music">
-
-                        <i class="bi bi-music-note-beamed"></i>
-
-                    </div>
-
-
-                    <!-- Théâtre -->
-
-                    <div class="art-watermark wm-theatre">
-
-                        <i class="bi bi-mask"></i>
-
-                    </div>
-
-
-                    <!-- Cinéma -->
-
-                    <div class="art-watermark wm-film">
-
-                        <i class="bi bi-film"></i>
-
-                    </div>
-
-
-                    <!-- Microphone -->
-
-                    <div class="art-watermark wm-mic">
-
-                        <i class="bi bi-mic"></i>
-
-                    </div>
-
-
-                </div>
-
-
-
-                <!-- =================================================
-                     DECORATION
-                ================================================== -->
-
-                <div class="gold-decoration"></div>
-
-
-
-                <!-- =================================================
-                     HEADER
-                ================================================== -->
-
-                <div class="front-header">
-
-
-                    <!-- LOGO -->
-
-                    <div class="front-logo">
-
-                        <div class="logo-box">
-
-                            @if(file_exists(public_path('images/uneac-logo.png')))
-
-                                <img
-                                    src="{{ asset('images/uneac-logo.png') }}"
-                                    alt="Logo UNEAC"
-                                >
-
-                            @else
-
-                                <div class="logo-placeholder">
-
-                                    UNEAC
-
-                                </div>
-
-                            @endif
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- TITRES -->
-
-                    <div>
-
-                        <div class="country">
-
-                            RÉPUBLIQUE DU CONGO
-
-                        </div>
-
-
-                        <div class="organization">
-
-                            UNION NATIONALE DES ÉCRIVAINS
-
-                            <br>
-
-                            <span class="ampersand">
-                                &
-                            </span>
-
-                            ARTISTES CONGOLAIS
-
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-
-
-                <!-- =================================================
-                     CONTENU RECTO
-                ================================================== -->
-
-                <div class="front-main">
-
-
-                    <!-- PHOTO -->
-
-                    <div class="photo-container">
-
-                        @if($card->member->photo)
-
-                            <img
-                                src="{{ asset('storage/' . $card->member->photo) }}"
-                                alt="Photo du membre"
-                                class="member-photo"
-                            >
-
-                        @else
-
-                            <div class="photo-placeholder">
-
-                                <i class="bi bi-person-fill"></i>
-
-                            </div>
-
-                        @endif
-
-                    </div>
-
-
-
-                    <!-- INFORMATIONS -->
-
-                    <div class="member-details">
-
-
-                        <!-- NOM -->
-
-                        <div class="member-name">
-
-                            {{ $card->member->nom }}
-                            {{ $card->member->postnom }}
-                            {{ $card->member->prenom }}
-
-                        </div>
-
-
-
-                        <!-- PROFESSION -->
-
-                        <div class="profession">
-
-                            {{ $card->member->profession_artistique ?: 'Profession non renseignée' }}
-
-                        </div>
-
-
-
-                        <!-- FÉDÉRATION -->
-
-                        <div class="info-line">
-
-                            <div class="info-label">
-
-                                Fédération
-
-                            </div>
-
-                            <div class="info-value">
-
-                                {{ $card->member->federation?->sigle
-                                    ?: $card->member->federation?->nom
-                                    ?: 'Non renseignée' }}
-
-                            </div>
-
-                        </div>
-
-
-
-                        <!-- CATÉGORIE -->
-
-                        <div class="info-line">
-
-                            <div class="info-label">
-
-                                Catégorie
-
-                            </div>
-
-                            <div class="info-value">
-
-                                {{ $card->member->category?->nom
-                                    ?: 'Non renseignée' }}
-
-                            </div>
-
-                        </div>
-
-
-
-                        <!-- NUMÉRO MEMBRE -->
-
-                        <div class="info-line">
-
-                            <div class="info-label">
-
-                                Numéro membre
-
-                            </div>
-
-                            <div class="info-value">
-
-                                {{ $card->member->numero_membre }}
-
-                            </div>
-
-                        </div>
-
-
-
-                        <!-- NUMÉRO CARTE -->
-
-                        <div class="card-number">
-
-                            <i class="bi bi-person-vcard-fill"></i>
-
-                            {{ $card->numero_carte }}
-
-                        </div>
-
-
-                    </div>
-
-
-                </div>
-
-
-
-                <!-- =================================================
-                     FOOTER RECTO
-                ================================================== -->
-
-                <div class="front-footer">
-
-                    CARTE PROFESSIONNELLE
-
-                </div>
-
-
-            </div>
-
-        </div>
-
-
-
-        <!-- =====================================================
-             VERSO
-        ====================================================== -->
-
-        <div class="print-card-wrapper verso-wrapper">
-
-
-            <div
-                class="uneac-card"
-                id="carte-verso"
-            >
-
-
-                <!-- =================================================
-                     TEXTURE
-                ================================================== -->
-
-                <div class="background-pattern"></div>
-
-
-
-                <!-- =================================================
-                     FILIGRANES ARTISTIQUES
-                ================================================== -->
-
-                <div class="art-watermarks">
-
-
-                    <div class="art-watermark wm-camera">
-
-                        <i class="bi bi-camera"></i>
-
-                    </div>
-
-
-                    <div class="art-watermark wm-camera-video">
-
-                        <i class="bi bi-camera-reels"></i>
-
-                    </div>
-
-
-                    <div class="art-watermark wm-book">
-
-                        <i class="bi bi-book-half"></i>
-
-                    </div>
-
-
-                    <div class="art-watermark wm-feather">
-
-                        <i class="bi bi-feather"></i>
-
-                    </div>
-
-
-                    <div class="art-watermark wm-palette">
-
-                        <i class="bi bi-palette"></i>
-
-                    </div>
-
-
-                    <div class="art-watermark wm-music">
-
-                        <i class="bi bi-music-note-beamed"></i>
-
-                    </div>
-
-
-                    <div class="art-watermark wm-theatre">
-
-                        <i class="bi bi-mask"></i>
-
-                    </div>
-
-
-                    <div class="art-watermark wm-film">
-
-                        <i class="bi bi-film"></i>
-
-                    </div>
-
-
-                    <div class="art-watermark wm-mic">
-
-                        <i class="bi bi-mic"></i>
-
-                    </div>
-
-
-                </div>
-
-
-
-                <!-- =================================================
-                     DECORATION
-                ================================================== -->
-
-                <div class="gold-decoration"></div>
-
-
-
-                <!-- =================================================
-                     HEADER VERSO
-                ================================================== -->
-
-                <div class="back-header">
-
-
-                    <!-- LOGO -->
-
-                    <div class="back-logo">
-
-                        <div class="logo-box">
-
-                            @if(file_exists(public_path('images/uneac-logo.png')))
-
-                                <img
-                                    src="{{ asset('images/uneac-logo.png') }}"
-                                    alt="Logo UNEAC"
-                                >
-
-                            @else
-
-                                <div class="logo-placeholder">
-
-                                    UNEAC
-
-                                </div>
-
-                            @endif
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- TITRE -->
-
-                    <div>
-
-                        <div class="back-title">
-
-                            CARTE PROFESSIONNELLE
-
-                        </div>
-
-
-                        <div class="back-subtitle">
-
-                            IDENTITÉ • CULTURE • ART
-
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-
-
-                <!-- =================================================
-                     CONTENU VERSO
-                ================================================== -->
-
-                <div class="back-main">
-
-
-                    <!-- =================================================
-                         TEXTE
-                    ================================================== -->
-
-                    <div class="security">
-
-
-                        <div class="security-title">
-
-                            <i class="bi bi-shield-check"></i>
-
-                            VÉRIFICATION DE LA CARTE
-
-                        </div>
-
-
-
-                        <div class="security-text">
-
-                            Cette carte est personnelle et
-                            appartient exclusivement à son
-                            titulaire.
-
-                        </div>
-
-
-                        <div class="security-text">
-
-                            Elle permet d'identifier son titulaire
-                            en qualité de membre de l'Union
-                            Nationale des Écrivains et Artistes
-                            Congolais.
-
-                        </div>
-
-
-
-                        <!-- VERIFICATION -->
-
-                        <div class="verification-box">
-
-                            <strong>
-                                Authentification :
-                            </strong>
-
-                            Scannez le QR Code afin de vérifier
-                            l'identité du membre, le numéro de
-                            carte et la validité de cette carte.
-
-                        </div>
-
-
-
-                        <!-- DATES -->
-
-                        <div class="dates">
-
-
-                            <div class="date-box">
-
-                                <div class="date-label">
-
-                                    Délivrée le
-
-                                </div>
-
-                                <div class="date-value">
-
-                                    {{ $card->date_delivrance?->format('d/m/Y') }}
-
-                                </div>
-
-                            </div>
-
-
-
-                            <div class="date-box">
-
-                                <div class="date-label">
-
-                                    Expire le
-
-                                </div>
-
-                                <div class="date-value">
-
-                                    {{ $card->date_expiration?->format('d/m/Y') }}
-
-                                </div>
-
-                            </div>
-
-
-                        </div>
-
-
-                    </div>
-
-
-
-                    <!-- =================================================
-                         QR CODE
-                    ================================================== -->
-
-                    <div class="qr-area">
-
-
-                        <div class="qr-container">
-
-                            {!! QrCode::size(150)
-                                ->generate(
-                                    route(
-                                        'verification.show',
-                                        $card->qr_token
-                                    )
-                                )
-                            !!}
-
-                        </div>
-
-
-                        <div class="qr-label">
-
-                            Scanner pour vérifier
-
-                        </div>
-
-
-                    </div>
-
-
-                </div>
-
-
-
-                <!-- =================================================
-                     FOOTER VERSO
-                ================================================== -->
-
-                <div class="back-footer">
-
-                    UNION NATIONALE DES ÉCRIVAINS
-                    ET ARTISTES CONGOLAIS
-
-                </div>
-
-
-            </div>
-
-        </div>
-
-
-    </div>
-
-</div>
-
-
-
-<!-- =============================================================
-     HTML2CANVAS
-============================================================== -->
-
-<script
-    src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js">
-</script>
-
+@section('js')
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <script>
 
@@ -2259,8 +2894,8 @@
    ENREGISTRER RECTO + VERSO
 ============================================================= */
 
-async function enregistrerCarteImage() {
-
+async function enregistrerCarteImage()
+{
 
     const recto =
         document.getElementById('carte-recto');
@@ -2288,7 +2923,7 @@ async function enregistrerCarteImage() {
     if (typeof html2canvas === 'undefined') {
 
         alert(
-            'La bibliothèque html2canvas n’est pas disponible.'
+            'La bibliothèque de génération d’image n’est pas disponible.'
         );
 
         return;
@@ -2302,7 +2937,6 @@ async function enregistrerCarteImage() {
     bouton.innerHTML =
         '<span class="spinner-border spinner-border-sm me-1"></span>' +
         'Génération...';
-
 
 
     try {
@@ -2333,7 +2967,7 @@ async function enregistrerCarteImage() {
 
                     allowTaint: false,
 
-                    backgroundColor: null,
+                    backgroundColor: '#ffffff',
 
                     logging: false,
 
@@ -2367,7 +3001,7 @@ async function enregistrerCarteImage() {
 
                     allowTaint: false,
 
-                    backgroundColor: null,
+                    backgroundColor: '#ffffff',
 
                     logging: false,
 
@@ -2387,12 +3021,12 @@ async function enregistrerCarteImage() {
 
 
         /* =====================================================
-           TELECHARGER RECTO
+           TÉLÉCHARGER RECTO
         ====================================================== */
 
         telechargerCanvas(
             canvasRecto,
-            'UNEAC-RECTO-{{ $card->numero_carte }}.png'
+            'UNEAC-ID-RECTO-{{ $card->numero_carte }}.png'
         );
 
 
@@ -2401,34 +3035,31 @@ async function enregistrerCarteImage() {
 
 
         /* =====================================================
-           TELECHARGER VERSO
+           TÉLÉCHARGER VERSO
         ====================================================== */
 
         telechargerCanvas(
             canvasVerso,
-            'UNEAC-VERSO-{{ $card->numero_carte }}.png'
+            'UNEAC-ID-VERSO-{{ $card->numero_carte }}.png'
         );
 
 
-    } catch (error) {
-
+    }
+    catch(error) {
 
         console.error(
             'Erreur génération carte :',
             error
         );
 
-
         alert(
-            'Une erreur est survenue pendant la génération.'
+            'Une erreur est survenue lors de la génération des images.'
         );
 
-
-    } finally {
-
+    }
+    finally {
 
         bouton.disabled = false;
-
 
         bouton.innerHTML =
             '<i class="bi bi-image me-1"></i>' +
@@ -2444,8 +3075,8 @@ async function enregistrerCarteImage() {
    ATTENDRE LES IMAGES
 ============================================================= */
 
-function attendreImages(element) {
-
+function attendreImages(element)
+{
 
     const images =
         Array.from(
@@ -2468,9 +3099,11 @@ function attendreImages(element) {
                 return new Promise(
                     resolve => {
 
-                        image.onload = resolve;
+                        image.onload =
+                            resolve;
 
-                        image.onerror = resolve;
+                        image.onerror =
+                            resolve;
 
                     }
                 );
@@ -2488,14 +3121,17 @@ function attendreImages(element) {
    ATTENDRE
 ============================================================= */
 
-function attendre(milliseconds) {
+function attendre(milliseconds)
+{
 
     return new Promise(
+
         resolve =>
             setTimeout(
                 resolve,
                 milliseconds
             )
+
     );
 
 }
@@ -2503,14 +3139,14 @@ function attendre(milliseconds) {
 
 
 /* =============================================================
-   TELECHARGER CANVAS
+   TÉLÉCHARGER CANVAS
 ============================================================= */
 
 function telechargerCanvas(
     canvas,
     nomFichier
-) {
-
+)
+{
 
     const lien =
         document.createElement('a');
@@ -2537,9 +3173,8 @@ function telechargerCanvas(
 
 }
 
+
 </script>
 
 
-</body>
-
-</html>
+@stop
