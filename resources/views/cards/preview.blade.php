@@ -189,8 +189,8 @@
                         <div class="front-emblem">
 
                             <img
-                                src="{{ asset('images/embleme-congo.png') }}"
-                                alt="Emblème du Congo"
+                                src="{{ asset('images/drapeau.png') }}"
+                                alt="Drapeau du Congo"
                             >
 
                         </div>
@@ -253,7 +253,7 @@
                         <div class="info-row member-main-name">
 
                             <div class="info-label">
-                                Nom(s)
+                                Nom(s) :
                             </div>
 
                             <div class="info-value">
@@ -274,7 +274,7 @@
                         <div class="info-row">
 
                             <div class="info-label">
-                                Prénom(s)
+                                Prénom(s) :
                             </div>
 
                             <div class="info-value">
@@ -291,7 +291,7 @@
                         <div class="info-row">
 
                             <div class="info-label">
-                                Date de naissance
+                                Date de naissance :
                             </div>
 
                             <div class="info-value">
@@ -308,7 +308,7 @@
                         <div class="info-row">
 
                             <div class="info-label">
-                                Sexe
+                                Sexe :
                             </div>
 
                             <div class="info-value">
@@ -325,7 +325,7 @@
                         <div class="info-row">
 
                             <div class="info-label">
-                                Lieu
+                                Lieu :
                             </div>
 
                             <div class="info-value">
@@ -342,7 +342,7 @@
                         <div class="info-row">
 
                             <div class="info-label">
-                                Nationalité
+                                Nationalité :
                             </div>
 
                             <div class="info-value">
@@ -354,40 +354,38 @@
                         </div>
 
 
-                        {{-- PROFESSION + FÉDÉRATION SUR LA MÊME LIGNE --}}
+                        {{-- PROFESSION --}}
 
-                        <div class="info-dual-row">
+                        <div class="info-row">
 
-                            <div class="info-pair">
+                            <div class="info-label">
+                                Profession :
+                            </div>
 
-                                <div class="info-label">
-                                    Profession
-                                </div>
+                            <div class="info-value">
 
-                                <div class="info-value">
-
-                                    {{ $card->member->profession_artistique ?: 'Non renseignée' }}
-
-                                </div>
+                                {{ $card->member->profession_artistique ?: 'Non renseignée' }}
 
                             </div>
 
+                        </div>
 
-                            <div class="info-pair">
 
-                                <div class="info-label">
-                                    Fédération
-                                </div>
+                        {{-- FÉDÉRATION --}}
 
-                                <div class="info-value">
+                        <div class="info-row">
 
-                                    {{
-                                        $card->member->federation?->sigle
-                                        ?: $card->member->federation?->nom
-                                        ?: 'Non renseignée'
-                                    }}
+                            <div class="info-label">
+                                Fédération :
+                            </div>
 
-                                </div>
+                            <div class="info-value">
+
+                                {{
+                                    $card->member->federation?->sigle
+                                    ?: $card->member->federation?->nom
+                                    ?: 'Non renseignée'
+                                }}
 
                             </div>
 
@@ -399,7 +397,7 @@
                         <div class="info-row">
 
                             <div class="info-label">
-                                Domicile
+                                Domicile :
                             </div>
 
                             <div class="info-value">
@@ -426,7 +424,8 @@
                 </div>
 
 
-                {{-- FOOTER --}}
+
+{{-- FOOTER --}}
 
                 <div class="front-footer"></div>
 
@@ -571,15 +570,15 @@
                     </div>
 
 
-                    {{-- EMBLÈME DU CONGO --}}
+                    {{-- DRAPEAU DU CONGO --}}
 
-                    @if(file_exists(public_path('images/embleme-congo.png')))
+                    @if(file_exists(public_path('images/drapeau.png')))
 
                         <div class="back-congo">
 
                             <img
-                                src="{{ asset('images/embleme-congo.png') }}"
-                                alt="Emblème du Congo"
+                                src="{{ asset('images/drapeau.png') }}"
+                                alt="Drapeau du Congo"
                             >
 
                         </div>
@@ -1329,8 +1328,7 @@
 
             position: absolute;
 
-            left: 58px;
-            top: 42px;
+            left: 58px; top: 35px;
 
             width: 105px;
             height: 105px;
@@ -1458,49 +1456,37 @@
            EMBLÈME DU CONGO RECTO
         ========================================================== */
 
-        .front-emblem {
-
+         .front-emblem {
             position: absolute;
-
             right: 38px;
-            top: 38px;
-
-            width: 82px;
-            height: 100px;
-
+            top: 30px;
+            width: 105px;
+            height: 64px;
+            aspect-ratio: 105 / 64;
             z-index: 20;
-
             display: flex;
-
             justify-content: center;
             align-items: center;
-
-            background: rgba(255,255,255,.96);
-
-            border-radius: 8px;
-
-            padding: 4px;
-
-            box-shadow:
-                0 0 0 2px var(--uneac-gold),
-                0 4px 12px rgba(0,0,0,.10);
-
+            background: #ffffff;
+            border-radius: 4px;
+            padding: 0;
+            box-shadow: none;
+            opacity: 1;
+            overflow: hidden;
         }
 
-
         .front-emblem img {
-
-            width: 100%;
-            height: 100%;
-
-            object-fit: contain;
-
+            width: 105px;
+            height: 64px;
+            max-width: 105px;
+            max-height: 64px;
+            min-width: 105px;
+            min-height: 64px;
+            object-fit: fill;
+            object-position: center;
             opacity: 1;
-
             filter: none;
-
             display: block;
-
         }
 
 
@@ -1666,32 +1652,35 @@
             display: flex;
 
             align-items: baseline;
+            column-gap: 8px;
 
-            margin-bottom: 8px;
+            margin-bottom: 7px;
 
             border-bottom:
                 1px solid rgba(8,127,63,.13);
 
-            padding-bottom: 5px;
+            padding-bottom: 2px;
 
         }
 
 
         .info-label {
 
-            width: 155px;
+            width: 190px;
 
             flex-shrink: 0;
 
-            font-size: 12px;
+            font-size: 15px;
 
             font-weight: 900;
 
             text-transform: uppercase;
 
-            letter-spacing: .8px;
+            letter-spacing: .6px;
 
             color: var(--uneac-green);
+
+            white-space: nowrap;
 
         }
 
@@ -1702,9 +1691,9 @@
 
             min-width: 0;
 
-            font-size: 17px;
+            font-size: 20px;
 
-            line-height: 1.15;
+            line-height: 1.02;
 
             font-weight: 700;
 
@@ -1725,21 +1714,23 @@
 
         .member-main-name {
 
-            margin-bottom: 10px;
+            margin-bottom: 8px;
 
         }
 
 
         .member-main-name .info-label {
 
-            font-size: 13px;
+            font-size: 15px;
 
         }
 
 
         .member-main-name .info-value {
 
-            font-size: 23px;
+            font-size: 25px;
+
+            line-height: 1;
 
             font-weight: 900;
 
@@ -1831,13 +1822,13 @@
 
             flex-shrink: 0;
 
-            font-size: 11px;
+            font-size: 15px;
 
         }
 
         .info-pair .info-value {
 
-            font-size: 15px;
+            font-size: 20px;
 
         }
 
@@ -2072,51 +2063,37 @@
            FILIGRANE EMBLÈME DU CONGO VERSO
         ========================================================== */
 
-        .back-congo {
-
+                .back-congo {
             position: absolute;
-
             right: 38px;
             top: 30px;
-
-            width: 82px;
-            height: 100px;
-
+            width: 105px;
+            height: 64px;
+            aspect-ratio: 105 / 64;
             z-index: 20;
-
             display: flex;
-
             justify-content: center;
             align-items: center;
-
-            background: rgba(255,255,255,.96);
-
-            border-radius: 8px;
-
-            padding: 4px;
-
-            box-shadow:
-                0 0 0 2px var(--uneac-gold),
-                0 4px 12px rgba(0,0,0,.10);
-
+            background: #ffffff;
+            border-radius: 4px;
+            padding: 0;
+            box-shadow: none;
             opacity: 1;
-
+            overflow: hidden;
         }
 
-
         .back-congo img {
-
-            width: 100%;
-            height: 100%;
-
-            object-fit: contain;
-
+            width: 105px;
+            height: 64px;
+            max-width: 105px;
+            max-height: 64px;
+            min-width: 105px;
+            min-height: 64px;
+            object-fit: fill;
+            object-position: center;
             opacity: 1;
-
             filter: none;
-
             display: block;
-
         }
 
 
@@ -2124,14 +2101,14 @@
            CONTENU VERSO
         ========================================================== */
 
-        .back-main {
+                .back-main {
 
             position: absolute;
 
             left: 55px;
             right: 55px;
 
-            top: 165px;
+            top: 145px;
             bottom: 55px;
 
             z-index: 15;
@@ -2149,7 +2126,9 @@
            TITRE SÉCURITÉ
         ========================================================== */
 
-        .security-title {
+                .security-title {
+
+            margin-top: 4px;
 
             display: flex;
 
@@ -2165,7 +2144,7 @@
 
             color: var(--uneac-green);
 
-            margin-bottom: 8px;
+            margin-bottom: 4px;
 
         }
 
@@ -2181,19 +2160,21 @@
            TEXTE SÉCURITÉ
         ========================================================== */
 
-        .security-description {
+                .security-description {
 
-            width: 520px;
+            margin-top: 0;
+
+            width: 560px;
 
             text-align: center;
 
-            font-size: 12px;
+            font-size: 14px;
 
-            line-height: 1.35;
+            line-height: 1.18;
 
             color: var(--text-gray);
 
-            margin: 0;
+            margin-bottom: 0;
 
         }
 
@@ -2202,9 +2183,9 @@
            QR CENTRE VERSO
         ========================================================== */
 
-        .back-qr {
+                .back-qr {
 
-            margin-top: 12px;
+            margin-top: 3px;
 
             display: flex;
 
@@ -2254,11 +2235,11 @@
         }
 
 
-        .back-qr-label {
+                .back-qr-label {
 
-            margin-top: 5px;
+            margin-top: 3px;
 
-            font-size: 9px;
+            font-size: 12px;
 
             font-weight: 900;
 
@@ -2267,6 +2248,10 @@
             color: var(--uneac-green);
 
             text-transform: uppercase;
+
+            line-height: 1.1;
+
+            white-space: nowrap;
 
         }
 
@@ -2282,7 +2267,7 @@
             left: 55px;
             right: 55px;
 
-            bottom: 48px;
+            bottom: 42px;
 
             display: flex;
 
@@ -2372,7 +2357,7 @@
 
         .president-label {
 
-            font-size: 10px;
+            font-size: 12px;
 
             font-weight: 900;
 
@@ -2416,7 +2401,7 @@
 
             margin-top: 2px;
 
-            font-size: 9px;
+            font-size: 12px;
 
             font-weight: 700;
 
@@ -2431,7 +2416,7 @@
 
             color: #000000 !important;
 
-            font-size: 12px;
+            font-size: 14px;
 
             font-weight: 900;
 
@@ -2495,23 +2480,23 @@
            FILIGRANE CENTRAL VERSO
         ========================================================== */
 
-        .back-watermark-emblem {
+                .back-watermark-emblem {
 
             position: absolute;
 
             left: 50%;
 
-            top: 205px;
+            top: 235px;
 
-            width: 360px;
+            width: 300px;
 
-            height: 300px;
+            height: 250px;
 
             transform: translateX(-50%);
 
             z-index: 4;
 
-            opacity: .055;
+            opacity: .075;
 
             pointer-events: none;
 
@@ -2529,7 +2514,7 @@
 
         }
 
-        .back-cultural-watermarks {
+                .back-cultural-watermarks {
 
             position: absolute;
 
@@ -2543,7 +2528,7 @@
 
         }
 
-        .back-cultural-watermarks i {
+                .back-cultural-watermarks i {
 
             position: absolute;
 
@@ -2551,45 +2536,45 @@
 
             opacity: .045;
 
-            font-size: 92px;
+            font-size: 86px;
 
         }
 
-        .back-wm-book {
+                .back-wm-book {
 
-            left: 75px;
+            left: 55px;
 
-            bottom: 55px;
+            bottom: 65px;
 
             transform: rotate(-15deg);
 
         }
 
-        .back-wm-music {
+                .back-wm-music {
 
-            left: 365px;
+            right: 365px;
 
-            bottom: 45px;
+            bottom: 55px;
 
             transform: rotate(8deg);
 
         }
 
-        .back-wm-camera {
+                .back-wm-camera {
 
-            right: 75px;
+            right: 55px;
 
-            bottom: 45px;
+            bottom: 65px;
 
             transform: rotate(-10deg);
 
         }
 
-        .back-wm-feather {
+                .back-wm-feather {
 
-            left: 355px;
+            left: 70px;
 
-            top: 245px;
+            top: 250px;
 
             transform: rotate(-20deg);
 
