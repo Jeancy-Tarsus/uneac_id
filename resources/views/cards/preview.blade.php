@@ -394,7 +394,7 @@
 
                         {{-- DOMICILE --}}
 
-                        <div class="info-row">
+                        <div class="info-row domicile-row">
 
                             <div class="info-label">
                                 Domicile :
@@ -1328,7 +1328,8 @@
 
             position: absolute;
 
-            left: 58px; top: 35px;
+            left: 58px;
+            top: 42px;
 
             width: 105px;
             height: 105px;
@@ -1647,7 +1648,23 @@
         }
 
 
-        .info-row {
+        /* ============================================================
+       DOMICILE — GESTION DES ADRESSES LONGUES
+    ============================================================ */
+
+    .domicile-row {
+        align-items: flex-start;
+    }
+
+    .domicile-row .info-value {
+        white-space: normal;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+        line-height: 1.15;
+        max-width: 360px;
+    }
+
+    .info-row {
 
             display: flex;
 
