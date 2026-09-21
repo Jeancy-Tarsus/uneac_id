@@ -11,7 +11,7 @@ class AdminUserSeeder extends Seeder
     public function run(): void
     {
         User::updateOrCreate(
-            ['email' => 'admin@uneac.cg'],
+            ['email' => 'bablebrizejeancytarsus@gmail.com'],
             [
                 'name' => 'Super Administrateur',
                 'password' => Hash::make('azertyui'),
@@ -20,7 +20,7 @@ class AdminUserSeeder extends Seeder
         );
 
         User::updateOrCreate(
-            ['email' => 'uneac@uneac.cg'],
+            ['email' => 'uneac@gmail.com'],
             [
                 'name' => 'Administrateur UNEAC',
                 'password' => Hash::make('azertyui'),
