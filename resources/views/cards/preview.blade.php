@@ -313,7 +313,17 @@
 
                             <div class="info-value">
 
-                                {{ $card->member->sexe ?: 'Non renseigné' }}
+                                @php
+                                    $sexe = strtoupper(trim($card->member->sexe ?? ''));
+
+                                    $sexeAffiche = match ($sexe) {
+                                        'M', 'MASCULIN' => 'Masculin',
+                                        'F', 'FEMININ', 'FÉMININ' => 'Féminin',
+                                        default => $card->member->sexe ?: 'Non renseigné',
+                                    };
+                                @endphp
+
+                                {{ $sexeAffiche }}
 
                             </div>
 
@@ -594,19 +604,20 @@
                      TEXTES DÉCORATIFS
                 ================================================== --}}
 
+
+
+
+                {{-- =================================================
+                     TEXTES DÉCORATIFS VERTICAUX
+                ================================================== --}}
+
                 <div class="decorative-left">
-
                     UNION • CULTURE • ART
-
                 </div>
-
 
                 <div class="decorative-right">
-
                     UNEAC • CONGO
-
                 </div>
-
 
 
                 {{-- =================================================
@@ -622,7 +633,7 @@
 
                         <i class="bi bi-shield-check"></i>
 
-                        Carte officielle de membre
+                        CARTE OFFICIELLE DE MEMBRE
 
                     </div>
 
@@ -1329,7 +1340,7 @@
             position: absolute;
 
             left: 58px;
-            top: 42px;
+            top: 35px;
 
             width: 105px;
             height: 105px;
@@ -1358,11 +1369,11 @@
 
         .front-logo img {
 
-            width: 86px;
-            height: 86px;
+            width: 76px;
+            height: 76px;
 
-            max-width: 86px;
-            max-height: 86px;
+            max-width: 76px;
+            max-height: 76px;
 
             object-fit: contain;
 
@@ -1658,10 +1669,14 @@
 
     .domicile-row .info-value {
         white-space: normal;
-        overflow-wrap: anywhere;
-        word-break: break-word;
-        line-height: 1.15;
+        overflow-wrap: break-word;
+        word-break: normal;
+        line-height: 1.20;
         max-width: 360px;
+
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
     }
 
     .info-row {
@@ -1710,7 +1725,7 @@
 
             font-size: 20px;
 
-            line-height: 1.02;
+            line-height: 1.20;
 
             font-weight: 700;
 
@@ -1745,9 +1760,9 @@
 
         .member-main-name .info-value {
 
-            font-size: 25px;
+            font-size: 20px;
 
-            line-height: 1;
+            line-height: 1.20;
 
             font-weight: 900;
 
@@ -1787,7 +1802,7 @@
 
     border-radius: 0 0 8px 8px;
 
-    font-size: 14px;
+    font-size: 15px;
 
     font-weight: 900;
 
@@ -2029,7 +2044,8 @@
 
 
         /* =========================================================
-           TEXTES DÉCORATIFS GAUCHE / DROITE
+           TEXTES DÉCORATIFS VERTICAUX
+           Lecture : de haut en bas, lettre par lettre
         ========================================================== */
 
         .decorative-left,
@@ -2037,41 +2053,41 @@
 
             position: absolute;
 
-            top: 150px;
+            top: 155px;
 
             z-index: 12;
 
             writing-mode: vertical-rl;
 
-            text-orientation: mixed;
+            text-orientation: upright;
 
-            font-size: 10px;
+            font-size: 9px;
 
             font-weight: 900;
 
-            letter-spacing: 2px;
+            letter-spacing: 1px;
 
-            color:
-                rgba(8,127,63,.45);
+            line-height: 1.05;
+
+            color: rgba(8,127,63,.45);
 
             text-transform: uppercase;
+
+            white-space: nowrap;
 
         }
 
 
         .decorative-left {
 
-            left: 25px;
-
-            transform:
-                rotate(180deg);
+            left: 18px;
 
         }
 
 
         .decorative-right {
 
-            right: 25px;
+            right: 18px;
 
         }
 
