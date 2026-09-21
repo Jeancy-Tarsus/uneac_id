@@ -15,16 +15,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Utilisateur de test
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
 
         // Données UNEAC
         $this->call([
             CategorySeeder::class,
             FederationSeeder::class,
+            AdminUserSeeder::class,
         ]);
     }
 }
