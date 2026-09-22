@@ -194,7 +194,7 @@ class CardController extends Controller
             'UNEAC-CG-26' .
             str_pad(
                 $nextNumber,
-                5,
+                4,
                 '0',
                 STR_PAD_LEFT
             );

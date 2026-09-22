@@ -1,3 +1,7 @@
+@php
+    use Illuminate\Support\Facades\Storage;
+@endphp
+
 <div class="modal fade"
      id="modalVoirMembre{{ $member->id }}"
      tabindex="-1"
@@ -41,7 +45,12 @@
 
                                 @if($member->photo)
 
-                                    <img src="{{ asset('storage/' . $member->photo) }}"
+                                    <img src="{{ app()->environment('production')
+                                         ? Storage::disk('uneac')->temporaryUrl(
+                                             $member->photo,
+                                             now()->addMinutes(30)
+                                         )
+                                         : asset('storage/' . $member->photo) }}"
                                          alt="Photo de {{ $member->prenom }}"
                                          class="rounded-circle img-thumbnail"
                                          style="width: 150px; height: 150px; object-fit: cover;">

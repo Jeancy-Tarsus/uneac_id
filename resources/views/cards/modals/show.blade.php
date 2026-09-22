@@ -1,3 +1,7 @@
+@php
+    use Illuminate\Support\Facades\Storage;
+@endphp
+
 <div class="modal fade"
      id="modalVoirCarte{{ $card->id }}"
      tabindex="-1"
@@ -93,7 +97,12 @@
 
                                 @if($card->member->photo)
 
-                                    <img src="{{ asset('storage/' . $card->member->photo) }}"
+                                    <img src="{{ app()->environment('production')
+                                         ? Storage::disk('uneac')->temporaryUrl(
+                                             $card->member->photo,
+                                             now()->addMinutes(30)
+                                         )
+                                         : asset('storage/' . $card->member->photo) }}"
                                          alt="Photo du membre"
                                          class="rounded"
                                          width="110"
