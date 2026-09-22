@@ -19,11 +19,20 @@ class DashboardController extends Controller
 
         $totalMembers = Member::count();
 
-        $activeMembers = Member::where('statut', 'actif')->count();
+        $activeMembers = Member::where(
+            'statut',
+            'actif'
+        )->count();
 
-        $inactiveMembers = Member::where('statut', 'inactif')->count();
+        $inactiveMembers = Member::where(
+            'statut',
+            'inactif'
+        )->count();
 
-        $suspendedMembers = Member::where('statut', 'suspendu')->count();
+        $suspendedMembers = Member::where(
+            'statut',
+            'suspendu'
+        )->count();
 
         $newMembersThisMonth = Member::whereMonth(
             'created_at',
@@ -44,13 +53,80 @@ class DashboardController extends Controller
 
         $totalCards = Card::count();
 
-        $activeCards = Card::where('statut', 'active')->count();
+        $activeCards = Card::where(
+            'statut',
+            'active'
+        )->count();
 
-        $expiredCards = Card::where('statut', 'expiree')->count();
+        $expiredCards = Card::where(
+            'statut',
+            'expiree'
+        )->count();
 
-        $suspendedCards = Card::where('statut', 'suspendue')->count();
+        $suspendedCards = Card::where(
+            'statut',
+            'suspendue'
+        )->count();
 
-        $revokedCards = Card::where('statut', 'revoquee')->count();
+        $revokedCards = Card::where(
+            'statut',
+            'revoquee'
+        )->count();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | PRODUCTION DES CARTES
+        |--------------------------------------------------------------------------
+        */
+
+        // Cartes créées mais pas encore imprimées
+        $cardsPendingProduction = Card::where(
+            'statut_production',
+            'en_attente'
+        )->count();
+
+
+        // Cartes produites mais pas encore remises à l'UNEAC
+        $cardsPendingUneacDelivery = Card::where(
+            'statut_production',
+            'produite'
+        )
+        ->where(
+            'remise_uneac',
+            false
+        )
+        ->count();
+
+
+        // Cartes remises à l'UNEAC mais pas encore remises à l'artiste
+        $cardsPendingArtistDelivery = Card::where(
+            'statut_production',
+            'produite'
+        )
+        ->where(
+            'remise_uneac',
+            true
+        )
+        ->where(
+            'remise_artiste',
+            false
+        )
+        ->count();
+
+
+        // Total des cartes déjà remises à l'UNEAC
+        $cardsDeliveredToUneac = Card::where(
+            'remise_uneac',
+            true
+        )->count();
+
+
+        // Total des cartes déjà remises aux artistes
+        $cardsDeliveredToArtists = Card::where(
+            'remise_artiste',
+            true
+        )->count();
 
 
         /*
@@ -99,10 +175,14 @@ class DashboardController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        $membersByCategory = Category::withCount('members')
-            ->orderByDesc('members_count')
-            ->take(7)
-            ->get();
+        $membersByCategory = Category::withCount(
+            'members'
+        )
+        ->orderByDesc(
+            'members_count'
+        )
+        ->take(7)
+        ->get();
 
 
         /*
@@ -111,40 +191,59 @@ class DashboardController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        $membersByFederation = Federation::withCount('members')
-            ->orderByDesc('members_count')
-            ->take(7)
-            ->get();
+        $membersByFederation = Federation::withCount(
+            'members'
+        )
+        ->orderByDesc(
+            'members_count'
+        )
+        ->take(7)
+        ->get();
 
 
-        return view('dashboard', compact(
+        /*
+        |--------------------------------------------------------------------------
+        | ENVOI DES DONNÉES AU TABLEAU DE BORD
+        |--------------------------------------------------------------------------
+        */
 
-            // Membres
-            'totalMembers',
-            'activeMembers',
-            'inactiveMembers',
-            'suspendedMembers',
-            'newMembersThisMonth',
+        return view(
+            'dashboard',
+            compact(
 
-            // Cartes
-            'totalCards',
-            'activeCards',
-            'expiredCards',
-            'suspendedCards',
-            'revokedCards',
+                // Membres
+                'totalMembers',
+                'activeMembers',
+                'inactiveMembers',
+                'suspendedMembers',
+                'newMembersThisMonth',
 
-            // Structures
-            'totalCategories',
-            'totalFederations',
+                // Cartes
+                'totalCards',
+                'activeCards',
+                'expiredCards',
+                'suspendedCards',
+                'revokedCards',
 
-            // Listes
-            'recentMembers',
-            'recentCards',
+                // Production
+                'cardsPendingProduction',
+                'cardsPendingUneacDelivery',
+                'cardsPendingArtistDelivery',
+                'cardsDeliveredToUneac',
+                'cardsDeliveredToArtists',
 
-            // Répartitions
-            'membersByCategory',
-            'membersByFederation'
+                // Structures
+                'totalCategories',
+                'totalFederations',
 
-        ));
+                // Listes
+                'recentMembers',
+                'recentCards',
+
+                // Répartitions
+                'membersByCategory',
+                'membersByFederation'
+            )
+        );
     }
 }

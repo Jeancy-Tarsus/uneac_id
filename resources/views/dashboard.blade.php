@@ -2,101 +2,1009 @@
 
 @section('title', 'Tableau de bord')
 
-
 @section('content_header')
-
-    <div class="d-flex justify-content-between align-items-center">
-
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-3">
         <div>
-
-            <h1 class="fw-bold mb-1">
+            <h1 class="dashboard-title mb-1">
+                <i class="bi bi-grid-1x2-fill me-2"></i>
                 Tableau de bord
             </h1>
 
-            <p class="text-muted mb-0">
-                Vue d'ensemble de la plateforme UNEAC ID.
+            <p class="dashboard-subtitle mb-0">
+                Vue d’ensemble de la gestion des membres et des cartes UNEAC ID.
             </p>
-
         </div>
 
-
-        <div>
-
-            <span class="badge bg-success px-3 py-2">
-
-                <i class="bi bi-circle-fill me-1"
-                   style="font-size: 7px;"></i>
-
-                Système opérationnel
-
-            </span>
-
+        <div class="dashboard-date">
+            <i class="bi bi-calendar3 me-2"></i>
+            {{ now()->translatedFormat('l d F Y') }}
         </div>
-
     </div>
-
 @stop
-
 
 
 @section('content')
 
-<div class="container-fluid px-0">
+<style>
+
+    :root {
+        --uneac-green: #087f5b;
+        --uneac-green-dark: #056044;
+        --uneac-green-light: #e7f7f0;
+        --uneac-blue: #2867c7;
+        --uneac-orange: #c47b09;
+        --uneac-purple: #7650c8;
+
+        --text-dark: #1f2937;
+        --text-muted: #6b7280;
+        --border: #e8ecef;
+        --page-bg: #f6f8f9;
+    }
+
+    .content-wrapper {
+        background: var(--page-bg) !important;
+    }
 
 
-    {{-- =========================================================
-         STATISTIQUES PRINCIPALES
-    ========================================================== --}}
+    /* =====================================================
+       HEADER
+    ===================================================== */
 
-    <div class="row">
+    .dashboard-title {
+        font-size: 27px;
+        font-weight: 700;
+        color: var(--text-dark);
+    }
+
+    .dashboard-subtitle {
+        color: var(--text-muted);
+        font-size: 14px;
+    }
+
+    .dashboard-date {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 15px;
+        color: #59636e;
+        font-size: 13px;
+        white-space: nowrap;
+    }
 
 
-        {{-- TOTAL MEMBRES --}}
-        <div class="col-lg-3 col-md-6 mb-4">
+    /* =====================================================
+       STATISTIQUES
+    ===================================================== */
 
-            <div class="card border-0 shadow-sm h-100">
+    .dashboard-stat-link {
+        display: block;
+        height: 100%;
+        text-decoration: none;
+        color: inherit;
+    }
 
-                <div class="card-body">
+    .dashboard-stat-link:hover {
+        color: inherit;
+    }
 
-                    <div class="d-flex justify-content-between align-items-center">
+    .stat-card {
+        position: relative;
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 15px;
+        min-height: 155px;
+        height: 100%;
+        padding: 21px;
+        overflow: hidden;
+        box-shadow: 0 3px 14px rgba(24,39,75,.045);
+        transition: .18s ease;
+    }
 
-                        <div>
+    .dashboard-stat-link:hover .stat-card {
+        transform: translateY(-4px);
+        border-color: rgba(8,127,91,.25);
+        box-shadow: 0 10px 28px rgba(24,39,75,.10);
+    }
 
-                            <p class="text-muted mb-1">
-                                Membres
-                            </p>
+    .stat-card::after {
+        content: "";
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        right: -45px;
+        top: -45px;
+        border-radius: 50%;
+        background: var(--stat-bg);
+        opacity: .65;
+    }
 
-                            <h2 class="fw-bold mb-0">
+    .stat-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        background: var(--stat-bg);
+        color: var(--stat-color);
+        margin-bottom: 14px;
+    }
 
-                                {{ number_format($totalMembers, 0, ',', ' ') }}
+    .stat-label {
+        color: var(--text-muted);
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .3px;
+    }
 
-                            </h2>
+    .stat-value {
+        font-size: 29px;
+        font-weight: 750;
+        line-height: 1.2;
+        color: var(--text-dark);
+        margin: 4px 0 6px;
+    }
 
+    .stat-description {
+        color: var(--text-muted);
+        font-size: 12px;
+        line-height: 1.4;
+    }
+
+    .stat-green {
+        --stat-bg: #e7f7f0;
+        --stat-color: #087f5b;
+    }
+
+    .stat-blue {
+        --stat-bg: #eaf2ff;
+        --stat-color: #2867c7;
+    }
+
+    .stat-orange {
+        --stat-bg: #fff4df;
+        --stat-color: #c47b09;
+    }
+
+    .stat-purple {
+        --stat-bg: #f1ebff;
+        --stat-color: #7650c8;
+    }
+
+
+    /* =====================================================
+       CARTES GÉNÉRALES
+    ===================================================== */
+
+    .dashboard-card {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 15px;
+        box-shadow: 0 3px 14px rgba(24,39,75,.045);
+        height: 100%;
+    }
+
+    .dashboard-card-header {
+        padding: 18px 20px 14px;
+        border-bottom: 1px solid #eef1f3;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+    }
+
+    .dashboard-card-title {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--text-dark);
+    }
+
+    .dashboard-card-subtitle {
+        margin: 4px 0 0;
+        font-size: 12px;
+        color: var(--text-muted);
+    }
+
+    .dashboard-card-body {
+        padding: 20px;
+    }
+
+
+    /* =====================================================
+       PRODUCTION
+    ===================================================== */
+
+    .production-card {
+        background: linear-gradient(
+            135deg,
+            #087f5b,
+            #056044
+        );
+
+        color: #fff;
+        border: none;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .production-card::after {
+        content: "";
+        position: absolute;
+        width: 230px;
+        height: 230px;
+        right: -100px;
+        top: -120px;
+        border: 35px solid rgba(255,255,255,.06);
+        border-radius: 50%;
+    }
+
+    .production-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .production-title {
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .production-description {
+        font-size: 13px;
+        opacity: .78;
+        margin-top: 4px;
+    }
+
+    .production-box {
+        display: block;
+        text-decoration: none;
+        color: #fff;
+
+        background: rgba(255,255,255,.11);
+        border: 1px solid rgba(255,255,255,.13);
+        border-radius: 12px;
+
+        padding: 16px;
+
+        transition: .18s ease;
+    }
+
+    .production-box:hover {
+        color: #fff;
+        background: rgba(255,255,255,.18);
+        transform: translateY(-2px);
+    }
+
+    .production-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        opacity: .75;
+    }
+
+    .production-number {
+        font-size: 27px;
+        font-weight: 700;
+        margin-top: 3px;
+    }
+
+    .production-progress {
+        height: 8px;
+        background: rgba(255,255,255,.15);
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .production-progress .progress-bar {
+        background: #fff;
+        border-radius: 20px;
+    }
+
+
+    /* =====================================================
+       MEMBRES
+    ===================================================== */
+
+    .status-item {
+        padding: 13px 0;
+        border-bottom: 1px solid #eef1f3;
+    }
+
+    .status-item:first-child {
+        padding-top: 0;
+    }
+
+    .status-item:last-child {
+        border-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    .status-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .status-label {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-dark);
+    }
+
+    .status-number {
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .status-bar {
+        height: 6px;
+        border-radius: 20px;
+        background: #edf0f2;
+        overflow: hidden;
+        margin-top: 7px;
+    }
+
+    .status-bar span {
+        display: block;
+        height: 100%;
+        border-radius: 20px;
+    }
+
+
+    /* =====================================================
+       ACTIONS
+    ===================================================== */
+
+    .quick-action {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        padding: 14px;
+
+        border: 1px solid var(--border);
+        border-radius: 11px;
+
+        background: #fff;
+
+        text-decoration: none;
+        color: var(--text-dark);
+
+        transition: .18s ease;
+    }
+
+    .quick-action:hover {
+        color: var(--uneac-green-dark);
+        background: #f3fbf7;
+        border-color: #c9ded7;
+        transform: translateY(-2px);
+    }
+
+    .quick-action-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: var(--uneac-green-light);
+        color: var(--uneac-green);
+
+        flex-shrink: 0;
+    }
+
+    .quick-action-title {
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .quick-action-text {
+        font-size: 11px;
+        color: var(--text-muted);
+    }
+
+
+    /* =====================================================
+       TABLEAUX
+    ===================================================== */
+
+    .dashboard-table {
+        width: 100%;
+        margin: 0;
+        vertical-align: middle;
+    }
+
+    .dashboard-table th {
+        border-top: 0;
+        border-bottom: 1px solid #edf0f2;
+        color: #78818b;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: .35px;
+        font-weight: 700;
+        padding: 12px 15px;
+        white-space: nowrap;
+    }
+
+    .dashboard-table td {
+        border-bottom: 1px solid #f0f2f4;
+        padding: 13px 15px;
+        font-size: 12px;
+        color: #4b5563;
+    }
+
+    .dashboard-table tr:last-child td {
+        border-bottom: 0;
+    }
+
+    .member-avatar {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: var(--uneac-green-light);
+        color: var(--uneac-green);
+
+        font-weight: 700;
+        font-size: 13px;
+        flex-shrink: 0;
+    }
+
+    .member-name {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text-dark);
+    }
+
+    .member-number {
+        font-size: 11px;
+        color: var(--text-muted);
+        margin-top: 2px;
+    }
+
+
+    /* =====================================================
+       BADGES
+    ===================================================== */
+
+    .dashboard-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+
+        border-radius: 20px;
+        padding: 5px 9px;
+
+        font-size: 10px;
+        font-weight: 700;
+
+        white-space: nowrap;
+    }
+
+    .badge-active {
+        color: #087f5b;
+        background: #e7f7f0;
+    }
+
+    .badge-pending {
+        color: #a66a00;
+        background: #fff4df;
+    }
+
+    .badge-produced {
+        color: #2867c7;
+        background: #eaf2ff;
+    }
+
+    .badge-suspended {
+        color: #b42318;
+        background: #fdecec;
+    }
+
+    .badge-inactive {
+        color: #6b7280;
+        background: #f0f1f3;
+    }
+
+    .badge-delivered {
+        color: #087f5b;
+        background: #e7f7f0;
+    }
+
+
+    /* =====================================================
+       DISTRIBUTION
+    ===================================================== */
+
+    .distribution-item {
+        margin-bottom: 18px;
+    }
+
+    .distribution-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .distribution-label {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+
+        font-size: 12px;
+        margin-bottom: 7px;
+    }
+
+    .distribution-name {
+        color: #4b5563;
+        font-weight: 600;
+    }
+
+    .distribution-count {
+        font-weight: 700;
+        color: var(--text-dark);
+    }
+
+    .distribution-track {
+        width: 100%;
+        height: 7px;
+
+        background: #edf1f2;
+        border-radius: 20px;
+
+        overflow: hidden;
+    }
+
+    .distribution-fill {
+        height: 100%;
+        border-radius: 20px;
+
+        background: linear-gradient(
+            90deg,
+            #087f5b,
+            #4caf86
+        );
+    }
+
+
+    /* =====================================================
+       EMPTY
+    ===================================================== */
+
+    .empty-state {
+        text-align: center;
+        padding: 30px 15px;
+        color: var(--text-muted);
+    }
+
+    .empty-state i {
+        display: block;
+        font-size: 30px;
+        opacity: .45;
+        margin-bottom: 10px;
+    }
+
+    .empty-state p {
+        font-size: 12px;
+        margin: 0;
+    }
+
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media (max-width: 575.98px) {
+
+        .dashboard-title {
+            font-size: 23px;
+        }
+
+        .stat-card {
+            min-height: 145px;
+        }
+
+        .dashboard-card-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .dashboard-table {
+            min-width: 620px;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+    }
+
+</style>
+
+
+{{-- ==========================================================
+     STATISTIQUES PRINCIPALES
+========================================================== --}}
+
+<div class="row g-3 mb-4">
+
+
+    {{-- MEMBRES --}}
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <a
+            href="{{ route('members.index') }}"
+            class="dashboard-stat-link"
+        >
+
+            <div class="stat-card stat-green">
+
+                <div class="stat-icon">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+
+                <div class="stat-label">
+                    Membres
+                </div>
+
+                <div class="stat-value">
+                    {{ number_format($totalMembers, 0, ',', ' ') }}
+                </div>
+
+                <div class="stat-description">
+                    <i class="bi bi-person-plus me-1"></i>
+
+                    {{ $newMembersThisMonth }}
+
+                    nouveau{{ $newMembersThisMonth > 1 ? 'x' : '' }}
+
+                    ce mois
+                </div>
+
+            </div>
+
+        </a>
+
+    </div>
+
+
+    {{-- CARTES ACTIVES --}}
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <a
+            href="{{ route('cards.index', ['statut' => 'active']) }}"
+            class="dashboard-stat-link"
+        >
+
+            <div class="stat-card stat-blue">
+
+                <div class="stat-icon">
+                    <i class="bi bi-credit-card-2-front-fill"></i>
+                </div>
+
+                <div class="stat-label">
+                    Cartes actives
+                </div>
+
+                <div class="stat-value">
+                    {{ number_format($activeCards, 0, ',', ' ') }}
+                </div>
+
+                <div class="stat-description">
+                    <i class="bi bi-shield-check me-1"></i>
+                    Cartes actuellement valides
+                </div>
+
+            </div>
+
+        </a>
+
+    </div>
+
+
+    {{-- À IMPRIMER
+         Réservé au Super Admin
+    --}}
+
+    @if(auth()->user()->role === 'super_admin')
+
+        <div class="col-12 col-sm-6 col-xl-3">
+
+            <a
+                href="{{ route('cards.index', [
+                    'production' => 'en_attente'
+                ]) }}"
+                class="dashboard-stat-link"
+            >
+
+                <div class="stat-card stat-orange">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-printer-fill"></i>
+                    </div>
+
+                    <div class="stat-label">
+                        À imprimer
+                    </div>
+
+                    <div class="stat-value">
+                        {{ number_format($cardsPendingProduction, 0, ',', ' ') }}
+                    </div>
+
+                    <div class="stat-description">
+                        <i class="bi bi-hourglass-split me-1"></i>
+                        Cartes en attente d'impression
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+    @endif
+
+
+    {{-- À REMETTRE À L'UNEAC
+         Visible aux deux rôles
+    --}}
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <a
+            href="{{ route('cards.index', [
+                'production' => 'produite',
+                'remise_uneac' => '0'
+            ]) }}"
+            class="dashboard-stat-link"
+        >
+
+            <div class="stat-card stat-purple">
+
+                <div class="stat-icon">
+                    <i class="bi bi-building-check"></i>
+                </div>
+
+                <div class="stat-label">
+                    À remettre à l'UNEAC
+                </div>
+
+                <div class="stat-value">
+
+                    {{
+                        number_format(
+                            $cardsPendingUneacDelivery,
+                            0,
+                            ',',
+                            ' '
+                        )
+                    }}
+
+                </div>
+
+                <div class="stat-description">
+                    <i class="bi bi-box-seam me-1"></i>
+                    Cartes produites à remettre
+                </div>
+
+            </div>
+
+        </a>
+
+    </div>
+
+</div>
+
+
+{{-- ==========================================================
+     SUIVI PRODUCTION
+========================================================== --}}
+
+<div class="row g-3 mb-4">
+
+
+    {{-- PRODUCTION --}}
+
+    <div class="col-12 col-xl-8">
+
+        <div class="dashboard-card production-card">
+
+            <div class="dashboard-card-body production-content">
+
+                <div class="d-flex justify-content-between gap-3 mb-4">
+
+                    <div>
+
+                        <div class="production-title">
+                            <i class="bi bi-printer me-2"></i>
+                            Suivi de production
                         </div>
 
-
-                        <div class="bg-primary bg-opacity-10 rounded-circle p-3">
-
-                            <i class="bi bi-people-fill fs-2 text-primary"></i>
-
+                        <div class="production-description">
+                            Suivi des cartes depuis l'impression jusqu'à leur remise.
                         </div>
 
                     </div>
 
+                    <i
+                        class="bi bi-credit-card-2-front"
+                        style="font-size:34px;opacity:.7;"
+                    ></i>
 
-                    <div class="mt-3">
+                </div>
 
-                        <small class="text-success">
 
-                            <i class="bi bi-person-plus-fill"></i>
+                @php
 
-                            {{ $newMembersThisMonth }}
-                            nouveau{{ $newMembersThisMonth > 1 ? 'x' : '' }}
-                            ce mois
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Les trois étapes du processus
+                    |--------------------------------------------------------------------------
+                    */
 
-                        </small>
+                    $cardsToUneac = \App\Models\Card::where(
+                        'statut_production',
+                        'produite'
+                    )
+                    ->where(
+                        'remise_uneac',
+                        false
+                    )
+                    ->count();
+
+
+                    $cardsToArtist = \App\Models\Card::where(
+                        'statut_production',
+                        'produite'
+                    )
+                    ->where(
+                        'remise_uneac',
+                        true
+                    )
+                    ->where(
+                        'remise_artiste',
+                        false
+                    )
+                    ->count();
+
+
+                    $totalProduction =
+                        $cardsPendingProduction +
+                        $cardsToUneac +
+                        $cardsToArtist;
+
+
+                    $produced =
+                        $cardsToUneac +
+                        $cardsToArtist;
+
+
+                    $productionPercentage =
+                        $totalProduction > 0
+                            ? round(
+                                ($produced / $totalProduction) * 100
+                            )
+                            : 0;
+
+                @endphp
+
+
+                <div class="row g-3">
+
+
+                    {{-- À IMPRIMER
+                         Super Admin uniquement
+                    --}}
+
+                    @if(auth()->user()->role === 'super_admin')
+
+                        <div class="col-12 col-md-4">
+
+                            <a
+                                href="{{ route('cards.index', [
+                                    'production' => 'en_attente'
+                                ]) }}"
+                                class="production-box"
+                            >
+
+                                <div class="production-label">
+                                    À imprimer
+                                </div>
+
+                                <div class="production-number">
+                                    {{ $cardsPendingProduction }}
+                                </div>
+
+                            </a>
+
+                        </div>
+
+                    @endif
+
+
+                    {{-- À REMETTRE À UNEAC --}}
+
+                    <div class="col-12 col-md-4">
+
+                        <a
+                            href="{{ route('cards.index', [
+                                'production' => 'produite',
+                                'remise_uneac' => '0'
+                            ]) }}"
+                            class="production-box"
+                        >
+
+                            <div class="production-label">
+                                À remettre à l'UNEAC
+                            </div>
+
+                            <div class="production-number">
+                                {{ $cardsPendingUneacDelivery }}
+                            </div>
+
+                        </a>
 
                     </div>
+
+
+                    {{-- À REMETTRE À ARTISTE --}}
+
+                    <div class="col-12 col-md-4">
+
+                        <a
+                            href="{{ route('cards.index', [
+                                'production' => 'produite',
+                                'remise_uneac' => '1',
+                                'remise_artiste' => '0'
+                            ]) }}"
+                            class="production-box"
+                        >
+
+                            <div class="production-label">
+                                À remettre à l'artiste
+                            </div>
+
+                            <div class="production-number">
+                                {{ $cardsPendingArtistDelivery }}
+                            </div>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <div class="d-flex justify-content-between mt-4 mb-2">
+
+                    <span style="font-size:12px;opacity:.8;">
+                        Progression de la production
+                    </span>
+
+                    <strong style="font-size:12px;">
+                        {{ $productionPercentage }} %
+                    </strong>
+
+                </div>
+
+
+                <div class="production-progress">
+
+                    <div
+                        class="progress-bar"
+                        style="width:{{ $productionPercentage }}%;"
+                    ></div>
 
                 </div>
 
@@ -104,156 +1012,196 @@
 
         </div>
 
+    </div>
 
 
-        {{-- CARTES ACTIVES --}}
-        <div class="col-lg-3 col-md-6 mb-4">
+    {{-- ÉTAT MEMBRES --}}
 
-            <div class="card border-0 shadow-sm h-100">
+    <div class="col-12 col-xl-4">
 
-                <div class="card-body">
+        <div class="dashboard-card">
 
-                    <div class="d-flex justify-content-between align-items-center">
+            <div class="dashboard-card-header">
 
-                        <div>
+                <div>
 
-                            <p class="text-muted mb-1">
-                                Cartes actives
-                            </p>
+                    <h3 class="dashboard-card-title">
+                        État des membres
+                    </h3>
 
-                            <h2 class="fw-bold mb-0">
+                    <p class="dashboard-card-subtitle">
+                        Situation actuelle des membres.
+                    </p>
 
-                                {{ number_format($activeCards, 0, ',', ' ') }}
+                </div>
 
-                            </h2>
+                <i class="bi bi-people text-success"></i>
 
-                        </div>
-
-
-                        <div class="bg-success bg-opacity-10 rounded-circle p-3">
-
-                            <i class="bi bi-person-vcard-fill fs-2 text-success"></i>
-
-                        </div>
-
-                    </div>
+            </div>
 
 
-                    <div class="mt-3">
+            <div class="dashboard-card-body">
 
-                        <small class="text-success">
+                @php
+
+                    $memberTotal = max($totalMembers, 1);
+
+                    $activePercentage =
+                        round(($activeMembers / $memberTotal) * 100);
+
+                    $suspendedPercentage =
+                        round(($suspendedMembers / $memberTotal) * 100);
+
+                    $inactivePercentage =
+                        round(($inactiveMembers / $memberTotal) * 100);
+
+                @endphp
+
+
+                {{-- ACTIFS --}}
+
+                <div class="status-item">
+
+                    <div class="d-flex align-items-center gap-3">
+
+                        <div
+                            class="status-icon"
+                            style="
+                                background:#e7f7f0;
+                                color:#087f5b;
+                            "
+                        >
 
                             <i class="bi bi-check-circle-fill"></i>
 
-                            Cartes actuellement valides
+                        </div>
 
-                        </small>
+                        <div class="flex-grow-1">
+
+                            <div class="d-flex justify-content-between">
+
+                                <span class="status-label">
+                                    Actifs
+                                </span>
+
+                                <span class="status-number">
+                                    {{ $activeMembers }}
+                                </span>
+
+                            </div>
+
+                            <div class="status-bar">
+
+                                <span
+                                    style="
+                                        width:{{ $activePercentage }}%;
+                                        background:#087f5b;
+                                    "
+                                ></span>
+
+                            </div>
+
+                        </div>
 
                     </div>
 
                 </div>
 
-            </div>
 
-        </div>
+                {{-- SUSPENDUS --}}
 
+                <div class="status-item">
 
+                    <div class="d-flex align-items-center gap-3">
 
-        {{-- CARTES EXPIRÉES --}}
-        <div class="col-lg-3 col-md-6 mb-4">
+                        <div
+                            class="status-icon"
+                            style="
+                                background:#fdecec;
+                                color:#b42318;
+                            "
+                        >
 
-            <div class="card border-0 shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <div class="d-flex justify-content-between align-items-center">
-
-                        <div>
-
-                            <p class="text-muted mb-1">
-                                Cartes expirées
-                            </p>
-
-                            <h2 class="fw-bold mb-0">
-
-                                {{ number_format($expiredCards, 0, ',', ' ') }}
-
-                            </h2>
+                            <i class="bi bi-pause-circle-fill"></i>
 
                         </div>
 
+                        <div class="flex-grow-1">
 
-                        <div class="bg-warning bg-opacity-10 rounded-circle p-3">
+                            <div class="d-flex justify-content-between">
 
-                            <i class="bi bi-calendar-x-fill fs-2 text-warning"></i>
+                                <span class="status-label">
+                                    Suspendus
+                                </span>
+
+                                <span class="status-number">
+                                    {{ $suspendedMembers }}
+                                </span>
+
+                            </div>
+
+                            <div class="status-bar">
+
+                                <span
+                                    style="
+                                        width:{{ $suspendedPercentage }}%;
+                                        background:#d92d20;
+                                    "
+                                ></span>
+
+                            </div>
 
                         </div>
-
-                    </div>
-
-
-                    <div class="mt-3">
-
-                        <small class="text-warning">
-
-                            <i class="bi bi-exclamation-triangle-fill"></i>
-
-                            À renouveler
-
-                        </small>
 
                     </div>
 
                 </div>
 
-            </div>
 
-        </div>
+                {{-- INACTIFS --}}
 
+                <div class="status-item">
 
+                    <div class="d-flex align-items-center gap-3">
 
-        {{-- CARTES SUSPENDUES --}}
-        <div class="col-lg-3 col-md-6 mb-4">
+                        <div
+                            class="status-icon"
+                            style="
+                                background:#f0f1f3;
+                                color:#6b7280;
+                            "
+                        >
 
-            <div class="card border-0 shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <div class="d-flex justify-content-between align-items-center">
-
-                        <div>
-
-                            <p class="text-muted mb-1">
-                                Cartes suspendues
-                            </p>
-
-                            <h2 class="fw-bold mb-0">
-
-                                {{ number_format($suspendedCards, 0, ',', ' ') }}
-
-                            </h2>
+                            <i class="bi bi-person-x-fill"></i>
 
                         </div>
 
+                        <div class="flex-grow-1">
 
-                        <div class="bg-danger bg-opacity-10 rounded-circle p-3">
+                            <div class="d-flex justify-content-between">
 
-                            <i class="bi bi-slash-circle-fill fs-2 text-danger"></i>
+                                <span class="status-label">
+                                    Inactifs
+                                </span>
+
+                                <span class="status-number">
+                                    {{ $inactiveMembers }}
+                                </span>
+
+                            </div>
+
+                            <div class="status-bar">
+
+                                <span
+                                    style="
+                                        width:{{ $inactivePercentage }}%;
+                                        background:#6b7280;
+                                    "
+                                ></span>
+
+                            </div>
 
                         </div>
-
-                    </div>
-
-
-                    <div class="mt-3">
-
-                        <small class="text-danger">
-
-                            <i class="bi bi-exclamation-circle-fill"></i>
-
-                            Vérification requise
-
-                        </small>
 
                     </div>
 
@@ -265,904 +1213,584 @@
 
     </div>
 
+</div>
 
 
-    {{-- =========================================================
-         DEUXIÈME LIGNE — STRUCTURES
-    ========================================================== --}}
+{{-- ==========================================================
+     ACTIONS RAPIDES
+========================================================== --}}
 
-    <div class="row">
+<div class="dashboard-card mb-4">
+
+    <div class="dashboard-card-header">
+
+        <div>
+
+            <h3 class="dashboard-card-title">
+                Actions rapides
+            </h3>
+
+            <p class="dashboard-card-subtitle">
+                Accès rapide aux principales fonctionnalités.
+            </p>
+
+        </div>
+
+        <i class="bi bi-lightning-charge-fill text-warning"></i>
+
+    </div>
 
 
-        {{-- MEMBRES ACTIFS --}}
-        <div class="col-lg-4 col-md-6 mb-4">
+    <div class="dashboard-card-body">
 
-            <div class="card border-0 shadow-sm h-100">
+        <div class="row g-3">
 
-                <div class="card-body">
 
-                    <div class="d-flex align-items-center">
+            {{-- MEMBRES --}}
 
-                        <div class="bg-success bg-opacity-10 rounded-circle p-3 me-3">
+            <div class="col-12 col-md-6 col-xl-3">
 
-                            <i class="bi bi-person-check-fill fs-3 text-success"></i>
+                <a
+                    href="{{ route('members.index') }}"
+                    class="quick-action"
+                >
 
+                    <div class="quick-action-icon">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+
+                    <div>
+
+                        <div class="quick-action-title">
+                            Membres
                         </div>
 
-                        <div>
-
-                            <p class="text-muted mb-1">
-                                Membres actifs
-                            </p>
-
-                            <h4 class="fw-bold mb-0">
-                                {{ number_format($activeMembers, 0, ',', ' ') }}
-                            </h4>
-
+                        <div class="quick-action-text">
+                            Gérer les membres
                         </div>
 
                     </div>
 
-                </div>
+                </a>
 
             </div>
 
-        </div>
 
+            {{-- CARTES --}}
 
+            <div class="col-12 col-md-6 col-xl-3">
 
-        {{-- CATÉGORIES --}}
-        <div class="col-lg-4 col-md-6 mb-4">
+                <a
+                    href="{{ route('cards.index') }}"
+                    class="quick-action"
+                >
 
-            <div class="card border-0 shadow-sm h-100">
+                    <div class="quick-action-icon">
+                        <i class="bi bi-credit-card-fill"></i>
+                    </div>
 
-                <div class="card-body">
+                    <div>
 
-                    <div class="d-flex align-items-center">
-
-                        <div class="bg-warning bg-opacity-10 rounded-circle p-3 me-3">
-
-                            <i class="bi bi-tags-fill fs-3 text-warning"></i>
-
+                        <div class="quick-action-title">
+                            Cartes
                         </div>
 
-                        <div>
-
-                            <p class="text-muted mb-1">
-                                Catégories artistiques
-                            </p>
-
-                            <h4 class="fw-bold mb-0">
-                                {{ number_format($totalCategories, 0, ',', ' ') }}
-                            </h4>
-
+                        <div class="quick-action-text">
+                            Gérer les cartes
                         </div>
 
                     </div>
 
-                </div>
+                </a>
 
             </div>
 
-        </div>
 
+            {{-- CATÉGORIES
+                 Super Admin uniquement
+            --}}
 
+            @if(auth()->user()->role === 'super_admin')
 
-        {{-- FÉDÉRATIONS --}}
-        <div class="col-lg-4 col-md-6 mb-4">
+                <div class="col-12 col-md-6 col-xl-3">
 
-            <div class="card border-0 shadow-sm h-100">
+                    <a
+                        href="{{ route('categories.index') }}"
+                        class="quick-action"
+                    >
 
-                <div class="card-body">
-
-                    <div class="d-flex align-items-center">
-
-                        <div class="bg-primary bg-opacity-10 rounded-circle p-3 me-3">
-
-                            <i class="bi bi-diagram-3-fill fs-3 text-primary"></i>
-
+                        <div class="quick-action-icon">
+                            <i class="bi bi-tags-fill"></i>
                         </div>
 
                         <div>
 
-                            <p class="text-muted mb-1">
+                            <div class="quick-action-title">
+                                Catégories
+                            </div>
+
+                            <div class="quick-action-text">
+                                Gérer les catégories
+                            </div>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+
+                {{-- FÉDÉRATIONS --}}
+
+                <div class="col-12 col-md-6 col-xl-3">
+
+                    <a
+                        href="{{ route('federations.index') }}"
+                        class="quick-action"
+                    >
+
+                        <div class="quick-action-icon">
+                            <i class="bi bi-diagram-3-fill"></i>
+                        </div>
+
+                        <div>
+
+                            <div class="quick-action-title">
                                 Fédérations
-                            </p>
+                            </div>
 
-                            <h4 class="fw-bold mb-0">
-                                {{ number_format($totalFederations, 0, ',', ' ') }}
-                            </h4>
+                            <div class="quick-action-text">
+                                Gérer les fédérations
+                            </div>
 
                         </div>
 
-                    </div>
+                    </a>
 
                 </div>
 
-            </div>
+            @endif
 
         </div>
 
     </div>
 
+</div>
 
 
-    {{-- =========================================================
-         ACTIONS RAPIDES
-    ========================================================== --}}
+{{-- ==========================================================
+     DERNIERS MEMBRES / CARTES
+========================================================== --}}
 
-    <div class="row">
+<div class="row g-3 mb-4">
 
 
-        <div class="col-12 mb-4">
+    {{-- MEMBRES --}}
 
-            <div class="card border-0 shadow-sm">
+    <div class="col-12 col-xl-6">
 
-                <div class="card-header bg-white border-0 pt-4 px-4">
+        <div class="dashboard-card">
 
-                    <h5 class="fw-bold mb-1">
+            <div class="dashboard-card-header">
 
-                        <i class="bi bi-lightning-charge-fill text-warning me-2"></i>
+                <div>
 
-                        Actions rapides
+                    <h3 class="dashboard-card-title">
+                        Derniers membres
+                    </h3>
 
-                    </h5>
-
-                    <p class="text-muted small mb-0">
-
-                        Accédez rapidement aux principales fonctionnalités.
-
+                    <p class="dashboard-card-subtitle">
+                        Membres ajoutés récemment.
                     </p>
 
                 </div>
 
-
-                <div class="card-body px-4 pb-4">
-
-                    <div class="row">
-
-
-                        {{-- MEMBRES --}}
-                        <div class="col-lg-4 col-md-4 mb-3">
-
-                            <a href="{{ route('members.index') }}"
-                               class="btn btn-primary w-100 py-3">
-
-                                <i class="bi bi-person-plus-fill fs-4 d-block mb-2"></i>
-
-                                Gestion des membres
-
-                            </a>
-
-                        </div>
-
-
-                        {{-- CARTES --}}
-                        <div class="col-lg-4 col-md-4 mb-3">
-
-                            <a href="{{ route('cards.index') }}"
-                               class="btn btn-outline-primary w-100 py-3">
-
-                                <i class="bi bi-person-vcard-fill fs-4 d-block mb-2"></i>
-
-                                Gestion des cartes
-
-                            </a>
-
-                        </div>
-
-
-                        {{-- CATÉGORIES --}}
-                        <div class="col-lg-4 col-md-4 mb-3">
-
-                            <a href="{{ route('categories.index') }}"
-                               class="btn btn-outline-success w-100 py-3">
-
-                                <i class="bi bi-tags-fill fs-4 d-block mb-2"></i>
-
-                                Catégories artistiques
-
-                            </a>
-
-                        </div>
-
-
-                    </div>
-
-                </div>
+                <a
+                    href="{{ route('members.index') }}"
+                    class="btn btn-sm btn-outline-success"
+                >
+                    Voir tout
+                </a>
 
             </div>
 
-        </div>
 
-    </div>
+            @if($recentMembers->count())
 
+                <div class="table-responsive">
 
+                    <table class="table dashboard-table">
 
-    {{-- =========================================================
-         MEMBRES RÉCENTS + INFORMATIONS
-    ========================================================== --}}
+                        <thead>
 
-    <div class="row">
+                            <tr>
+                                <th>Membre</th>
+                                <th>Catégorie</th>
+                                <th>Statut</th>
+                            </tr>
 
+                        </thead>
 
-        {{-- MEMBRES RÉCENTS --}}
-        <div class="col-lg-8 mb-4">
 
-            <div class="card border-0 shadow-sm h-100">
+                        <tbody>
 
-
-                <div class="card-header bg-white border-0 pt-4 px-4">
-
-                    <div class="d-flex justify-content-between align-items-center">
-
-                        <div>
-
-                            <h5 class="fw-bold mb-1">
-
-                                <i class="bi bi-people-fill text-primary me-2"></i>
-
-                                Membres récents
-
-                            </h5>
-
-                            <p class="text-muted small mb-0">
-                                Derniers membres enregistrés.
-                            </p>
-
-                        </div>
-
-
-                        <a href="{{ route('members.index') }}"
-                           class="btn btn-sm btn-outline-primary">
-
-                            Voir tout
-
-                        </a>
-
-                    </div>
-
-                </div>
-
-
-                <div class="card-body px-4">
-
-
-                    @forelse($recentMembers as $member)
-
-                        <div class="d-flex align-items-center py-3
-                                    {{ !$loop->last ? 'border-bottom' : '' }}">
-
-
-                            {{-- PHOTO --}}
-                            <div class="me-3">
-
-                                @if($member->photo)
-
-                                    <img
-                                        src="{{ asset('storage/' . $member->photo) }}"
-                                        alt="{{ $member->nom }}"
-                                        class="rounded-circle"
-                                        style="
-                                            width: 45px;
-                                            height: 45px;
-                                            object-fit: cover;
-                                        "
-                                    >
-
-                                @else
-
-                                    <div
-                                        class="rounded-circle bg-success bg-opacity-10
-                                               d-flex align-items-center justify-content-center"
-                                        style="
-                                            width: 45px;
-                                            height: 45px;
-                                        "
-                                    >
-
-                                        <i class="bi bi-person-fill text-success"></i>
-
-                                    </div>
-
-                                @endif
-
-                            </div>
-
-
-                            {{-- IDENTITÉ --}}
-                            <div class="flex-grow-1">
-
-                                <strong>
-
-                                    {{ $member->nom }}
-                                    {{ $member->postnom }}
-                                    {{ $member->prenom }}
-
-                                </strong>
-
-                                <div>
-
-                                    <small class="text-muted">
-
-                                        {{ $member->numero_membre }}
-
-                                        @if($member->category)
-                                            • {{ $member->category->nom }}
-                                        @endif
-
-                                    </small>
-
-                                </div>
-
-                            </div>
-
-
-                            {{-- STATUT --}}
-                            <div>
-
-                                @if($member->statut === 'actif')
-
-                                    <span class="badge bg-success">
-                                        Actif
-                                    </span>
-
-                                @elseif($member->statut === 'suspendu')
-
-                                    <span class="badge bg-warning text-dark">
-                                        Suspendu
-                                    </span>
-
-                                @else
-
-                                    <span class="badge bg-secondary">
-                                        Inactif
-                                    </span>
-
-                                @endif
-
-                            </div>
-
-                        </div>
-
-                    @empty
-
-                        <div class="text-center py-5 text-muted">
-
-                            <i class="bi bi-people fs-1 d-block mb-2"></i>
-
-                            Aucun membre enregistré.
-
-                        </div>
-
-                    @endforelse
-
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-
-        {{-- INFORMATIONS UNEAC ID --}}
-        <div class="col-lg-4 mb-4">
-
-            <div class="card border-0 shadow-sm h-100">
-
-
-                <div class="card-header bg-white border-0 pt-4 px-4">
-
-                    <h5 class="fw-bold mb-0">
-
-                        <i class="bi bi-info-circle-fill text-primary me-2"></i>
-
-                        UNEAC ID
-
-                    </h5>
-
-                </div>
-
-
-                <div class="card-body px-4">
-
-
-                    {{-- SÉCURITÉ --}}
-                    <div class="d-flex align-items-center mb-4">
-
-                        <div class="me-3">
-
-                            <i class="bi bi-shield-check fs-2 text-success"></i>
-
-                        </div>
-
-                        <div>
-
-                            <strong>
-                                Identification sécurisée
-                            </strong>
-
-                            <br>
-
-                            <small class="text-muted">
-
-                                QR Code unique pour chaque carte
-
-                            </small>
-
-                        </div>
-
-                    </div>
-
-
-                    {{-- MOBILE --}}
-                    <div class="d-flex align-items-center mb-4">
-
-                        <div class="me-3">
-
-                            <i class="bi bi-phone-fill fs-2 text-primary"></i>
-
-                        </div>
-
-                        <div>
-
-                            <strong>
-                                Vérification mobile
-                            </strong>
-
-                            <br>
-
-                            <small class="text-muted">
-
-                                Vérification par QR Code
-
-                            </small>
-
-                        </div>
-
-                    </div>
-
-
-                    {{-- DONNÉES --}}
-                    <div class="d-flex align-items-center mb-4">
-
-                        <div class="me-3">
-
-                            <i class="bi bi-database-fill fs-2 text-warning"></i>
-
-                        </div>
-
-                        <div>
-
-                            <strong>
-                                Données centralisées
-                            </strong>
-
-                            <br>
-
-                            <small class="text-muted">
-
-                                Informations des membres UNEAC
-
-                            </small>
-
-                        </div>
-
-                    </div>
-
-
-                    {{-- CARTES --}}
-                    <div class="d-flex align-items-center">
-
-                        <div class="me-3">
-
-                            <i class="bi bi-person-vcard-fill fs-2 text-success"></i>
-
-                        </div>
-
-                        <div>
-
-                            <strong>
-                                Cartes numériques
-                            </strong>
-
-                            <br>
-
-                            <small class="text-muted">
-
-                                Gestion et suivi des cartes
-
-                            </small>
-
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-
-    {{-- =========================================================
-         RÉPARTITION CATÉGORIES + FÉDÉRATIONS
-    ========================================================== --}}
-
-    <div class="row">
-
-
-        {{-- CATÉGORIES --}}
-        <div class="col-lg-6 mb-4">
-
-            <div class="card border-0 shadow-sm h-100">
-
-                <div class="card-header bg-white border-0 pt-4 px-4">
-
-                    <h5 class="fw-bold mb-1">
-
-                        <i class="bi bi-bar-chart-fill text-success me-2"></i>
-
-                        Membres par catégorie
-
-                    </h5>
-
-                    <p class="text-muted small mb-0">
-
-                        Répartition des membres par domaine artistique.
-
-                    </p>
-
-                </div>
-
-
-                <div class="card-body px-4">
-
-                    @forelse($membersByCategory as $category)
-
-                        <div class="mb-3">
-
-                            <div class="d-flex justify-content-between mb-1">
-
-                                <span class="small fw-semibold">
-
-                                    {{ $category->nom }}
-
-                                </span>
-
-                                <span class="small text-muted">
-
-                                    {{ $category->members_count }}
-
-                                </span>
-
-                            </div>
-
-
-                            @php
-                                $percentage = $totalMembers > 0
-                                    ? ($category->members_count / $totalMembers) * 100
-                                    : 0;
-                            @endphp
-
-                            <div class="progress"
-                                 style="height: 7px;">
-
-                                <div
-                                    class="progress-bar bg-success"
-                                    role="progressbar"
-                                    style="width: {{ $percentage }}%"
-                                ></div>
-
-                            </div>
-
-                        </div>
-
-                    @empty
-
-                        <div class="text-center py-4 text-muted">
-
-                            Aucune donnée disponible.
-
-                        </div>
-
-                    @endforelse
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-
-        {{-- FÉDÉRATIONS --}}
-        <div class="col-lg-6 mb-4">
-
-            <div class="card border-0 shadow-sm h-100">
-
-                <div class="card-header bg-white border-0 pt-4 px-4">
-
-                    <h5 class="fw-bold mb-1">
-
-                        <i class="bi bi-diagram-3-fill text-primary me-2"></i>
-
-                        Membres par fédération
-
-                    </h5>
-
-                    <p class="text-muted small mb-0">
-
-                        Répartition des membres par fédération.
-
-                    </p>
-
-                </div>
-
-
-                <div class="card-body px-4">
-
-                    @forelse($membersByFederation as $federation)
-
-                        <div class="mb-3">
-
-                            <div class="d-flex justify-content-between mb-1">
-
-                                <span class="small fw-semibold">
-
-                                    {{ $federation->nom }}
-
-                                </span>
-
-                                <span class="small text-muted">
-
-                                    {{ $federation->members_count }}
-
-                                </span>
-
-                            </div>
-
-
-                            @php
-                                $percentage = $totalMembers > 0
-                                    ? ($federation->members_count / $totalMembers) * 100
-                                    : 0;
-                            @endphp
-
-
-                            <div class="progress"
-                                 style="height: 7px;">
-
-                                <div
-                                    class="progress-bar bg-primary"
-                                    role="progressbar"
-                                    style="width: {{ $percentage }}%"
-                                ></div>
-
-                            </div>
-
-                        </div>
-
-                    @empty
-
-                        <div class="text-center py-4 text-muted">
-
-                            Aucune donnée disponible.
-
-                        </div>
-
-                    @endforelse
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-
-    {{-- =========================================================
-         CARTES RÉCENTES
-    ========================================================== --}}
-
-    <div class="row">
-
-        <div class="col-12 mb-4">
-
-            <div class="card border-0 shadow-sm">
-
-                <div class="card-header bg-white border-0 pt-4 px-4">
-
-                    <div class="d-flex justify-content-between align-items-center">
-
-                        <div>
-
-                            <h5 class="fw-bold mb-1">
-
-                                <i class="bi bi-person-vcard-fill text-success me-2"></i>
-
-                                Dernières cartes
-
-                            </h5>
-
-                            <p class="text-muted small mb-0">
-
-                                Les dernières cartes enregistrées dans le système.
-
-                            </p>
-
-                        </div>
-
-
-                        <a href="{{ route('cards.index') }}"
-                           class="btn btn-sm btn-outline-success">
-
-                            Voir toutes les cartes
-
-                        </a>
-
-                    </div>
-
-                </div>
-
-
-                <div class="card-body px-4">
-
-                    <div class="table-responsive">
-
-                        <table class="table table-hover align-middle mb-0">
-
-                            <thead>
+                            @foreach($recentMembers as $member)
 
                                 <tr>
 
-                                    <th>
-                                        Carte
-                                    </th>
+                                    <td>
 
-                                    <th>
-                                        Membre
-                                    </th>
+                                        <div class="d-flex align-items-center gap-2">
 
-                                    <th>
-                                        Délivrance
-                                    </th>
+                                            <div class="member-avatar">
 
-                                    <th>
-                                        Expiration
-                                    </th>
+                                                {{
+                                                    strtoupper(
+                                                        substr(
+                                                            $member->prenom ?? '',
+                                                            0,
+                                                            1
+                                                        )
+                                                        .
+                                                        substr(
+                                                            $member->nom ?? '',
+                                                            0,
+                                                            1
+                                                        )
+                                                    )
+                                                }}
 
-                                    <th>
-                                        Statut
-                                    </th>
+                                            </div>
+
+                                            <div>
+
+                                                <div class="member-name">
+                                                    {{ $member->prenom }}
+                                                    {{ $member->nom }}
+                                                </div>
+
+                                                <div class="member-number">
+                                                    {{ $member->numero_membre }}
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+                                        {{ $member->category->nom ?? '—' }}
+                                    </td>
+
+
+                                    <td>
+
+                                        @if($member->statut === 'actif')
+
+                                            <span class="dashboard-badge badge-active">
+                                                <i class="bi bi-check-circle-fill"></i>
+                                                Actif
+                                            </span>
+
+                                        @elseif($member->statut === 'suspendu')
+
+                                            <span class="dashboard-badge badge-suspended">
+                                                <i class="bi bi-pause-circle-fill"></i>
+                                                Suspendu
+                                            </span>
+
+                                        @else
+
+                                            <span class="dashboard-badge badge-inactive">
+                                                <i class="bi bi-dash-circle-fill"></i>
+                                                Inactif
+                                            </span>
+
+                                        @endif
+
+                                    </td>
 
                                 </tr>
 
-                            </thead>
+                            @endforeach
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            @else
+
+                <div class="empty-state">
+
+                    <i class="bi bi-people"></i>
+
+                    <p>
+                        Aucun membre enregistré.
+                    </p>
+
+                </div>
+
+            @endif
+
+        </div>
+
+    </div>
 
 
-                            <tbody>
+    {{-- CARTES --}}
 
-                                @forelse($recentCards as $card)
+    <div class="col-12 col-xl-6">
 
-                                    <tr>
+        <div class="dashboard-card">
 
-                                        <td>
+            <div class="dashboard-card-header">
 
-                                            <strong>
-                                                {{ $card->numero_carte }}
-                                            </strong>
+                <div>
 
-                                        </td>
+                    <h3 class="dashboard-card-title">
+                        Dernières cartes
+                    </h3>
 
+                    <p class="dashboard-card-subtitle">
+                        Cartes créées récemment.
+                    </p>
 
-                                        <td>
+                </div>
 
-                                            @if($card->member)
+                <a
+                    href="{{ route('cards.index') }}"
+                    class="btn btn-sm btn-outline-success"
+                >
+                    Voir tout
+                </a>
 
-                                                {{ $card->member->nom }}
-                                                {{ $card->member->prenom }}
-
-                                                <br>
-
-                                                <small class="text-muted">
-
-                                                    {{ $card->member->numero_membre }}
-
-                                                </small>
-
-                                            @else
-
-                                                <span class="text-muted">
-                                                    Membre supprimé
-                                                </span>
-
-                                            @endif
-
-                                        </td>
+            </div>
 
 
-                                        <td>
+            @if($recentCards->count())
 
-                                            {{ $card->date_delivrance
-                                                ? $card->date_delivrance->format('d/m/Y')
-                                                : '-' }}
+                <div class="table-responsive">
 
-                                        </td>
+                    <table class="table dashboard-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>Carte</th>
+                                <th>Production</th>
+                                <th>Remise</th>
+                            </tr>
+
+                        </thead>
 
 
-                                        <td>
+                        <tbody>
 
-                                            {{ $card->date_expiration
-                                                ? $card->date_expiration->format('d/m/Y')
-                                                : '-' }}
+                            @foreach($recentCards as $card)
 
-                                        </td>
+                                <tr>
+
+                                    <td>
+
+                                        <div class="member-name">
+                                            {{ $card->numero_carte }}
+                                        </div>
+
+                                        <div class="member-number">
+
+                                            {{ $card->member->prenom ?? '' }}
+                                            {{ $card->member->nom ?? '' }}
+
+                                        </div>
+
+                                    </td>
 
 
-                                        <td>
+                                    <td>
 
-                                            @if($card->statut === 'active')
+                                        @if($card->statut_production === 'en_attente')
 
-                                                <span class="badge bg-success">
-                                                    Active
-                                                </span>
+                                            <span class="dashboard-badge badge-pending">
 
-                                            @elseif($card->statut === 'expiree')
+                                                <i class="bi bi-hourglass-split"></i>
 
-                                                <span class="badge bg-warning text-dark">
-                                                    Expirée
-                                                </span>
+                                                À imprimer
 
-                                            @elseif($card->statut === 'suspendue')
+                                            </span>
 
-                                                <span class="badge bg-danger">
-                                                    Suspendue
-                                                </span>
+                                        @else
 
-                                            @else
+                                            <span class="dashboard-badge badge-produced">
 
-                                                <span class="badge bg-secondary">
-                                                    Révoquée
-                                                </span>
+                                                <i class="bi bi-printer-fill"></i>
 
-                                            @endif
+                                                Produite
 
-                                        </td>
+                                            </span>
 
-                                    </tr>
+                                        @endif
 
-                                @empty
+                                    </td>
 
-                                    <tr>
 
-                                        <td colspan="5"
-                                            class="text-center text-muted py-4">
+                                    <td>
 
-                                            <i class="bi bi-person-vcard fs-2 d-block mb-2"></i>
+                                        @if(!$card->remise_uneac)
 
-                                            Aucune carte enregistrée.
+                                            <span class="dashboard-badge badge-pending">
 
-                                        </td>
+                                                <i class="bi bi-building"></i>
 
-                                    </tr>
+                                                À remettre UNEAC
 
-                                @endforelse
+                                            </span>
 
-                            </tbody>
+                                        @elseif(!$card->remise_artiste)
 
-                        </table>
+                                            <span class="dashboard-badge badge-produced">
+
+                                                <i class="bi bi-person"></i>
+
+                                                À remettre artiste
+
+                                            </span>
+
+                                        @else
+
+                                            <span class="dashboard-badge badge-delivered">
+
+                                                <i class="bi bi-check-circle-fill"></i>
+
+                                                Remise
+
+                                            </span>
+
+                                        @endif
+
+                                    </td>
+
+                                </tr>
+
+                            @endforeach
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            @else
+
+                <div class="empty-state">
+
+                    <i class="bi bi-credit-card"></i>
+
+                    <p>
+                        Aucune carte enregistrée.
+                    </p>
+
+                </div>
+
+            @endif
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{{-- ==========================================================
+     CATÉGORIES / FÉDÉRATIONS
+========================================================== --}}
+
+<div class="row g-3 mb-4">
+
+
+    {{-- CATÉGORIES --}}
+
+    <div class="col-12 col-xl-6">
+
+        <div class="dashboard-card">
+
+            <div class="dashboard-card-header">
+
+                <div>
+
+                    <h3 class="dashboard-card-title">
+                        Membres par catégorie
+                    </h3>
+
+                    <p class="dashboard-card-subtitle">
+                        Répartition selon le domaine artistique.
+                    </p>
+
+                </div>
+
+                <i class="bi bi-pie-chart-fill text-success"></i>
+
+            </div>
+
+
+            <div class="dashboard-card-body">
+
+                @php
+                    $maxCategory =
+                        $membersByCategory->max('members_count') ?: 1;
+                @endphp
+
+
+                @forelse($membersByCategory as $category)
+
+                    <div class="distribution-item">
+
+                        <div class="distribution-label">
+
+                            <span class="distribution-name">
+                                {{ $category->nom }}
+                            </span>
+
+                            <span class="distribution-count">
+                                {{ $category->members_count }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="distribution-track">
+
+                            <div
+                                class="distribution-fill"
+                                style="
+                                    width:
+                                    {{
+                                        ($category->members_count /
+                                        $maxCategory) * 100
+                                    }}%;
+                                "
+                            ></div>
+
+                        </div>
 
                     </div>
 
-                </div>
+                @empty
+
+                    <div class="empty-state">
+
+                        <i class="bi bi-bar-chart"></i>
+
+                        <p>
+                            Aucune donnée disponible.
+                        </p>
+
+                    </div>
+
+                @endforelse
 
             </div>
 
@@ -1170,6 +1798,269 @@
 
     </div>
 
+
+    {{-- FÉDÉRATIONS --}}
+
+    <div class="col-12 col-xl-6">
+
+        <div class="dashboard-card">
+
+            <div class="dashboard-card-header">
+
+                <div>
+
+                    <h3 class="dashboard-card-title">
+                        Membres par fédération
+                    </h3>
+
+                    <p class="dashboard-card-subtitle">
+                        Répartition des membres par fédération.
+                    </p>
+
+                </div>
+
+                <i class="bi bi-diagram-3-fill text-success"></i>
+
+            </div>
+
+
+            <div class="dashboard-card-body">
+
+                @php
+                    $maxFederation =
+                        $membersByFederation->max('members_count') ?: 1;
+                @endphp
+
+
+                @forelse($membersByFederation as $federation)
+
+                    <div class="distribution-item">
+
+                        <div class="distribution-label">
+
+                            <span class="distribution-name">
+                                {{ $federation->sigle ?? $federation->nom }}
+                            </span>
+
+                            <span class="distribution-count">
+                                {{ $federation->members_count }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="distribution-track">
+
+                            <div
+                                class="distribution-fill"
+                                style="
+                                    width:
+                                    {{
+                                        ($federation->members_count /
+                                        $maxFederation) * 100
+                                    }}%;
+                                "
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+                @empty
+
+                    <div class="empty-state">
+
+                        <i class="bi bi-bar-chart"></i>
+
+                        <p>
+                            Aucune donnée disponible.
+                        </p>
+
+                    </div>
+
+                @endforelse
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{{-- ==========================================================
+     ÉTAT GLOBAL DES CARTES
+========================================================== --}}
+
+<div class="dashboard-card mb-4">
+
+    <div class="dashboard-card-header">
+
+        <div>
+
+            <h3 class="dashboard-card-title">
+                État global des cartes
+            </h3>
+
+            <p class="dashboard-card-subtitle">
+                Vue synthétique des cartes UNEAC.
+            </p>
+
+        </div>
+
+        <i class="bi bi-credit-card-2-front-fill text-success"></i>
+
+    </div>
+
+
+    <div class="dashboard-card-body">
+
+        <div class="row g-3">
+
+
+            {{-- ACTIVES --}}
+
+            <div class="col-6 col-md-3">
+
+                <a
+                    href="{{ route('cards.index', ['statut' => 'active']) }}"
+                    style="text-decoration:none;"
+                >
+
+                    <div
+                        class="text-center p-3 rounded"
+                        style="background:#e7f7f0;"
+                    >
+
+                        <div
+                            style="
+                                font-size:24px;
+                                font-weight:700;
+                                color:#087f5b;
+                            "
+                        >
+                            {{ $activeCards }}
+                        </div>
+
+                        <div style="font-size:12px;color:#5f6b75;">
+                            Actives
+                        </div>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+
+            {{-- EXPIRÉES --}}
+
+            <div class="col-6 col-md-3">
+
+                <a
+                    href="{{ route('cards.index', ['statut' => 'expiree']) }}"
+                    style="text-decoration:none;"
+                >
+
+                    <div
+                        class="text-center p-3 rounded"
+                        style="background:#fff4df;"
+                    >
+
+                        <div
+                            style="
+                                font-size:24px;
+                                font-weight:700;
+                                color:#a66a00;
+                            "
+                        >
+                            {{ $expiredCards }}
+                        </div>
+
+                        <div style="font-size:12px;color:#5f6b75;">
+                            Expirées
+                        </div>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+
+            {{-- SUSPENDUES --}}
+
+            <div class="col-6 col-md-3">
+
+                <a
+                    href="{{ route('cards.index', ['statut' => 'suspendue']) }}"
+                    style="text-decoration:none;"
+                >
+
+                    <div
+                        class="text-center p-3 rounded"
+                        style="background:#fdecec;"
+                    >
+
+                        <div
+                            style="
+                                font-size:24px;
+                                font-weight:700;
+                                color:#b42318;
+                            "
+                        >
+                            {{ $suspendedCards }}
+                        </div>
+
+                        <div style="font-size:12px;color:#5f6b75;">
+                            Suspendues
+                        </div>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+
+            {{-- RÉVOQUÉES --}}
+
+            <div class="col-6 col-md-3">
+
+                <a
+                    href="{{ route('cards.index', ['statut' => 'revoquee']) }}"
+                    style="text-decoration:none;"
+                >
+
+                    <div
+                        class="text-center p-3 rounded"
+                        style="background:#f0f1f3;"
+                    >
+
+                        <div
+                            style="
+                                font-size:24px;
+                                font-weight:700;
+                                color:#6b7280;
+                            "
+                        >
+                            {{ $revokedCards }}
+                        </div>
+
+                        <div style="font-size:12px;color:#5f6b75;">
+                            Révoquées
+                        </div>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 

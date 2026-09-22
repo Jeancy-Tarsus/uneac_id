@@ -786,7 +786,6 @@ return [
     |
     */
 
-
     'menu' => [
 
         // =========================
@@ -809,6 +808,7 @@ return [
             'topnav_right' => true,
         ],
 
+
         // =========================
         // RECHERCHE SIDEBAR
         // =========================
@@ -817,6 +817,7 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'search',
         ],
+
 
         // =========================
         // MENU PRINCIPAL
@@ -834,17 +835,53 @@ return [
             'icon' => 'bi bi-people-fill',
         ],
 
+
+        // =========================
+        // CARTES
+        // =========================
+
         [
             'text' => 'CARTES',
-            'url' => 'cards',
             'icon' => 'bi bi-person-vcard-fill',
+
+            'submenu' => [
+
+                [
+                    'text' => 'Toutes les cartes',
+                    'url' => 'cards',
+                    'icon' => 'bi bi-card-list',
+                ],
+
+                [
+                    'text' => 'Réception UNEAC',
+                    'url' => 'cards-reception',
+                    'icon' => 'bi bi-box-arrow-in-down',
+                ],
+
+                [
+                    'text' => 'Remise aux artistes',
+                    'url' => 'cards-delivery',
+                    'icon' => 'bi bi-person-check-fill',
+                ],
+
+            ],
         ],
+
+
+        // =========================
+        // VÉRIFICATION QR
+        // =========================
 
         [
             'text' => 'VÉRIFICATION QR',
             'url' => '#',
             'icon' => 'bi bi-qr-code',
         ],
+
+
+        // =========================
+        // RÉFÉRENTIELS
+        // =========================
 
         [
             'text' => 'CATÉGORIES',
@@ -857,6 +894,7 @@ return [
             'url' => 'federations',
             'icon' => 'bi bi-diagram-3-fill',
         ],
+
 
         // =========================
         // ADMINISTRATION

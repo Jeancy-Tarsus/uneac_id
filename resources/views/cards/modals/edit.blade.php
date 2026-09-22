@@ -44,6 +44,11 @@
                 @csrf
                 @method('PUT')
 
+                {{-- Le membre n'est pas modifiable ici,
+                     mais son ID doit être envoyé au contrôleur. --}}
+                <input type="hidden"
+                       name="member_id"
+                       value="{{ old('member_id', $card->member_id) }}">
 
                 {{-- ================================================= --}}
                 {{-- CORPS --}}
@@ -185,10 +190,17 @@
                                 </label>
 
                                 <input type="date"
+                                    name="date_expiration"
                                     id="date_expiration_{{ $card->id }}"
-                                    class="form-control"
-                                    value="{{ $card->date_delivrance?->copy()->addYear()->format('Y-m-d') }}"
+                                    class="form-control @error('date_expiration') is-invalid @enderror"
+                                    value="{{ old('date_expiration', $card->date_expiration?->format('Y-m-d') ?? $card->date_delivrance?->copy()->addYear()->format('Y-m-d')) }}"
                                     readonly>
+
+                                @error('date_expiration')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
 
                                 <small class="text-muted">
                                     La carte est valable pendant 1 année à compter de la date de délivrance.
@@ -404,7 +416,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function calculerExpiration() {
 
-        if (!dateDelivrance.value) {
+        if (!dateDelivrance || !dateExpiration || !dateDelivrance.value) {
             return;
         }
 
@@ -420,6 +432,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     dateDelivrance.addEventListener('change', calculerExpiration);
+
+    if (!dateExpiration.value) {
+        calculerExpiration();
+    }
 
 });
 </script>

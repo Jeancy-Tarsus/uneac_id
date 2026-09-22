@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/profile', [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
+
 });
 
 
@@ -58,51 +59,108 @@ require __DIR__ . '/auth.php';
 
 Route::middleware('auth')->group(function () {
 
-    // Catégories
-    Route::resource('categories', CategoryController::class);
 
-    // Fédérations
-    Route::resource('federations', FederationController::class);
+    // =================================================
+    // CATÉGORIES
+    // =================================================
 
-    // Membres
-    Route::resource('members', MemberController::class);
-
-    // Cartes
-    Route::resource('cards', CardController::class);
+    Route::resource(
+        'categories',
+        CategoryController::class
+    );
 
 
     // =================================================
-    // SUIVI DE PRODUCTION DES CARTES
+    // FÉDÉRATIONS
     // =================================================
 
-    // Marquer une carte comme produite
+    Route::resource(
+        'federations',
+        FederationController::class
+    );
+
+
+    // =================================================
+    // MEMBRES
+    // =================================================
+
+    Route::resource(
+        'members',
+        MemberController::class
+    );
+
+
+    // =================================================
+    // CARTES
+    // =================================================
+
+    Route::resource(
+        'cards',
+        CardController::class
+    );
+
+
+    // =================================================
+    // PRÉVISUALISATION DE LA CARTE
+    // =================================================
+
+    Route::get(
+        '/cards/{card}/preview',
+        [CardController::class, 'preview']
+    )->name('cards.preview');
+
+
+    // =================================================
+    // PRODUCTION DES CARTES
+    // =================================================
+
     Route::post(
         '/cards/{card}/produire',
-        [CardController::class, 'markAsProduced']
-    )->name('cards.produce');
+        [CardController::class, 'produire']
+    )->name('cards.produire');
 
 
-    // Marquer une carte comme remise
+    // =================================================
+    // RÉCEPTION DES CARTES PAR L'UNEAC
+    // =================================================
+
+    Route::get(
+        '/cards-reception',
+        [CardController::class, 'reception']
+    )->name('cards.reception');
+
+
     Route::post(
-        '/cards/{card}/remettre',
-        [CardController::class, 'markAsDelivered']
-    )->name('cards.deliver');
+        '/cards-reception',
+        [CardController::class, 'storeReception']
+    )->name('cards.reception.store');
 
 
-    // Annuler la remise
+    // =================================================
+    // CARTES À REMETTRE AUX MEMBRES
+    // =================================================
+
+    Route::get(
+        '/cards-delivery',
+        [CardController::class, 'delivery']
+    )->name('cards.delivery');
+
+
     Route::post(
-        '/cards/{card}/annuler-remise',
-        [CardController::class, 'cancelDelivery']
-    )->name('cards.cancel-delivery');
+        '/cards-delivery',
+        [CardController::class, 'storeDelivery']
+    )->name('cards.delivery.store');
+
 });
 
 
 // =====================================================
 // VÉRIFICATION QR
 // =====================================================
-
+//
 // Cette route reste PUBLIQUE.
 // Une personne peut scanner le QR sans être connectée.
+//
 
 Route::get(
     '/verification/{qr_token}',
@@ -110,14 +168,6 @@ Route::get(
 )->name('verification.show');
 
 
-Route::get('/cards/{card}/preview', [CardController::class, 'preview'])
-    ->name('cards.preview');
-
-
-
-
-
-    
-
-// email: admin@uneac.cd
-// password: Admin@2026
+// =====================================================
+// FIN
+// =====================================================

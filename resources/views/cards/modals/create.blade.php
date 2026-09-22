@@ -192,10 +192,17 @@
                                 </label>
 
                                 <input type="date"
+                                    name="date_expiration"
                                     id="date_expiration"
-                                    class="form-control"
+                                    class="form-control @error('date_expiration') is-invalid @enderror"
                                     value="{{ old('date_expiration', now()->addYear()->format('Y-m-d')) }}"
                                     readonly>
+
+                                @error('date_expiration')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
 
                                 <small class="text-muted">
                                     La carte est valable pendant 1 année à compter de la date de délivrance.
@@ -356,7 +363,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function calculerExpiration() {
 
-        if (!dateDelivrance.value) {
+        if (!dateDelivrance || !dateExpiration || !dateDelivrance.value) {
             return;
         }
 
