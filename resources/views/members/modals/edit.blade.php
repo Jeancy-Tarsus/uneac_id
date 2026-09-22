@@ -151,7 +151,7 @@
 
 
                         {{-- NOM --}}
-                        <div class="col-md-4">
+                        <div class="col-md-6">
 
                             <label class="form-label fw-semibold">
 
@@ -177,23 +177,8 @@
                         </div>
 
 
-                        {{-- POSTNOM --}}
-                        <div class="col-md-4">
-
-                            <label class="form-label fw-semibold">
-                                Postnom
-                            </label>
-
-                            <input type="text"
-                                   name="postnom"
-                                   class="form-control"
-                                   value="{{ old('postnom', $member->postnom) }}">
-
-                        </div>
-
-
                         {{-- PRÉNOM --}}
-                        <div class="col-md-4">
+                        <div class="col-md-6">
 
                             <label class="form-label fw-semibold">
 

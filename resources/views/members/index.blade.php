@@ -1,5 +1,9 @@
 @extends('adminlte::page')
 
+@php
+    use Illuminate\Support\Facades\Storage;
+@endphp
+
 @section('content_top_nav_left')
 
     <li class="nav-item">
@@ -355,7 +359,7 @@
                                             {{-- PHOTO --}}
                                             @if($member->photo)
 
-                                                <img src="{{ asset('storage/' . $member->photo) }}"
+                                                <img src="{{ app()->environment('production') ? Storage::disk('uneac')->temporaryUrl($member->photo, now()->addMinutes(30)) : asset('storage/' . $member->photo) }}"
                                                      alt="Photo de {{ $member->prenom }}"
                                                      class="rounded-circle me-2"
                                                      width="42"

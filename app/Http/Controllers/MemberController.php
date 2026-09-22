@@ -240,7 +240,7 @@ class MemberController extends Controller
             : 1;
 
         $validated['numero_membre'] =
-            'UNEAC-' . str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
+            'UNEAC-CG-26' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
 
 
         /*
@@ -277,7 +277,7 @@ class MemberController extends Controller
 
             $validated['photo'] =
                 $request->file('photo')
-                ->store('members', 'public');
+                ->store('members', 'uneac');
         }
 
 
@@ -454,7 +454,7 @@ class MemberController extends Controller
 
             $validated['photo'] =
                 $request->file('photo')
-                ->store('members', 'public');
+                ->store('members', 'uneac');
         }
 
 
