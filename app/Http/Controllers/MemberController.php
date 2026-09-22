@@ -460,6 +460,23 @@ class MemberController extends Controller
 
         $member->update($validated);
 
+        // Synchroniser automatiquement le statut de la carte avec celui du membre.
+        if ($member->card) {
+            if ($member->statut === 'suspendu') {
+                $member->card->update(['statut' => 'suspendue']);
+            } elseif ($member->statut === 'inactif') {
+                $member->card->update(['statut' => 'revoquee']);
+            } elseif ($member->statut === 'actif') {
+                // Une carte expirée reste expirée.
+                if (
+                    $member->card->date_expiration &&
+                    $member->card->date_expiration->isFuture()
+                ) {
+                    $member->card->update(['statut' => 'active']);
+                }
+            }
+        }
+
 
         return redirect()
             ->route('members.index')
