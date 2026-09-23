@@ -223,7 +223,7 @@
                                 </th>
 
                                 <th width="160"
-                                    class="text-center">
+                                    class="text-center federations-actions-head">
 
                                     Actions
 
@@ -345,50 +345,54 @@
 
 
                                     {{-- ACTIONS --}}
-                                    <td class="text-center">
+                                    <td class="text-center federations-actions-cell">
 
-                                        {{-- VOIR --}}
-                                        <button type="button"
-                                                class="btn btn-sm btn-info"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modalVoirFederation{{ $federation->id }}"
-                                                title="Voir">
+                                        <div class="federations-action-buttons">
+
+                                            {{-- VOIR --}}
+                                            <button type="button"
+                                                    class="btn federations-action-btn federations-action-view"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modalVoirFederation{{ $federation->id }}"
+                                                    title="Voir">
 
                                             <i class="bi bi-eye"></i>
 
-                                        </button>
+                                            </button>
 
 
-                                        {{-- MODIFIER --}}
-                                        <button type="button"
-                                                class="btn btn-sm btn-warning"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modalModifierFederation{{ $federation->id }}"
-                                                title="Modifier">
+                                            {{-- MODIFIER --}}
+                                            <button type="button"
+                                                    class="btn federations-action-btn federations-action-edit"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modalModifierFederation{{ $federation->id }}"
+                                                    title="Modifier">
 
                                             <i class="bi bi-pencil-square"></i>
 
-                                        </button>
-
-
-                                        {{-- SUPPRIMER --}}
-                                        <form action="{{ route('federations.destroy', $federation) }}"
-                                              method="POST"
-                                              class="form-suppression d-inline">
-
-                                            @csrf
-
-                                            @method('DELETE')
-
-                                            <button type="submit"
-                                                    class="btn btn-sm btn-danger"
-                                                    title="Supprimer">
-
-                                                <i class="bi bi-trash"></i>
-
                                             </button>
 
-                                        </form>
+
+                                            {{-- SUPPRIMER --}}
+                                            <form action="{{ route('federations.destroy', $federation) }}"
+                                                  method="POST"
+                                                  class="form-suppression d-inline">
+
+                                                @csrf
+
+                                                @method('DELETE')
+
+                                                <button type="submit"
+                                                        class="btn federations-action-btn federations-action-delete"
+                                                        title="Supprimer">
+
+                                                    <i class="bi bi-trash"></i>
+
+                                                </button>
+
+                                            </form>
+
+                                        </div>
 
                                     </td>
 
@@ -560,6 +564,90 @@
 
     <link rel="stylesheet"
           href="{{ asset('sweetalert/dist/sweetalert2.min.css') }}">
+
+    <style>
+
+
+        /* ============================================================
+           BOUTONS D'ACTIONS — STYLE PROFESSIONNEL
+           Compatible AdminLTE Light / Dark
+        ============================================================ */
+
+        .federations-actions-head,
+        .federations-actions-cell {
+            white-space: nowrap;
+        }
+
+        .federations-action-buttons {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .federations-action-btn {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            padding: 0 !important;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px !important;
+            border: 1px solid var(--bs-border-color) !important;
+            background: var(--bs-body-bg) !important;
+            box-shadow: none !important;
+            transition: all .18s ease;
+        }
+
+        .federations-action-btn i {
+            font-size: 14px;
+            line-height: 1;
+        }
+
+        .federations-action-view {
+            color: var(--bs-primary) !important;
+        }
+
+        .federations-action-view:hover {
+            background: var(--bs-primary-bg-subtle) !important;
+            border-color: var(--bs-primary) !important;
+            transform: translateY(-1px);
+        }
+
+        .federations-action-edit {
+            color: #b8860b !important;
+        }
+
+        .federations-action-edit:hover {
+            background: #fff8df !important;
+            border-color: #d6a928 !important;
+            transform: translateY(-1px);
+        }
+
+        .federations-action-delete {
+            color: var(--bs-danger) !important;
+        }
+
+        .federations-action-delete:hover {
+            background: var(--bs-danger-bg-subtle) !important;
+            border-color: var(--bs-danger) !important;
+            transform: translateY(-1px);
+        }
+
+        [data-bs-theme="dark"] .federations-action-edit {
+            color: #f0c75e !important;
+        }
+
+        [data-bs-theme="dark"] .federations-action-edit:hover {
+            background: rgba(255, 193, 7, .12) !important;
+            border-color: #d6a928 !important;
+        }
+
+        [data-bs-theme="dark"] .federations-action-btn:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .20) !important;
+        }
+    </style>
 
 @stop
 

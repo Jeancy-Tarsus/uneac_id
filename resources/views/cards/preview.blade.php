@@ -18,37 +18,6 @@
 
 @section('content')
 
-@php
-    /*
-     * PHOTO DU MEMBRE POUR L'EXPORT IMAGE
-     * La photo est convertie en data URL côté serveur.
-     * Ainsi html2canvas peut l'intégrer au PNG même lorsque
-     * le Bucket UNEAC est privé.
-     */
-    $photoDataUrl = null;
-
-    if ($card->member->photo) {
-        try {
-            $photoDisk = Storage::disk('uneac');
-
-            if ($photoDisk->exists($card->member->photo)) {
-                $photoMime = $photoDisk->mimeType($card->member->photo) ?: 'image/jpeg';
-                $photoContent = $photoDisk->get($card->member->photo);
-
-                if ($photoContent !== false && $photoContent !== null) {
-                    $photoDataUrl =
-                        'data:' .
-                        $photoMime .
-                        ';base64,' .
-                        base64_encode($photoContent);
-                }
-            }
-        } catch (\Throwable $e) {
-            $photoDataUrl = null;
-        }
-    }
-@endphp
-
     <div class="uneac-preview-adminlte">
 
 <div class="page-container">
@@ -256,18 +225,24 @@
 
                     @if($card->member->photo)
 
-                        @if($photoDataUrl)
-                            <img
-                                src="{{ $photoDataUrl }}"
-                                alt="Photo du membre"
-                                class="member-photo"
-                                data-card-photo="true"
-                            >
-                        @else
-                            <div class="photo-placeholder">
-                                <i class="bi bi-person-fill"></i>
-                            </div>
-                        @endif
+                       <img
+                            src="{{ app()->environment('production')
+                                ? Storage::disk('uneac')->temporaryUrl(
+                                    $card->member->photo,
+                                    now()->addMinutes(30)
+                                )
+                                : asset('storage/' . $card->member->photo) }}"
+                            alt="Photo du membre"
+                            class="member-photo"
+                        >
+
+                    @else
+
+                        <div class="photo-placeholder">
+
+                            <i class="bi bi-person-fill"></i>
+
+                        </div>
 
                     @endif
 
@@ -343,7 +318,17 @@
 
                             <div class="info-value">
 
-                                {{ $card->member->sexe ?: 'Non renseigné' }}
+                                @php
+                                    $sexe = strtoupper(trim($card->member->sexe ?? ''));
+
+                                    $sexeAffiche = match ($sexe) {
+                                        'M', 'MASCULIN' => 'Masculin',
+                                        'F', 'FEMININ', 'FÉMININ' => 'Féminin',
+                                        default => $card->member->sexe ?: 'Non renseigné',
+                                    };
+                                @endphp
+
+                                {{ $sexeAffiche }}
 
                             </div>
 
@@ -424,7 +409,7 @@
 
                         {{-- DOMICILE --}}
 
-                        <div class="info-row">
+                        <div class="info-row domicile-row">
 
                             <div class="info-label">
                                 Domicile :
@@ -624,19 +609,20 @@
                      TEXTES DÉCORATIFS
                 ================================================== --}}
 
+
+
+
+                {{-- =================================================
+                     TEXTES DÉCORATIFS VERTICAUX
+                ================================================== --}}
+
                 <div class="decorative-left">
-
                     UNION • CULTURE • ART
-
                 </div>
-
 
                 <div class="decorative-right">
-
                     UNEAC • CONGO
-
                 </div>
-
 
 
                 {{-- =================================================
@@ -652,7 +638,7 @@
 
                         <i class="bi bi-shield-check"></i>
 
-                        Carte officielle de membre
+                        CARTE OFFICIELLE DE MEMBRE
 
                     </div>
 
@@ -810,10 +796,6 @@
                     <span>
                         UNION NATIONALE DES ÉCRIVAINS ET ARTISTES CONGOLAIS
                     </span>
-
-                    &nbsp; • &nbsp;
-
-                    CARTE OFFICIELLE
 
                 </div>
 
@@ -1359,7 +1341,7 @@
             position: absolute;
 
             left: 58px;
-            top: 42px;
+            top: 35px;
 
             width: 105px;
             height: 105px;
@@ -1388,11 +1370,11 @@
 
         .front-logo img {
 
-            width: 86px;
-            height: 86px;
+            width: 76px;
+            height: 76px;
 
-            max-width: 86px;
-            max-height: 86px;
+            max-width: 76px;
+            max-height: 76px;
 
             object-fit: contain;
 
@@ -1487,50 +1469,37 @@
            EMBLÈME DU CONGO RECTO
         ========================================================== */
 
-        .front-emblem {
-
+         .front-emblem {
             position: absolute;
-
-            /* Même position et même dimension que le drapeau du verso */
             right: 38px;
             top: 30px;
-
             width: 105px;
             height: 64px;
-
+            aspect-ratio: 105 / 64;
             z-index: 20;
-
             display: flex;
-
             justify-content: center;
             align-items: center;
-
             background: #ffffff;
-
             border-radius: 4px;
-
             padding: 0;
-
             box-shadow: none;
-
             opacity: 1;
-
+            overflow: hidden;
         }
 
-
         .front-emblem img {
-
-            width: 100%;
-            height: 100%;
-
+            width: 105px;
+            height: 64px;
+            max-width: 105px;
+            max-height: 64px;
+            min-width: 105px;
+            min-height: 64px;
             object-fit: fill;
-
+            object-position: center;
             opacity: 1;
-
             filter: none;
-
             display: block;
-
         }
 
 
@@ -1691,13 +1660,34 @@
         }
 
 
-        .info-row {
+        /* ============================================================
+       DOMICILE — GESTION DES ADRESSES LONGUES
+    ============================================================ */
+
+    .domicile-row {
+        align-items: flex-start;
+    }
+
+    .domicile-row .info-value {
+        white-space: normal;
+        overflow-wrap: break-word;
+        word-break: normal;
+        line-height: 1.20;
+        max-width: 360px;
+
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+    }
+
+    .info-row {
 
             display: flex;
 
             align-items: baseline;
+            column-gap: 8px;
 
-            margin-bottom: 3px;
+            margin-bottom: 7px;
 
             border-bottom:
                 1px solid rgba(8,127,63,.13);
@@ -1709,11 +1699,11 @@
 
         .info-label {
 
-            width: 155px;
+            width: 190px;
 
             flex-shrink: 0;
 
-            font-size: 10px;
+            font-size: 15px;
 
             font-weight: 900;
 
@@ -1734,9 +1724,9 @@
 
             min-width: 0;
 
-            font-size: 22px;
+            font-size: 20px;
 
-            line-height: 1.02;
+            line-height: 1.20;
 
             font-weight: 700;
 
@@ -1757,23 +1747,23 @@
 
         .member-main-name {
 
-            margin-bottom: 4px;
+            margin-bottom: 8px;
 
         }
 
 
         .member-main-name .info-label {
 
-            font-size: 10px;
+            font-size: 15px;
 
         }
 
 
         .member-main-name .info-value {
 
-            font-size: 25px;
+            font-size: 20px;
 
-            line-height: 1;
+            line-height: 1.20;
 
             font-weight: 900;
 
@@ -1813,7 +1803,7 @@
 
     border-radius: 0 0 8px 8px;
 
-    font-size: 14px;
+    font-size: 15px;
 
     font-weight: 900;
 
@@ -1865,13 +1855,13 @@
 
             flex-shrink: 0;
 
-            font-size: 11px;
+            font-size: 15px;
 
         }
 
         .info-pair .info-value {
 
-            font-size: 15px;
+            font-size: 20px;
 
         }
 
@@ -2055,7 +2045,8 @@
 
 
         /* =========================================================
-           TEXTES DÉCORATIFS GAUCHE / DROITE
+           TEXTES DÉCORATIFS VERTICAUX
+           Lecture : de haut en bas, lettre par lettre
         ========================================================== */
 
         .decorative-left,
@@ -2063,41 +2054,41 @@
 
             position: absolute;
 
-            top: 150px;
+            top: 155px;
 
             z-index: 12;
 
             writing-mode: vertical-rl;
 
-            text-orientation: mixed;
+            text-orientation: upright;
 
-            font-size: 10px;
+            font-size: 9px;
 
             font-weight: 900;
 
-            letter-spacing: 2px;
+            letter-spacing: 1px;
 
-            color:
-                rgba(8,127,63,.45);
+            line-height: 1.05;
+
+            color: rgba(8,127,63,.45);
 
             text-transform: uppercase;
+
+            white-space: nowrap;
 
         }
 
 
         .decorative-left {
 
-            left: 25px;
-
-            transform:
-                rotate(180deg);
+            left: 18px;
 
         }
 
 
         .decorative-right {
 
-            right: 25px;
+            right: 18px;
 
         }
 
@@ -2107,48 +2098,36 @@
         ========================================================== */
 
                 .back-congo {
-
             position: absolute;
-
             right: 38px;
             top: 30px;
-
             width: 105px;
             height: 64px;
-
+            aspect-ratio: 105 / 64;
             z-index: 20;
-
             display: flex;
-
             justify-content: center;
             align-items: center;
-
             background: #ffffff;
-
             border-radius: 4px;
-
             padding: 0;
-
             box-shadow: none;
-
             opacity: 1;
-
+            overflow: hidden;
         }
 
-
-                .back-congo img {
-
-            width: 100%;
-            height: 100%;
-
+        .back-congo img {
+            width: 105px;
+            height: 64px;
+            max-width: 105px;
+            max-height: 64px;
+            min-width: 105px;
+            min-height: 64px;
             object-fit: fill;
-
+            object-position: center;
             opacity: 1;
-
             filter: none;
-
             display: block;
-
         }
 
 
@@ -2322,7 +2301,7 @@
             left: 55px;
             right: 55px;
 
-            bottom: 32px;
+            bottom: 42px;
 
             display: flex;
 
@@ -3013,8 +2992,6 @@ async function enregistrerCarteImage()
 
         await attendreImages(verso);
 
-        await attendre(150);
-
 
 
         /* =====================================================
@@ -3140,31 +3117,44 @@ async function enregistrerCarteImage()
    ATTENDRE LES IMAGES
 ============================================================= */
 
-async function attendreImages(element)
+function attendreImages(element)
 {
-    const images = Array.from(
-        element.querySelectorAll('img')
-    );
 
-    await Promise.all(
-        images.map(async function (image) {
+    const images =
+        Array.from(
+            element.querySelectorAll('img')
+        );
 
-            if (!image.complete) {
-                await new Promise(function (resolve) {
-                    image.addEventListener('load', resolve, { once: true });
-                    image.addEventListener('error', resolve, { once: true });
-                });
-            }
 
-            if (typeof image.decode === 'function') {
-                try {
-                    await image.decode();
-                } catch (e) {
-                    // Ne bloque pas l'export si une image décorative échoue.
+    return Promise.all(
+
+        images.map(
+            image => {
+
+                if (image.complete) {
+
+                    return Promise.resolve();
+
                 }
+
+
+                return new Promise(
+                    resolve => {
+
+                        image.onload =
+                            resolve;
+
+                        image.onerror =
+                            resolve;
+
+                    }
+                );
+
             }
-        })
+        )
+
     );
+
 }
 
 

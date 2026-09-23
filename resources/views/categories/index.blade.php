@@ -219,7 +219,7 @@
                                 </th>
 
                                 <th width="160"
-                                    class="text-center">
+                                    class="text-center categories-actions-head">
 
                                     Actions
 
@@ -321,50 +321,54 @@
 
 
                                     {{-- ACTIONS --}}
-                                    <td class="text-center">
+                                    <td class="text-center categories-actions-cell">
 
-                                        {{-- VOIR --}}
-                                        <button type="button"
-                                                class="btn btn-sm btn-info"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modalVoirCategorie{{ $category->id }}"
-                                                title="Voir">
+                                        <div class="categories-action-buttons">
+
+                                            {{-- VOIR --}}
+                                            <button type="button"
+                                                    class="btn categories-action-btn categories-action-view"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modalVoirCategorie{{ $category->id }}"
+                                                    title="Voir">
 
                                             <i class="bi bi-eye"></i>
 
-                                        </button>
+                                            </button>
 
 
-                                        {{-- MODIFIER --}}
-                                        <button type="button"
-                                                class="btn btn-sm btn-warning"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modalModifierCategorie{{ $category->id }}"
-                                                title="Modifier">
+                                            {{-- MODIFIER --}}
+                                            <button type="button"
+                                                    class="btn categories-action-btn categories-action-edit"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modalModifierCategorie{{ $category->id }}"
+                                                    title="Modifier">
 
                                             <i class="bi bi-pencil-square"></i>
 
-                                        </button>
-
-
-                                        {{-- SUPPRIMER --}}
-                                        <form action="{{ route('categories.destroy', $category) }}"
-                                              method="POST"
-                                              class="form-suppression d-inline">
-
-                                            @csrf
-
-                                            @method('DELETE')
-
-                                            <button type="submit"
-                                                    class="btn btn-sm btn-danger"
-                                                    title="Supprimer">
-
-                                                <i class="bi bi-trash"></i>
-
                                             </button>
 
-                                        </form>
+
+                                            {{-- SUPPRIMER --}}
+                                            <form action="{{ route('categories.destroy', $category) }}"
+                                                  method="POST"
+                                                  class="form-suppression d-inline">
+
+                                                @csrf
+
+                                                @method('DELETE')
+
+                                                <button type="submit"
+                                                        class="btn categories-action-btn categories-action-delete"
+                                                        title="Supprimer">
+
+                                                    <i class="bi bi-trash"></i>
+
+                                                </button>
+
+                                            </form>
+
+                                        </div>
 
                                     </td>
 
@@ -541,6 +545,90 @@
 
     <link rel="stylesheet"
           href="{{ asset('sweetalert/dist/sweetalert2.min.css') }}">
+
+    <style>
+
+
+        /* ============================================================
+           BOUTONS D'ACTIONS — STYLE PROFESSIONNEL
+           Compatible AdminLTE Light / Dark
+        ============================================================ */
+
+        .categories-actions-head,
+        .categories-actions-cell {
+            white-space: nowrap;
+        }
+
+        .categories-action-buttons {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .categories-action-btn {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            padding: 0 !important;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px !important;
+            border: 1px solid var(--bs-border-color) !important;
+            background: var(--bs-body-bg) !important;
+            box-shadow: none !important;
+            transition: all .18s ease;
+        }
+
+        .categories-action-btn i {
+            font-size: 14px;
+            line-height: 1;
+        }
+
+        .categories-action-view {
+            color: var(--bs-primary) !important;
+        }
+
+        .categories-action-view:hover {
+            background: var(--bs-primary-bg-subtle) !important;
+            border-color: var(--bs-primary) !important;
+            transform: translateY(-1px);
+        }
+
+        .categories-action-edit {
+            color: #b8860b !important;
+        }
+
+        .categories-action-edit:hover {
+            background: #fff8df !important;
+            border-color: #d6a928 !important;
+            transform: translateY(-1px);
+        }
+
+        .categories-action-delete {
+            color: var(--bs-danger) !important;
+        }
+
+        .categories-action-delete:hover {
+            background: var(--bs-danger-bg-subtle) !important;
+            border-color: var(--bs-danger) !important;
+            transform: translateY(-1px);
+        }
+
+        [data-bs-theme="dark"] .categories-action-edit {
+            color: #f0c75e !important;
+        }
+
+        [data-bs-theme="dark"] .categories-action-edit:hover {
+            background: rgba(255, 193, 7, .12) !important;
+            border-color: #d6a928 !important;
+        }
+
+        [data-bs-theme="dark"] .categories-action-btn:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .20) !important;
+        }
+    </style>
 
 @stop
 

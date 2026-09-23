@@ -315,8 +315,8 @@
                                     Statut
                                 </th>
 
-                                <th width="160"
-                                    class="text-center">
+                                <th width="150"
+                                    class="text-center members-actions-head">
 
                                     Actions
 
@@ -538,52 +538,52 @@
                                     {{-- ACTIONS --}}
                                     {{-- ================================================= --}}
 
-                                    <td class="text-center">
+                                    <td class="text-center members-actions-cell">
 
+                                        <div class="members-action-buttons">
 
-                                        {{-- VOIR --}}
-                                        <button type="button"
-                                                class="btn btn-sm btn-info"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modalVoirMembre{{ $member->id }}"
-                                                title="Voir">
+                                            {{-- VOIR --}}
+                                            <button type="button"
+                                                    class="members-action-btn members-action-view"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modalVoirMembre{{ $member->id }}"
+                                                    title="Voir">
 
-                                            <i class="bi bi-eye"></i>
-
-                                        </button>
-
-
-                                        {{-- MODIFIER --}}
-                                        <button type="button"
-                                                class="btn btn-sm btn-warning"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modalModifierMembre{{ $member->id }}"
-                                                title="Modifier">
-
-                                            <i class="bi bi-pencil-square"></i>
-
-                                        </button>
-
-
-                                        {{-- SUPPRIMER --}}
-                                        <form action="{{ route('members.destroy', $member) }}"
-                                              method="POST"
-                                              class="form-suppression d-inline">
-
-                                            @csrf
-
-                                            @method('DELETE')
-
-                                            <button type="submit"
-                                                    class="btn btn-sm btn-danger"
-                                                    title="Supprimer">
-
-                                                <i class="bi bi-trash"></i>
+                                                <i class="bi bi-eye"></i>
 
                                             </button>
 
-                                        </form>
+                                            {{-- MODIFIER --}}
+                                            <button type="button"
+                                                    class="members-action-btn members-action-edit"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modalModifierMembre{{ $member->id }}"
+                                                    title="Modifier">
 
+                                                <i class="bi bi-pencil-square"></i>
+
+                                            </button>
+
+                                            {{-- SUPPRIMER --}}
+                                            <form action="{{ route('members.destroy', $member) }}"
+                                                  method="POST"
+                                                  class="form-suppression d-inline">
+
+                                                @csrf
+
+                                                @method('DELETE')
+
+                                                <button type="submit"
+                                                        class="members-action-btn members-action-delete"
+                                                        title="Supprimer">
+
+                                                    <i class="bi bi-trash"></i>
+
+                                                </button>
+
+                                            </form>
+
+                                        </div>
 
                                     </td>
 
@@ -802,11 +802,106 @@
 
 
         /*
-         * Boutons d'action
+         * =====================================================
+         * BOUTONS D'ACTION — DESIGN UNEAC
+         * Compatible avec les thèmes clair et sombre AdminLTE
+         * =====================================================
          */
 
-        .table .btn-sm {
-            margin: 1px;
+        .members-actions-head,
+        .members-actions-cell {
+            white-space: nowrap;
+        }
+
+        .members-action-buttons {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            white-space: nowrap;
+        }
+
+        .members-action-btn {
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 7px;
+            border: 1px solid var(--bs-border-color);
+            background: var(--bs-body-bg);
+            font-size: 14px;
+            text-decoration: none;
+            transition: all .15s ease;
+        }
+
+        .members-action-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .10);
+        }
+
+        /* Voir */
+        .members-action-view {
+            color: #0d6efd;
+            background: rgba(13, 110, 253, .08);
+            border-color: rgba(13, 110, 253, .20);
+        }
+
+        .members-action-view:hover {
+            color: #0a58ca;
+            background: rgba(13, 110, 253, .14);
+        }
+
+        /* Modifier */
+        .members-action-edit {
+            color: #996c00;
+            background: rgba(153, 108, 0, .08);
+            border-color: rgba(153, 108, 0, .20);
+        }
+
+        .members-action-edit:hover {
+            color: #795800;
+            background: rgba(153, 108, 0, .14);
+        }
+
+        /* Supprimer */
+        .members-action-delete {
+            color: #dc3545;
+            background: rgba(220, 53, 69, .08);
+            border-color: rgba(220, 53, 69, .20);
+        }
+
+        .members-action-delete:hover {
+            color: #b02a37;
+            background: rgba(220, 53, 69, .14);
+        }
+
+        /*
+         * En mode sombre, on garde les mêmes couleurs UNEAC
+         * mais les boutons suivent le fond AdminLTE.
+         */
+        [data-bs-theme="dark"] .members-action-btn {
+            background: var(--bs-tertiary-bg);
+            border-color: var(--bs-border-color);
+        }
+
+        [data-bs-theme="dark"] .members-action-view {
+            color: #6ea8fe;
+            background: rgba(110, 168, 254, .10);
+            border-color: rgba(110, 168, 254, .22);
+        }
+
+        [data-bs-theme="dark"] .members-action-edit {
+            color: #e0b44c;
+            background: rgba(224, 180, 76, .10);
+            border-color: rgba(224, 180, 76, .22);
+        }
+
+        [data-bs-theme="dark"] .members-action-delete {
+            color: #ea868f;
+            background: rgba(234, 134, 143, .10);
+            border-color: rgba(234, 134, 143, .22);
         }
 
 

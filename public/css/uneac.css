@@ -1,0 +1,43 @@
+/* UNEAC ID — CHARTE GLOBALE */
+:root{
+    --uneac:#087f3f;
+    --uneac-dark:#066b35;
+    --uneac-light:#e9f7ef;
+    --uneac-soft:#f1fbf5;
+    --uneac-bg:#f5f7f6;
+    --uneac-border:#e1e7e3;
+    --uneac-text:#212529;
+    --uneac-muted:#6c757d;
+    --uneac-gold:#996c00;
+    --uneac-gold-light:#fff6df;
+    --uneac-danger:#dc3545;
+    --uneac-danger-light:#fdeaea;
+    --uneac-blue:#1769aa;
+    --uneac-blue-light:#e9f2ff;
+}
+body{background:var(--uneac-bg);color:var(--uneac-text)}
+.btn-primary,.btn-success{background:var(--uneac)!important;border-color:var(--uneac)!important}
+.btn-primary:hover,.btn-success:hover{background:var(--uneac-dark)!important;border-color:var(--uneac-dark)!important}
+.uneac-card{border:0;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.05);background:#fff}
+.uneac-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--uneac-light);color:var(--uneac);font-size:19px}
+.uneac-filter{border:0;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.05);background:#fff}
+.uneac-filter .form-control:focus,.uneac-filter .form-select:focus{border-color:var(--uneac);box-shadow:0 0 0 .15rem rgba(8,127,63,.10)}
+.uneac-table-wrap{overflow-x:auto;scrollbar-width:thin;scrollbar-color:#cbd5cf transparent}
+.uneac-table-wrap::-webkit-scrollbar{height:7px}
+.uneac-table-wrap::-webkit-scrollbar-thumb{background:#cbd5cf;border-radius:10px}
+.uneac-table{width:100%;border-collapse:separate;border-spacing:0;font-size:14px}
+.uneac-table thead th{background:#f8faf9;color:#59636a;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.035em;white-space:nowrap;padding:14px 10px;border-bottom:1px solid #e6ebe8}
+.uneac-table tbody td{padding:13px 10px;border-bottom:1px solid #f0f2f3;background:#fff;vertical-align:middle}
+.uneac-table tbody tr:hover td{background:#fbfdfc}
+.uneac-actions{display:inline-flex;align-items:center;justify-content:center;gap:4px;white-space:nowrap;min-width:145px}
+.uneac-action{width:31px;height:31px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #dee2e6;border-radius:7px;background:#fff;text-decoration:none;padding:0;font-size:14px;transition:.15s}
+.uneac-action:hover{transform:translateY(-1px);box-shadow:0 2px 5px rgba(0,0,0,.08)}
+.uneac-view{color:#0d6efd}.uneac-edit{color:var(--uneac-gold)}.uneac-delete{color:var(--uneac-danger)}.uneac-main{color:var(--uneac);background:var(--uneac-soft);border-color:#b9e2ca}
+.uneac-badge{display:inline-flex;align-items:center;gap:5px;padding:5px 8px;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap}
+.uneac-active{color:var(--uneac);background:var(--uneac-light)}.uneac-inactive{color:#6c757d;background:#f1f3f5}.uneac-warning{color:var(--uneac-gold);background:var(--uneac-gold-light)}.uneac-danger{color:#b42318;background:var(--uneac-danger-light)}.uneac-info{color:var(--uneac-blue);background:var(--uneac-blue-light)}
+.uneac-modal .modal-content{border:0;border-radius:12px;overflow:hidden}
+.uneac-modal-header{background:linear-gradient(135deg,var(--uneac),#0b9650);color:#fff;padding:18px 22px}
+.uneac-modal-header h5{margin:0;font-weight:700}
+.uneac-modal .form-control:focus,.uneac-modal .form-select:focus{border-color:var(--uneac);box-shadow:0 0 0 .15rem rgba(8,127,63,.10)}
+.uneac-empty{text-align:center;padding:70px 20px!important}.uneac-empty-icon{width:65px;height:65px;margin:auto;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--uneac-light);color:var(--uneac);font-size:28px}
+.uneac-pagination .page-link{color:var(--uneac)}.uneac-pagination .page-item.active .page-link{background:var(--uneac);border-color:var(--uneac)}
