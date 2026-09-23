@@ -18,6 +18,37 @@
 
 @section('content')
 
+@php
+    /*
+     * PHOTO DU MEMBRE POUR L'EXPORT IMAGE
+     * La photo est convertie en data URL côté serveur.
+     * Ainsi html2canvas peut l'intégrer au PNG même lorsque
+     * le Bucket UNEAC est privé.
+     */
+    $photoDataUrl = null;
+
+    if ($card->member->photo) {
+        try {
+            $photoDisk = Storage::disk('uneac');
+
+            if ($photoDisk->exists($card->member->photo)) {
+                $photoMime = $photoDisk->mimeType($card->member->photo) ?: 'image/jpeg';
+                $photoContent = $photoDisk->get($card->member->photo);
+
+                if ($photoContent !== false && $photoContent !== null) {
+                    $photoDataUrl =
+                        'data:' .
+                        $photoMime .
+                        ';base64,' .
+                        base64_encode($photoContent);
+                }
+            }
+        } catch (\Throwable $e) {
+            $photoDataUrl = null;
+        }
+    }
+@endphp
+
     <div class="uneac-preview-adminlte">
 
 <div class="page-container">
@@ -225,24 +256,18 @@
 
                     @if($card->member->photo)
 
-                       <img
-                            src="{{ app()->environment('production')
-                                ? Storage::disk('uneac')->temporaryUrl(
-                                    $card->member->photo,
-                                    now()->addMinutes(30)
-                                )
-                                : asset('storage/' . $card->member->photo) }}"
-                            alt="Photo du membre"
-                            class="member-photo"
-                        >
-
-                    @else
-
-                        <div class="photo-placeholder">
-
-                            <i class="bi bi-person-fill"></i>
-
-                        </div>
+                        @if($photoDataUrl)
+                            <img
+                                src="{{ $photoDataUrl }}"
+                                alt="Photo du membre"
+                                class="member-photo"
+                                data-card-photo="true"
+                            >
+                        @else
+                            <div class="photo-placeholder">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                        @endif
 
                     @endif
 
@@ -318,17 +343,7 @@
 
                             <div class="info-value">
 
-                                @php
-                                    $sexe = strtoupper(trim($card->member->sexe ?? ''));
-
-                                    $sexeAffiche = match ($sexe) {
-                                        'M', 'MASCULIN' => 'Masculin',
-                                        'F', 'FEMININ', 'FÉMININ' => 'Féminin',
-                                        default => $card->member->sexe ?: 'Non renseigné',
-                                    };
-                                @endphp
-
-                                {{ $sexeAffiche }}
+                                {{ $card->member->sexe ?: 'Non renseigné' }}
 
                             </div>
 
@@ -409,7 +424,7 @@
 
                         {{-- DOMICILE --}}
 
-                        <div class="info-row domicile-row">
+                        <div class="info-row">
 
                             <div class="info-label">
                                 Domicile :
@@ -609,20 +624,19 @@
                      TEXTES DÉCORATIFS
                 ================================================== --}}
 
-
-
-
-                {{-- =================================================
-                     TEXTES DÉCORATIFS VERTICAUX
-                ================================================== --}}
-
                 <div class="decorative-left">
+
                     UNION • CULTURE • ART
+
                 </div>
+
 
                 <div class="decorative-right">
+
                     UNEAC • CONGO
+
                 </div>
+
 
 
                 {{-- =================================================
@@ -638,7 +652,7 @@
 
                         <i class="bi bi-shield-check"></i>
 
-                        CARTE OFFICIELLE DE MEMBRE
+                        Carte officielle de membre
 
                     </div>
 
@@ -1345,7 +1359,7 @@
             position: absolute;
 
             left: 58px;
-            top: 35px;
+            top: 42px;
 
             width: 105px;
             height: 105px;
@@ -1374,11 +1388,11 @@
 
         .front-logo img {
 
-            width: 76px;
-            height: 76px;
+            width: 86px;
+            height: 86px;
 
-            max-width: 76px;
-            max-height: 76px;
+            max-width: 86px;
+            max-height: 86px;
 
             object-fit: contain;
 
@@ -1473,37 +1487,50 @@
            EMBLÈME DU CONGO RECTO
         ========================================================== */
 
-         .front-emblem {
+        .front-emblem {
+
             position: absolute;
+
+            /* Même position et même dimension que le drapeau du verso */
             right: 38px;
             top: 30px;
+
             width: 105px;
             height: 64px;
-            aspect-ratio: 105 / 64;
+
             z-index: 20;
+
             display: flex;
+
             justify-content: center;
             align-items: center;
+
             background: #ffffff;
+
             border-radius: 4px;
+
             padding: 0;
+
             box-shadow: none;
+
             opacity: 1;
-            overflow: hidden;
+
         }
 
+
         .front-emblem img {
-            width: 105px;
-            height: 64px;
-            max-width: 105px;
-            max-height: 64px;
-            min-width: 105px;
-            min-height: 64px;
+
+            width: 100%;
+            height: 100%;
+
             object-fit: fill;
-            object-position: center;
+
             opacity: 1;
+
             filter: none;
+
             display: block;
+
         }
 
 
@@ -1664,34 +1691,13 @@
         }
 
 
-        /* ============================================================
-       DOMICILE — GESTION DES ADRESSES LONGUES
-    ============================================================ */
-
-    .domicile-row {
-        align-items: flex-start;
-    }
-
-    .domicile-row .info-value {
-        white-space: normal;
-        overflow-wrap: break-word;
-        word-break: normal;
-        line-height: 1.20;
-        max-width: 360px;
-
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
-    }
-
-    .info-row {
+        .info-row {
 
             display: flex;
 
             align-items: baseline;
-            column-gap: 8px;
 
-            margin-bottom: 7px;
+            margin-bottom: 3px;
 
             border-bottom:
                 1px solid rgba(8,127,63,.13);
@@ -1703,11 +1709,11 @@
 
         .info-label {
 
-            width: 190px;
+            width: 155px;
 
             flex-shrink: 0;
 
-            font-size: 15px;
+            font-size: 10px;
 
             font-weight: 900;
 
@@ -1728,9 +1734,9 @@
 
             min-width: 0;
 
-            font-size: 20px;
+            font-size: 22px;
 
-            line-height: 1.20;
+            line-height: 1.02;
 
             font-weight: 700;
 
@@ -1751,23 +1757,23 @@
 
         .member-main-name {
 
-            margin-bottom: 8px;
+            margin-bottom: 4px;
 
         }
 
 
         .member-main-name .info-label {
 
-            font-size: 15px;
+            font-size: 10px;
 
         }
 
 
         .member-main-name .info-value {
 
-            font-size: 20px;
+            font-size: 25px;
 
-            line-height: 1.20;
+            line-height: 1;
 
             font-weight: 900;
 
@@ -1807,7 +1813,7 @@
 
     border-radius: 0 0 8px 8px;
 
-    font-size: 15px;
+    font-size: 14px;
 
     font-weight: 900;
 
@@ -1859,13 +1865,13 @@
 
             flex-shrink: 0;
 
-            font-size: 15px;
+            font-size: 11px;
 
         }
 
         .info-pair .info-value {
 
-            font-size: 20px;
+            font-size: 15px;
 
         }
 
@@ -2049,8 +2055,7 @@
 
 
         /* =========================================================
-           TEXTES DÉCORATIFS VERTICAUX
-           Lecture : de haut en bas, lettre par lettre
+           TEXTES DÉCORATIFS GAUCHE / DROITE
         ========================================================== */
 
         .decorative-left,
@@ -2058,41 +2063,41 @@
 
             position: absolute;
 
-            top: 155px;
+            top: 150px;
 
             z-index: 12;
 
             writing-mode: vertical-rl;
 
-            text-orientation: upright;
+            text-orientation: mixed;
 
-            font-size: 9px;
+            font-size: 10px;
 
             font-weight: 900;
 
-            letter-spacing: 1px;
+            letter-spacing: 2px;
 
-            line-height: 1.05;
-
-            color: rgba(8,127,63,.45);
+            color:
+                rgba(8,127,63,.45);
 
             text-transform: uppercase;
-
-            white-space: nowrap;
 
         }
 
 
         .decorative-left {
 
-            left: 18px;
+            left: 25px;
+
+            transform:
+                rotate(180deg);
 
         }
 
 
         .decorative-right {
 
-            right: 18px;
+            right: 25px;
 
         }
 
@@ -2102,36 +2107,48 @@
         ========================================================== */
 
                 .back-congo {
+
             position: absolute;
+
             right: 38px;
             top: 30px;
+
             width: 105px;
             height: 64px;
-            aspect-ratio: 105 / 64;
+
             z-index: 20;
+
             display: flex;
+
             justify-content: center;
             align-items: center;
+
             background: #ffffff;
+
             border-radius: 4px;
+
             padding: 0;
+
             box-shadow: none;
+
             opacity: 1;
-            overflow: hidden;
+
         }
 
-        .back-congo img {
-            width: 105px;
-            height: 64px;
-            max-width: 105px;
-            max-height: 64px;
-            min-width: 105px;
-            min-height: 64px;
+
+                .back-congo img {
+
+            width: 100%;
+            height: 100%;
+
             object-fit: fill;
-            object-position: center;
+
             opacity: 1;
+
             filter: none;
+
             display: block;
+
         }
 
 
@@ -2305,7 +2322,7 @@
             left: 55px;
             right: 55px;
 
-            bottom: 42px;
+            bottom: 32px;
 
             display: flex;
 
@@ -2996,6 +3013,8 @@ async function enregistrerCarteImage()
 
         await attendreImages(verso);
 
+        await attendre(150);
+
 
 
         /* =====================================================
@@ -3121,44 +3140,31 @@ async function enregistrerCarteImage()
    ATTENDRE LES IMAGES
 ============================================================= */
 
-function attendreImages(element)
+async function attendreImages(element)
 {
-
-    const images =
-        Array.from(
-            element.querySelectorAll('img')
-        );
-
-
-    return Promise.all(
-
-        images.map(
-            image => {
-
-                if (image.complete) {
-
-                    return Promise.resolve();
-
-                }
-
-
-                return new Promise(
-                    resolve => {
-
-                        image.onload =
-                            resolve;
-
-                        image.onerror =
-                            resolve;
-
-                    }
-                );
-
-            }
-        )
-
+    const images = Array.from(
+        element.querySelectorAll('img')
     );
 
+    await Promise.all(
+        images.map(async function (image) {
+
+            if (!image.complete) {
+                await new Promise(function (resolve) {
+                    image.addEventListener('load', resolve, { once: true });
+                    image.addEventListener('error', resolve, { once: true });
+                });
+            }
+
+            if (typeof image.decode === 'function') {
+                try {
+                    await image.decode();
+                } catch (e) {
+                    // Ne bloque pas l'export si une image décorative échoue.
+                }
+            }
+        })
+    );
 }
 
 
