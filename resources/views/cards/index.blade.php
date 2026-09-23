@@ -790,7 +790,7 @@
                                      ACTIONS
                                 ============================== --}}
 
-                                <td class="text-center">
+                                <td class="text-center col-actions">
 
                                     <div class="action-buttons">
 
@@ -1667,6 +1667,119 @@ body {
 
 
 /* =========================================================
+   ACTIONS TOUJOURS VISIBLES
+   ========================================================= */
+
+.cards-table th.col-actions,
+.cards-table td.col-actions {
+    position: sticky !important;
+    right: 0 !important;
+    z-index: 50 !important;
+    width: 165px;
+    min-width: 165px;
+    max-width: 165px;
+    background: #ffffff !important;
+    box-shadow: -8px 0 16px rgba(0, 0, 0, .08);
+}
+
+.cards-table thead th.col-actions {
+    z-index: 60 !important;
+    background: #f8faf9 !important;
+}
+
+.cards-table tbody tr:hover td.col-actions {
+    background: #fbfdfc !important;
+}
+
+.cards-table td.col-actions .action-buttons {
+    position: relative;
+    z-index: 61;
+}
+
+.cards-table thead th.col-actions {
+    z-index: 30;
+    background: #f8faf9;
+}
+
+.cards-table tbody tr:hover td.col-actions {
+    background: #fbfdfc;
+}
+
+/* On réserve suffisamment de place aux boutons */
+.cards-table .action-buttons {
+    min-width: 145px;
+}
+
+/* Scroll horizontal propre sur petits écrans */
+.table-responsive {
+    position: relative;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5cf transparent;
+}
+
+.table-responsive::-webkit-scrollbar {
+    height: 7px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: #f5f7f6;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background: #cbd5cf;
+    border-radius: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: #087f3f;
+}
+
+@media (max-width: 1400px) {
+    .cards-table {
+        min-width: 1180px;
+    }
+
+    .cards-table thead th,
+    .cards-table tbody td {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+}
+
+@media (max-width: 1100px) {
+    .cards-table {
+        min-width: 1120px;
+        font-size: 13px;
+    }
+
+    .cards-table thead th {
+        font-size: 11px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+
+    .cards-table th.col-actions,
+    .cards-table td.col-actions {
+        width: 155px;
+        min-width: 155px;
+        max-width: 155px;
+    }
+
+    .cards-table .action-buttons {
+        min-width: 140px;
+        gap: 4px;
+    }
+
+    .cards-table .action-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 13px;
+    }
+}
+
+
+/* =========================================================
    ACTIONS
 ========================================================= */
 
@@ -1936,16 +2049,6 @@ body {
 /* =========================================================
    RESPONSIVE
 ========================================================= */
-
-@media(max-width: 1400px) {
-
-    .cards-table {
-
-        min-width: 1250px;
-
-    }
-
-}
 
 </style>
 
