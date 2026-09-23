@@ -554,6 +554,8 @@
 
 @section('css')
 
+<link rel="stylesheet" href="{{ asset('sweetalert/dist/sweetalert2.min.css') }}">
+
 <style>
 
     body {
@@ -893,6 +895,8 @@
 
 @section('js')
 
+<script src="{{ asset('sweetalert/dist/sweetalert2.all.min.js') }}"></script>
+
 <script>
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -1106,6 +1110,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
+    if (!form) {
+        console.error('Le formulaire receptionForm est introuvable.');
+        return;
+    }
+
     form.addEventListener('submit', function (event) {
 
         event.preventDefault();
@@ -1193,7 +1202,7 @@ document.addEventListener('DOMContentLoaded', function () {
              * On garde la sélection jusqu'à ce que
              * le serveur confirme la réussite.
              */
-            form.submit();
+            HTMLFormElement.prototype.submit.call(form);
 
         });
 

@@ -601,6 +601,8 @@
 
 @section('css')
 
+<link rel="stylesheet" href="{{ asset('sweetalert/dist/sweetalert2.min.css') }}">
+
 <style>
 
     body {
@@ -958,6 +960,8 @@
 
 @section('js')
 
+<script src="{{ asset('sweetalert/dist/sweetalert2.all.min.js') }}"></script>
+
 <script>
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -1090,7 +1094,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
-    selectAll.addEventListener('change', function () {
+    if (selectAll) {
+        selectAll.addEventListener('change', function () {
 
         checkboxes.forEach(function (checkbox) {
 
@@ -1127,6 +1132,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
 
+    }
 
     clearButton.addEventListener('click', function () {
 
@@ -1164,6 +1170,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
 
+
+    if (!form) {
+        console.error('Le formulaire deliveryForm est introuvable.');
+        return;
+    }
 
     form.addEventListener('submit', function (event) {
 
@@ -1242,7 +1253,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
 
-            form.submit();
+            HTMLFormElement.prototype.submit.call(form);
 
         });
 
