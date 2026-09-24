@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FederationController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerificationController;
 use Illuminate\Support\Facades\Route;
 
@@ -167,6 +168,7 @@ Route::get(
     [VerificationController::class, 'show']
 )->name('verification.show');
 
+Route::resource('users', UserController::class);
 
 // =====================================================
 // FIN
