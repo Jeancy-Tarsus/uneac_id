@@ -18,6 +18,40 @@
 
 @section('content')
 
+@php
+    /*
+     * PHOTO DU MEMBRE
+     * On récupère directement la photo depuis le disque UNEAC
+     * et on la transforme en Data URL.
+     *
+     * Cela permet à html2canvas de l'intégrer correctement
+     * lors de l'export PNG sur Laravel Cloud.
+     */
+    $photoDataUrl = null;
+
+    if ($card->member->photo) {
+        try {
+            $photoDisk = \Illuminate\Support\Facades\Storage::disk('uneac');
+
+            if ($photoDisk->exists($card->member->photo)) {
+
+                $photoMime = $photoDisk->mimeType($card->member->photo) ?: 'image/jpeg';
+                $photoContent = $photoDisk->get($card->member->photo);
+
+                if ($photoContent !== null && $photoContent !== false) {
+                    $photoDataUrl =
+                        'data:' .
+                        $photoMime .
+                        ';base64,' .
+                        base64_encode($photoContent);
+                }
+            }
+        } catch (\Throwable $e) {
+            $photoDataUrl = null;
+        }
+    }
+@endphp
+
     <div class="uneac-preview-adminlte">
 
 <div class="page-container">
@@ -223,15 +257,10 @@
 
                     {{-- PHOTO --}}
 
-                    @if($card->member->photo)
+                    @if($card->member->photo && $photoDataUrl)
 
-                       <img
-                            src="{{ app()->environment('production')
-                                ? Storage::disk('uneac')->temporaryUrl(
-                                    $card->member->photo,
-                                    now()->addMinutes(30)
-                                )
-                                : asset('storage/' . $card->member->photo) }}"
+                        <img
+                            src="{{ $photoDataUrl }}"
                             alt="Photo du membre"
                             class="member-photo"
                         >
